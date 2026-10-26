@@ -480,6 +480,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:14px}
 .tgl input:disabled+.sw{opacity:.4}
 .tgl b{display:block;font-weight:500}
 .tgl em{display:block;font-style:normal;font-size:12.5px;color:var(--ink2)}
+.fld label.tgl{display:flex;margin:0;font-size:14px;color:var(--ink)}
 /* phone fit: nothing wider than the screen, no zoom when a field is tapped */
 #app,.main{overflow-x:clip}
 @media (max-width:979px){.fld input,.fld select,.fld textarea,.searchbox input,.gsearch input{font-size:16px}}
@@ -655,6 +656,63 @@ body.gate .main { min-width: 0 }
 ::view-transition-old(rail),::view-transition-new(rail),::view-transition-old(top),::view-transition-new(top),::view-transition-old(tabs),::view-transition-new(tabs){animation:none}
 @keyframes vtOut{to{opacity:0}}@keyframes vtIn{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+
+/* download / filter buttons with an icon */
+.fbtn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px;margin-right:6px}
+/* ---------- Dibbu, the box mascot (original) ---------- */
+.masc{display:block;overflow:visible;flex:none}
+.masc .ms-box{fill:#E3AE72;stroke:#B27A43;stroke-width:1.6}.masc .ms-flap{fill:#D49A5C;stroke:#B27A43;stroke-width:1.6;stroke-linejoin:round}
+.masc .ms-tape{fill:#F4DDB2}.masc .ms-eye{fill:#3A2716}.masc .ms-shine{fill:#fff}.masc .ms-cheek{fill:#F29C8B;opacity:.75}
+.masc .ms-mouth{fill:none;stroke:#3A2716;stroke-width:2;stroke-linecap:round}.masc .ms-o{fill:#3A2716}
+.masc .ms-arm{fill:none;stroke:#B27A43;stroke-width:3.2;stroke-linecap:round}.masc .ms-shadow{fill:#000;opacity:.12}
+.masc .ms-body{animation:msBob 2.8s ease-in-out infinite;transform-origin:32px 56px}
+.masc .ms-eyes{animation:msBlink 4.2s infinite;transform-box:fill-box;transform-origin:center}
+.masc .ms-shadow{animation:msShadow 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.masc.m-wave .ms-arm{animation:msWave 1.4s ease-in-out infinite;transform-origin:52px 36px}
+.masc.m-wow .ms-body{animation:msJump 1.6s cubic-bezier(.3,1.6,.5,1) infinite}
+.masc.m-calm .ms-body{animation-duration:4s}
+@keyframes msBob{50%{transform:translateY(-3px)}}@keyframes msShadow{50%{transform:scaleX(.82)}}
+@keyframes msBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes msWave{0%,100%{transform:rotate(0)}50%{transform:rotate(-28deg)}}
+@keyframes msJump{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}}
+.empty .masc{margin:0 auto 6px}.panel.empty{text-align:center}
+.calm .masc{margin:-6px 0 -6px -4px}
+.ov-hi.with-m{display:flex;gap:12px;align-items:center}
+.lg-card{position:relative}.lg-masc{position:absolute;right:16px;top:-46px;opacity:0;animation:lgUp .6s 1.5s cubic-bezier(.22,1,.36,1) forwards}
+.dibbu-line{display:flex;gap:10px;align-items:center;padding:8px 12px;border-radius:14px;background:var(--green-s);color:var(--green);font-size:13.5px;margin-top:10px}
+/* animated page icons */
+.ph-ico{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--teal-s);color:var(--teal-d);margin-right:10px;vertical-align:middle;position:relative;top:-3px}
+.ph-ico svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ph-ico svg{animation:phBob 3s ease-in-out infinite}
+.ph-ico.a-dispatch svg{animation:phDrive 2.2s ease-in-out infinite}.ph-ico.a-request svg{animation:phFly 2.6s ease-in-out infinite}
+.ph-ico.a-pm svg,.ph-ico.a-settings svg{animation:phSpin 6s linear infinite}.ph-ico.a-pending svg{animation:phTick 2s steps(2) infinite}
+.ph-ico.a-team svg{animation:phWave 2.4s ease-in-out infinite;transform-origin:50% 90%}.ph-ico.a-minus svg,.ph-ico.a-health svg{animation:phPulse 2.4s ease-in-out infinite}
+.ph-ico.a-lookup svg{animation:phScan 2.2s ease-in-out infinite}
+@keyframes phBob{50%{transform:translateY(-2px)}}@keyframes phDrive{0%,100%{transform:translateX(-2px)}50%{transform:translateX(3px)}}
+@keyframes phFly{0%{transform:translate(-2px,2px)}50%{transform:translate(2px,-2px)}100%{transform:translate(-2px,2px)}}
+@keyframes phSpin{to{transform:rotate(360deg)}}@keyframes phTick{50%{transform:rotate(8deg)}}@keyframes phWave{50%{transform:rotate(-10deg)}}
+@keyframes phPulse{50%{transform:scale(1.12)}}@keyframes phScan{50%{transform:scaleX(.82)}}
+/* ---------- team ---------- */
+.tm-top{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tm-online{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;border-radius:16px;background:var(--surface);border:1px solid var(--line);margin-top:12px}
+.ava{position:relative;display:inline-grid;place-items:center;border-radius:50%;overflow:visible;flex:none;font-weight:700;color:#fff}
+.ava img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.ava .ini{width:100%;height:100%;border-radius:50%;display:grid;place-items:center}
+.ava .dot{position:absolute;right:1px;bottom:1px;width:24%;height:24%;min-width:9px;min-height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 2px var(--surface)}
+.ava .dot.pulse{animation:onl 2s infinite}@keyframes onl{0%{box-shadow:0 0 0 2px var(--surface),0 0 0 0 color-mix(in srgb,var(--green) 60%,transparent)}70%{box-shadow:0 0 0 2px var(--surface),0 0 0 7px transparent}}
+.ava.off img,.ava.off .ini{filter:grayscale(1);opacity:.55}
+.stack{display:flex}.stack .ava{margin-left:-10px;box-shadow:0 0 0 2px var(--surface)}.stack .ava:first-child{margin-left:0}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.mcard{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:16px 10px 12px;border-radius:18px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font:inherit;color:inherit;transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
+.mcard:active{transform:scale(.97)}@media (hover:hover){.mcard:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.09)}}
+.mcard b{font-size:14px;line-height:1.25}.mcard .mrole{font-size:12px;color:var(--ink2)}.mcard .mcode{font-size:11px;color:var(--ink3)}
+.mcard .mtick{display:flex;gap:6px;font-size:11px;color:var(--ink2)}.mcard .mtick i{font-style:normal;padding:2px 7px;border-radius:99px;background:var(--surface2)}
+.mcard .mtick i.no{background:var(--red-s);color:var(--red)}.mcard.inactive{opacity:.6}
+.view-enter .mcard{animation:tileIn .5s cubic-bezier(.22,1,.36,1) both}
+.view-enter .mcard:nth-child(2){animation-delay:.04s}.view-enter .mcard:nth-child(3){animation-delay:.08s}.view-enter .mcard:nth-child(4){animation-delay:.12s}.view-enter .mcard:nth-child(n+5){animation-delay:.16s}
+.ph-edit{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:14px}
+@media (max-width:700px){.tm-top{grid-template-columns:1fr 1fr}.mgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:reduce){.masc *,.ph-ico svg{animation:none!important}}
 </style>
 <!-- =====================================================================
      ONE-TIME SETUP  —  paste your Google OAuth Client ID between the
@@ -1183,12 +1241,12 @@ const E = (() => {
         let rem = qty;
         for (const r of list) { if (rem <= 0) break; const av = avail(r); if (av <= 0) continue; const t = Math.min(av, rem); r[field] += t; rem -= t; note(r, t); }
         if (rem > 0) {
-          if (field === 'out') { ext = fromB2B(s.k, rem, 'B2B'); s.fromB2B = (s.fromB2B || 0) + rem; }
+          if (field === 'out') { let r = s.rows.find(x => x.short); if (!r) { r = newRow(s); r.short = true; } r[field] += rem; note(r, rem); s.shortQty = (s.shortQty || 0) + rem; }
           else { const r = list[list.length - 1] || newRow(s); r[field] += rem; note(r, rem); }
         }
       } else {
         let rem = -qty;
-        if (own) for (const [r, q] of own.rows) { if (rem <= 0) break; const t = Math.min(q, r[field], rem); if (t <= 0) continue; r[field] -= t; rem -= t; own.rows.set(r, q - t); note(r, -t); }
+        if (own) for (const [r, q] of [...own.rows].sort((a, b) => (b[0].short ? 1 : 0) - (a[0].short ? 1 : 0))) {   /* a shortage is undone first */ if (rem <= 0) break; const t = Math.min(q, r[field], rem); if (t <= 0) continue; r[field] -= t; rem -= t; own.rows.set(r, q - t); note(r, -t); }
         if (own && rem > 0 && own.b2b > 0) { const t = Math.min(own.b2b, rem); own.b2b -= t; rem -= t; s.fromB2B = (s.fromB2B || 0) - t; ext = fromB2B(s.k, t, 'B2B').map(a => ({ ...a, qty: -a.qty })); }
         if (rem > 0) {
           const cand = order.filter(r => r[field] > 0).reverse();
@@ -1196,7 +1254,7 @@ const E = (() => {
           if (rem > 0) { const r = order.find(x => x.inv !== 'BAD') || order[0] || newRow(s); r[field] -= rem; note(r, -rem); }
         }
       }
-      return [...al].filter(([, q]) => q).map(([r, q]) => ({ r, shelf: r.shelf, batch: r.batch, exp: r.exp, vb: r.vb, inv: r.inv, qty: q, src: 'Offline' })).concat(ext);
+      return [...al].filter(([, q]) => q).map(([r, q]) => ({ r, shelf: r.shelf, batch: r.batch, exp: r.exp, vb: r.vb, inv: r.inv, qty: q, src: r.short ? 'Offline-short' : 'Offline' })).concat(ext);
     }
     const plain = al => al.map(({ r, ...x }) => x);
     for (const e of inw) {
@@ -1219,30 +1277,30 @@ const E = (() => {
     const untracked = new Map(); const docOwn = new Map();
     mov.sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')) || (a.rev ? 1 : 0) - (b.rev ? 1 : 0));
     for (const m of mov) {
-      const s = stock.get(m.k);
+      let s = stock.get(m.k);
       if (m.b2bPick) {   // B2B PICK: batch from B2B STOCK, offline untouched
         m.alloc = plain(fromB2B(m.k, Math.abs(m.qty), 'B2B pick')).map(a => ({ ...a, qty: m.qty < 0 ? -a.qty : a.qty }));
         m.offQty = 0; if (s) s.ledger.push({ date: m.date, time: m.time || '', type: 'B2B pick (not offline)', ref: m.ref, party: m.party, qty: 0, note: (m.qty > 0 ? '' : '+') + Math.abs(m.qty) });
         continue;
       }
-      if (!s) {   // SKU not in the offline audit at all: it can only have come from B2B
+      if (!s || (!s.inBase && !s.inw)) {   // not in the audit and never inwarded: still offline, it shows negative
         const u = untracked.get(m.k) || { k: m.k, sku: m.sku, qty: 0, refs: new Set() }; u.qty += m.qty; u.refs.add(m.ref); untracked.set(m.k, u);
-        m.alloc = plain(fromB2B(m.k, Math.abs(m.qty), 'B2B')).map(a => ({ ...a, qty: m.qty < 0 ? -a.qty : a.qty })); m.offQty = 0; continue;
+        if (!s) s = ensure(m.k, m.sku);
       }
       const key = m.ref + '|' + m.k; let own = docOwn.get(key);
       const al = take(s, m.qty, 'out', null, m.qty < 0 ? own : null);
       if (m.qty > 0) { if (!own) { own = { rows: new Map(), b2b: 0 }; docOwn.set(key, own); } for (const a of al) { if (a.r) own.rows.set(a.r, (own.rows.get(a.r) || 0) + a.qty); else own.b2b += a.qty; } }
       m.alloc = plain(al);
-      m.offQty = al.filter(a => a.src === 'Offline').reduce((x, a) => x + a.qty, 0);
+      m.offQty = al.filter(a => String(a.src).startsWith('Offline')).reduce((x, a) => x + a.qty, 0);
       s.out[m.type] = (s.out[m.type] || 0) + m.offQty; s.outT += m.offQty; if (m.qty < 0) s.back -= m.qty;
       s.ledger.push({ date: m.date, time: m.time || '', type: m.rev ? (m.qty < 0 ? 'Revise −' : 'Revise +') : m.type, ref: m.ref, party: m.party, qty: -m.offQty, note: m.offQty !== m.qty ? `${Math.abs(m.qty - m.offQty)} from B2B` : '' });
     }
     M.untracked = [...untracked.values()].filter(u => u.qty > 0).map(u => ({ ...u, refs: [...u.refs] }));
-    M.shortToB2B = [...stock.values()].filter(s => s.fromB2B > 0).map(s => ({ k: s.k, sku: s.sku, qty: s.fromB2B }));
+    M.shortOff = [...stock.values()].filter(s => s.shortQty > 0 && s.inBase).map(s => ({ k: s.k, sku: s.sku, qty: s.shortQty }));
 
     /* the clean minus data: one row per doc, SKU and batch, on its packing date */
     const TYP = m => m.rev ? (m.qty < 0 ? 'Revise −' : 'Revise +') : m.type === 'Order' ? 'Packed' : m.type;
-    const SRC = { Offline: 'Offline', B2B: 'B2B (not in offline)', 'B2B pick': 'B2B pick' };
+    const SRC = { Offline: 'Offline', 'Offline-short': 'Offline (not in stock)', B2B: 'B2B', 'B2B pick': 'B2B pick' };
     M.minusRows = [];
     for (const m of mov) for (const a of (m.alloc && m.alloc.length ? m.alloc : [{ qty: m.qty, shelf: '', batch: '', exp: '', vb: '', src: 'Offline' }]))
       M.minusRows.push({ date: m.date, time: m.time || '', doc: m.ref, party: m.party, type: TYP(m), k: m.k, sku: m.sku, name: names.get(m.k) || '', qty: a.qty, batch: a.batch, vb: a.vb, exp: a.exp, shelf: a.shelf, src: SRC[a.src] || a.src, rev: !!m.rev });
@@ -1607,8 +1665,8 @@ const E = (() => {
     add('bad', 'Packed docs with no SKU lines in DAILY DATA', 'These docs are Done in packing, but nothing can be minused because their SKU and qty are missing.', packedNoData.length, packedNoData.map(d => d.doc), 'docs:nodata');
     const pendNoData = M.pending.filter(d => !d.lines.length);
     add('warn', 'Approved docs waiting for SKU data', 'Pending docs whose SKU and qty are not yet in DAILY DATA. Their demand is not counted.', pendNoData.length, pendNoData.map(d => d.doc), 'docs:nodata');
-    add('warn', 'Packed SKUs not in the offline audit', 'Not in OFFLINE STOCK, so they are taken as picked from B2B. They are in the minus data with a B2B batch. Check the SKU code if that is wrong.', M.untracked.length, M.untracked.map(u => `${u.sku} (${u.qty})`), 'minus');
-    add('warn', 'Packed more than offline had', 'The extra is taken as picked from B2B, so offline stays at zero instead of going negative. If it really came from offline, the audit count was low — log an inward.', M.shortToB2B.length, M.shortToB2B.map(u => `${u.sku} (${u.qty} from B2B)`), 'minus');
+    add('bad', 'Packed SKUs not in the offline audit', 'Not in OFFLINE STOCK and no inward yet, so they are minused from offline and show negative. If the stock came from B2B, log the Inward. If the whole doc was picked from B2B, set B2B PICK = Yes.', M.untracked.length, M.untracked.map(u => `${u.sku} (${u.qty})`), 'stock:neg');
+    add('bad', 'Packed more than offline had', 'Minused from offline anyway, so offline shows negative. Log the inward from B2B, set B2B PICK = Yes if the doc came from B2B, or check the audit count.', M.shortOff.length, M.shortOff.map(u => `${u.sku} (${u.qty} short)`), 'stock:neg');
     const neg = M.stock.filter(s => s.live < 0);
     add('bad', 'SKUs with negative live stock', 'More was picked than the snapshot holds. Check the snapshot date or log the missing inward.', neg.length, neg.map(s => `${s.sku} (${s.live})`), 'stock:neg');
     const dispNoPack = M.docs.filter(d => d.dispatched && !d.packed);
@@ -1723,7 +1781,7 @@ const ICONS = {
 const VIEWS = [
   { id: 'home', t: 'Overview', i: 'home' }, { id: 'docs', t: 'Docs', i: 'docs' }, { id: 'stock', t: 'Offline stock', i: 'stock' }, { id: 'minus', t: 'Uniware minus', i: 'uniware' }, { id: 'daily', t: 'Daily minus', i: 'daily' },
   { id: 'dispatch', t: 'Dispatch', i: 'dispatch' }, { id: 'pending', t: 'Pending', i: 'pending' }, { id: 'log', t: 'Inward & damage', i: 'log' },
-  { sep: 1 }, { id: 'request', t: 'B2B request', i: 'request' }, { id: 'pm', t: 'Packing material', i: 'pm' }, { id: 'b2b', t: 'B2B stock', i: 'b2b' }, { id: 'lookup', t: 'SKU lookup', i: 'lookup' }, { id: 'flow', t: 'Workflow', i: 'flow' }, { id: 'team', t: 'Team & stationery', i: 'team' },
+  { sep: 1 }, { id: 'request', t: 'B2B request', i: 'request' }, { id: 'pm', t: 'Packing material', i: 'pm' }, { id: 'b2b', t: 'B2B stock', i: 'b2b' }, { id: 'lookup', t: 'SKU lookup', i: 'lookup' }, { id: 'flow', t: 'Workflow', i: 'flow' }, { id: 'team', t: 'Team', i: 'team' },
   { sep: 1 }, { id: 'health', t: 'Data checks', i: 'health' }, { id: 'reports', t: 'Reports', i: 'reports' }, { id: 'settings', t: 'Settings', i: 'settings' }
 ];
 const TABS = ['home', 'stock', 'minus', 'log', 'more'];
@@ -1745,7 +1803,7 @@ const permLabel = k => (PERMS.find(p => p[0] === k) || [k, k])[1];
 function parseUsers() {
   const sh = st.books.t3 && st.books.t3.map.USERS; if (!sh || !sh.rows.length) return null;
   const H = (sh.rows[0] || []).map(E.hk); const ix = n => H.findIndex(h => h === n || h.startsWith(n));
-  const iE = ix('EMAIL'), iN = ix('NAME'), iA = ix('ACCESS'), iP = ix('PAGES'), iC = ix('CANEDIT'), iAc = ix('ACTIVE'), iNo = ix('NOTE');
+  const iE = ix('EMAIL'), iN = ix('NAME'), iA = ix('ACCESS'), iP = ix('PAGES'), iC = ix('CANEDIT'), iAc = ix('ACTIVE'), iNo = ix('NOTE'), iL = ix('LASTSEEN');
   if (iE < 0) return null;
   const out = [];
   for (let r = 1; r < sh.rows.length; r++) {
@@ -1754,7 +1812,7 @@ function parseUsers() {
     const ed = str(R[iC]);
     out.push({ row: r + 1, email, name: str(R[iN]), access, pages: [...new Set(str(R[iP]).split(/[,;|]/).map(permKey).filter(Boolean))],
       edit: access === 'admin' || access === 'full' ? true : access === 'view' ? false : /^(y|yes|true|1|edit)/i.test(ed),
-      active: iAc < 0 || !/^(no|n|0|false|inactive|off|blocked)$/i.test(str(R[iAc])), note: str(R[iNo]) });
+      active: iAc < 0 || !/^(no|n|0|false|inactive|off|blocked)$/i.test(str(R[iAc])), note: str(R[iNo]), seen: iL >= 0 ? (Date.parse(str(R[iL])) || 0) : 0 });
   }
   return out;
 }
@@ -2048,6 +2106,7 @@ async function cycle(force) {
     if (a || b || cfgChanged || dayChanged || force || !st.M) recompute(); else { renderSync(); }
     if (a !== null && b !== null && st.conn === 'ok') await autoWrite().catch(e => { if (e && e.code === 'forbidden') { st.readOnly = true; render(); } else console.warn('auto write', e); });
     if (a !== null && b !== null && st.conn === 'ok') await GM.poll().catch(e => console.warn('mail poll', e));
+    if (a !== null && b !== null && st.conn === 'ok') await heartbeat().catch(() => { });
     if (st.cfg.refresh !== st.loopEvery && loopT) startLoop();
   } finally { busy = false; st.loading.t2 = st.loading.t3 = false; renderSync(); hideSplash(); }
 }
@@ -2082,7 +2141,8 @@ const T3_COLS = {
   DAMAGE: { title: 'DAMAGE', cols: ['Date', 'Time', 'SKU', 'Shelf', 'Qty', 'Reason', 'Inward Ref', 'Note', 'Type', 'ID', 'By'] },
   OFFLINEAUDIT: { title: 'Offline Audit', cols: ['Date', 'Time', 'SKU', 'Item Name', 'Shelf', 'Batch', 'System', 'Counted', 'Damaged Found', 'Variance', 'Unexplained', 'Live now', 'Note', 'ID', 'By'] },
   OTHER: { title: 'OTHER', cols: ['Date', 'Type', 'SKU', 'Qty', 'Packing', 'Dispatch', 'Note', 'ID', 'By'] },
-  USERS: { title: 'USERS', cols: ['Email', 'Name', 'Access', 'Pages', 'Can edit', 'Active', 'Note'] },
+  USERS: { title: 'USERS', cols: ['Email', 'Name', 'Access', 'Pages', 'Can edit', 'Active', 'Note', 'Last seen'] },
+  TEAM: { title: 'TEAM', cols: ['Code', 'Name', 'Email', 'Team', 'Role', 'Photo', 'Active', 'Phone', 'Note'] },
   UNIWARELOG: { title: 'UNIWARE LOG', cols: ['Minus Date', 'Done At', 'Minus Qty', 'Add Back', 'SKUs', 'By', 'Note'] },
   B2BREQUEST: { title: 'B2B REQUEST', cols: ['Date', 'Time', 'Req ID', 'Employee', 'SKU', 'Item', 'Boxes', 'Case size', 'Qty', 'Status', 'Mail', 'By'] },
   B2BIN: { title: 'B2B IN', cols: ['Date', 'Time', 'Req ID', 'Msg ID', 'SKU', 'Qty', 'Shelf', 'Colour', 'Vendor Batch', 'Batch', 'Expiry', 'Availability', 'Received', 'Inward Ref', 'By'] },
@@ -2452,6 +2512,11 @@ function render(nav, quiet) {
   else { try { html = (V[v.id] || V.home)(); } catch (e) { console.error(e); html = notice('red', 'alert', 'This screen could not be drawn', esc(e.message || String(e))); } }
   document.body.classList.toggle('gate', isLogin());
   view.innerHTML = (isLogin() ? '' : banners(v.id)) + html;
+  try {
+    const ph = view.querySelector('.page-head h2'); if (ph && !ph.querySelector('.ph-ico')) ph.insertAdjacentHTML('afterbegin', `<span class="ph-ico a-${v.id}">${ico(v.i)}</span>`);
+    view.querySelectorAll('.empty').forEach(el => { if (!el.querySelector('.masc')) el.insertAdjacentHTML('afterbegin', mascot('calm', 64)); });
+    view.querySelectorAll('.calm').forEach(el => { if (!el.querySelector('.masc')) { const sv = el.querySelector(':scope > svg'); if (sv) sv.remove(); el.insertAdjacentHTML('afterbegin', mascot('happy', 40)); } });
+  } catch { }
   view.classList.toggle('still', !!quiet && !st.firstRender);
   if (nav || st.firstRender) { view.classList.remove('view-enter'); void view.offsetWidth; view.classList.add('view-enter'); }
   const mount = MOUNT[v.id]; if (mount && st.M) { try { mount(); } catch (e) { console.error(e); } }
@@ -2492,7 +2557,7 @@ const G_LOGO = '<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335"
 const MARK_D = 'M1.5 0.0L80.9 0.0A73.4 73.4 0 0 1 74.1 146.4L74.1 146.8L4 146.8L1.5 140.0L63.3 78.2L4 78.2L1.5 74.5Z M10.0 9.0L84.0 9.0A64.8 64.8 0 0 1 138.8 69.0L10.0 69.0Z M75.2 78.2L138.8 78.2A64.8 64.8 0 0 1 77.4 137.8L15.6 137.8Z';
 function loginShell(inner) {
   return `<div class="login"><i class="lg-blob b1"></i><i class="lg-blob b2"></i><i class="lg-blob b3"></i>
-    <div class="lg-card"><svg class="lg-mark" viewBox="0 0 148 147" aria-hidden="true"><path class="lg-ink" fill-rule="evenodd" d="${MARK_D}"/>${MARK_D.split(' M').map((p, i) => `<path class="lg-pen" pathLength="1" style="animation-delay:${0.15 + i * 0.12}s" d="${i ? 'M' + p : p}"/>`).join('')}</svg>
+    <div class="lg-card"><div class="lg-masc">${mascot(st.conn === 'ok' ? 'sad' : 'wave', 58)}</div><svg class="lg-mark" viewBox="0 0 148 147" aria-hidden="true"><path class="lg-ink" fill-rule="evenodd" d="${MARK_D}"/>${MARK_D.split(' M').map((p, i) => `<path class="lg-pen" pathLength="1" style="animation-delay:${0.15 + i * 0.12}s" d="${i ? 'M' + p : p}"/>`).join('')}</svg>
     <img class="lg-word" data-logo="word" alt="Dermatouch"><div class="lg-tag">Offline inventory &amp; dispatch</div>${inner}</div>
     <div class="lg-foot">Dermatouch · Science behind the beauty</div></div>`;
 }
@@ -2674,7 +2739,7 @@ V.home = () => {
   return `
   ${ME().boot && st.conn === 'ok' ? notice('', 'info', 'Anyone who can open Test 3 has full access', 'Add your team in Settings → Users and choose who can see or change what.', '<button class="btn sm" data-go="settings">Add users</button>') : ''}
   <div class="ov-head">
-    <div class="ov-hi"><span>${greet}</span><h2>${new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}</h2></div>
+    <div class="ov-hi with-m">${mascot('wave', 54)}<div><span>${greet}</span><h2>${new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}</h2></div></div>
     <button class="ov-start ${M.cut ? 'on' : 'off'}" data-go="settings">${ico(M.cut ? 'check' : 'alert')}<span>${M.cut ? 'Minus from ' + cutLabel(M) : 'Set minus start'}</span></button>
   </div>
   <div class="pend-strip">
@@ -3670,7 +3735,7 @@ async function saveUsers(list) {
   try {
     await ensureTab('USERS');
     const sh = st.books.t3.map.USERS;
-    const vals = [T3_COLS.USERS.cols, ...list.map(u => [u.email, u.name, ACCESS[u.access], u.access === 'custom' ? u.pages.map(permLabel).join(', ') : '', u.access === 'view' ? 'No' : u.access === 'custom' ? (u.edit ? 'Yes' : 'No') : 'Yes', u.active ? 'Yes' : 'No', u.note || ''])];
+    const vals = [T3_COLS.USERS.cols.slice(0, 7), ...list.map(u => [u.email, u.name, ACCESS[u.access], u.access === 'custom' ? u.pages.map(permLabel).join(', ') : '', u.access === 'view' ? 'No' : u.access === 'custom' ? (u.edit ? 'Yes' : 'No') : 'Yes', u.active ? 'Yes' : 'No', u.note || ''])];
     await gfetch(API + FILES.t3.id + '/values/' + encodeURIComponent(qt(sh.name) + '!A1:G' + vals.length) + '?valueInputOption=RAW', { method: 'PUT', body: JSON.stringify({ values: vals }) });
     await gfetch(API + FILES.t3.id + '/values:batchClear', { method: 'POST', body: JSON.stringify({ ranges: [qt(sh.name) + '!A' + (vals.length + 1) + ':G'] }) });
     closeSheet(); toast('Users saved'); SND.play('success'); await reloadT3(); render();
@@ -3719,7 +3784,7 @@ MOUNT.settingsBase = () => {
 /* ===== UNIWARE MINUS (day-end) ===== */
 const ST_TX = { open: 'To do', changed: 'Changed after done', done: 'Done in Uniware', none: 'Nothing to minus' };
 const dayLbl = d => new Date(d + 'T00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
-const srcChip = src => src === 'Offline' ? '' : ` <span class="chip ${src === 'B2B pick' ? 'teal' : 'amber'}">${esc(src)}</span>`;
+const srcChip = src => src === 'Offline' ? '' : ` <span class="chip ${src === 'B2B pick' ? 'teal' : 'red'}">${esc(src)}</span>`;
 const allocTx = L => L.alloc.length ? L.alloc.map(a => `<b>${esc(a.batch || 'no batch')}</b>${a.vb ? ' · ' + esc(a.vb) : ''}${a.inv === 'BAD' ? ' BAD' : ''} · ${esc(a.shelf || '—')}${a.exp ? ' · exp ' + fD(a.exp) : ''}: <b>${a.qty > 0 ? '' : '+'}${fN(Math.abs(a.qty))}</b>${srcChip(a.src)}`).join('<br>') : '—';
 const monthEnd = m => { const [y, mo] = m.split('-').map(Number); return m + '-' + pad(new Date(y, mo, 0).getDate()); };
 function rangeFor(kind) {
@@ -3736,16 +3801,16 @@ V.minus = () => {
   if (!u.date || !M.dayMinusMap.has(u.date)) { const td = M.dayMinusMap.get(M.today); u.date = (td && (td.minus || td.back)) ? M.today : (M.dayOpen[0] || days[0] || { date: M.today }).date; }
   const D = M.dayMinusMap.get(u.date) || { date: u.date, lines: [], docs: [], revDocs: [], pickDocs: [], minus: 0, back: 0, dmg: 0, damage: [], inward: [], state: 'none', otherQty: 0 };
   const strip = days.slice(0, 45);
-  const off = D.lines.reduce((a, L) => a + L.alloc.filter(x => x.qty > 0 && x.src === 'Offline').reduce((b, x) => b + x.qty, 0), 0);
+  const off = D.lines.reduce((a, L) => a + L.alloc.filter(x => x.qty > 0 && String(x.src).startsWith('Offline')).reduce((b, x) => b + x.qty, 0), 0);
   const diff = D.done ? (D.minus - D.done.qty) : 0, diffB = D.done ? (D.back - D.done.back) : 0;
   const rowsD = D.lines.map(L => `<tr class="click" data-sku="${esc(L.k)}"><td class="skuc">${esc(L.sku)}<span class="nm">${esc(L.name)}</span></td><td class="n"><b>${L.minus ? fN(L.minus) : '—'}</b></td><td class="n pos">${L.back ? '+' + fN(L.back) : '—'}</td><td class="alloc">${allocTx(L)}</td><td class="small muted">${esc(L.refs.slice(0, 4).join(', '))}${L.refs.length > 4 ? ' +' + (L.refs.length - 4) : ''}</td></tr>`).join('');
   const cards = D.lines.map(L => `<div class="card" data-sku="${esc(L.k)}"><div class="main"><div class="t" style="word-break:break-all">${esc(L.sku)}</div><div class="s">${esc(L.name)}</div><div class="alloc" style="margin-top:4px">${allocTx(L)}</div></div><div class="r"><div class="big">${L.minus ? fN(L.minus) : '—'}</div><div class="tiny ${L.back ? 'pos' : 'muted'}">${L.back ? '+' + fN(L.back) + ' back' : 'minus'}</div></div></div>`).join('');
   const [rf, rt] = [u.from || rangeFor('month')[0], u.to || M.today];
-  return `<div class="page-head"><div><h2>Uniware minus</h2><p>Everything packed on a day, on its packing date: SKU, qty, batch, vendor batch. B2B pick and SKUs not in offline get a B2B batch. A revised PI shows + / − on its day.</p></div></div>
+  return `<div class="page-head"><div><h2>Uniware minus</h2><p>Everything packed on a day, on its packing date: SKU, qty, batch, vendor batch. Only B2B PICK = Yes docs are from B2B; everything else is offline. A revised PI shows + / − on its day.</p></div></div>
   <div class="mday">${strip.length ? strip.map(d => `<button class="${d.state} ${d.date === u.date ? 'on' : ''}" data-md="${d.date}"><b>${d.date === M.today ? 'Today' : dayLbl(d.date)}</b><span><i></i>${fN(d.minus)} pcs${d.back ? ' · +' + fN(d.back) : ''}</span></button>`).join('') : '<span class="muted small">Nothing packed since the audit yet.</span>'}</div>
   ${D.state === 'changed' ? notice('red', 'alert', 'More came in after this day was marked done', `Marked done at ${esc(D.done.at)} with ${fN(D.done.qty)} pcs${D.done.back ? ' and ' + fN(D.done.back) + ' back' : ''}. Now ${fN(D.minus)}${D.back ? ' and ' + fN(D.back) + ' back' : ''}. ${diff ? `Minus ${diff > 0 ? 'another ' + fN(diff) : 'back ' + fN(-diff)} pcs` : ''}${diffB ? ` · add back ${fN(diffB)} more` : ''} in Uniware, then mark it done again.`) : ''}
   <div class="grid kpis">${kpi('To minus', fN(D.minus), `${fN(off)} offline · ${fN(D.minus - off)} B2B`, D.state === 'open' ? 'warn' : D.state === 'done' ? 'good' : D.state === 'changed' ? 'bad' : '', '', D.minus)}${kpi('Add back', D.back ? '+' + fN(D.back) : '0', 'Revised after packing', D.back ? 'warn' : '')}${kpi('SKUs', fN(D.lines.length), `${fN(D.lines.reduce((a, L) => a + L.alloc.length, 0))} batch lines`)}${kpi('Docs packed', fN(D.docs.length), `${D.pickDocs.length ? D.pickDocs.length + ' B2B pick · ' : ''}${D.revDocs.length ? D.revDocs.length + ' revised' : 'no revise'}`)}</div>
-  <div class="panel mt"><div class="panel-head"><div><h3>${dayLbl(D.date)} · <span class="chip ${D.state === 'done' ? 'green' : D.state === 'changed' ? 'red' : D.state === 'open' ? 'amber' : ''}">${ST_TX[D.state]}</span></h3><div class="sub">${D.done ? `Marked by ${esc(D.done.by || '—')} at ${esc(D.done.at)}` : 'Offline batches: GOOD first, earliest expiry first'}</div></div>
+  <div class="panel mt"><div class="panel-head"><div><h3>${dayLbl(D.date)} · <span class="chip ${D.state === 'done' ? 'green' : D.state === 'changed' ? 'red' : D.state === 'open' ? 'amber' : ''}">${ST_TX[D.state]}</span></h3><div class="sub">${D.done ? `Marked by ${esc(D.done.by || '—')} at ${esc(D.done.at)}` : 'Offline batches: GOOD first, earliest expiry first'}</div>${D.state === 'done' ? `<div class="dibbu-line">${mascot('happy', 36)}<span>Is din ka minus Uniware me ho gaya.</span></div>` : ''}</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm primary" data-mx="day" ${D.lines.length ? '' : 'disabled'}>${ico('down')}Day Excel</button>${D.lines.length && D.state !== 'done' && canWrite() ? `<button class="btn sm" id="mDone">${ico('check')}Mark done in Uniware</button>` : ''}</div></div>
     ${D.lines.length ? `<div class="only-d"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>SKU</th><th class="n">Minus</th><th class="n">Add back</th><th>Batch · vendor batch · shelf · expiry</th><th>Docs</th></tr></thead><tbody>${rowsD}</tbody></table></div></div><div class="only-m"><div class="cards">${cards}</div></div>` : '<div class="empty"><p>Nothing packed on this day.</p></div>'}
   </div>
@@ -3778,7 +3843,7 @@ function rangeBook(from, to) {
   for (const x of [...pv.values()].sort((a, b) => a.sku.localeCompare(b.sku))) P.push([x.sku, x.name, ...dates.map(d => x.by[d] || ''), x.tot]);
   P.push(['TOTAL', '', ...dates.map(d => rows.filter(r => r.date === d).reduce((a, r) => a + r.qty, 0)), rows.reduce((a, r) => a + r.qty, 0)]);
   S['Pivot SKU x Date'] = P;
-  const so = new Map(); for (const r of rows) { const key = r.date + '|' + r.k; const x = so.get(key) || { date: r.date, sku: r.sku, name: r.name, qty: 0, off: 0, b2b: 0 }; x.qty += r.qty; if (r.src === 'Offline') x.off += r.qty; else x.b2b += r.qty; so.set(key, x); }
+  const so = new Map(); for (const r of rows) { const key = r.date + '|' + r.k; const x = so.get(key) || { date: r.date, sku: r.sku, name: r.name, qty: 0, off: 0, b2b: 0 }; x.qty += r.qty; if (String(r.src).startsWith('Offline')) x.off += r.qty; else x.b2b += r.qty; so.set(key, x); }
   S['Stock out'] = [['Packing Date', 'SKU', 'Item Name', 'Qty out', 'From offline', 'From B2B'], ...[...so.values()].filter(x => x.qty).sort((a, b) => a.date.localeCompare(b.date) || a.sku.localeCompare(b.sku)).map(x => [fD(x.date), x.sku, x.name, x.qty, x.off, x.b2b])];
   S['By doc'] = [['Packing Date', 'Time', 'Doc', 'Party', 'What', 'SKU', 'Item Name', 'Qty', 'Batch', 'Vendor Batch', 'Expiry', 'Shelf', 'Source'], ...rows.map(r => [fD(r.date), r.time, r.doc, r.party, r.type, r.sku, r.name, r.qty, r.batch, r.vb, fD(r.exp), r.shelf, r.src])];
   const rev = M.events.filter(e => e.kind === 'revise' && e.date >= from && e.date <= to);
@@ -3900,13 +3965,10 @@ MOUNT.request = () => {
   $('#fReq').onsubmit = ev => { ev.preventDefault(); const k = cur(); if (!k) return bad('fSku', 'Pick a SKU from the list'); const cs = +csSel.value || 0; if (!cs) return bad('rqCs', 'This SKU has no case size in the Case Size tab of Test 3'); const bx = Math.round(num($('#rqBox').value)); if (bx <= 0) return bad('rqBox', 'Enter boxes'); const emp = str($('#rqEmp').value); if (emp) lss('dt-emp', emp); const c = u.cart.filter(x => x.k !== k); c.push(reqLine(k, bx, cs)); cartSave(c); SND.play('success'); toast(`${skuName(k)} · ${bx} × ${cs} = ${bx * cs} added`); render(); };
 };
 async function mailRequest(id, emp, lines) {
-  const M = st.M;
-  const head = ['SKU', 'Item', 'Boxes', 'Case size', 'Qty', 'Offline now', 'Pending orders'];
-  const rows = lines.map(c => { const s = M.stockMap.get(c.k); return [c.sku, c.name, c.boxes, c.cs, c.qty, s ? s.good : 0, s ? s.pending : 0]; });
-  const reply = ['SKU', 'QTY', 'Shelf code', 'Colour', 'Vendor batch', 'Batch', 'Expiry', 'Availability'];
-  const tq = lines.reduce((a, c) => a + c.qty, 0);
-  const html = `<div style="font-family:Arial,sans-serif;font-size:14px;color:#1d2a2a">Hello B2B team,<br><br>Please send these to offline. <b>Request ${esc(id)}</b> · ${esc(emp)} · ${fD(today())} ${nowT()} · ${lines.length} SKU · ${tq} pcs<br><br>${mailTable(head, rows)}<br>Please reply in this same mail with a table like this:<br><br>${mailTable(reply, lines.map(c => [c.sku, c.qty, '', 'GOOD_INVENTORY', '', '', '', 'AVAILABLE']))}<br><span style="color:#667">Sent from the Dermatouch Offline app · ${esc(id)}</span></div>`;
-  const text = `Hello B2B team,\n\nPlease send these to offline. Request ${id} · ${emp} · ${fD(today())} ${nowT()} · ${lines.length} SKU · ${tq} pcs\n\n${textTable(head, rows)}\n\nPlease reply in this same mail with: ${reply.join(' | ')}\n\nSent from the Dermatouch Offline app · ${id}`;
+  /* The B2B team gets only SKU and QTY. Boxes and case size stay in the app. */
+  const rows = lines.map(c => [c.sku, c.qty]);
+  const html = `<div style="font-family:Arial,sans-serif;font-size:14px;color:#1d2a2a">Hello B2B team,<br><br>Please send these to offline:<br><br>${mailTable(['SKU', 'QTY'], rows)}<br><span style="color:#8a9391;font-size:11px">${esc(emp)} · ${fD(today())} ${nowT()} · Ref ${esc(id)}</span></div>`;
+  const text = `Hello B2B team,\n\nPlease send these to offline:\n\n${textTable(['SKU', 'QTY'], rows)}\n\n${emp} · ${fD(today())} ${nowT()} · Ref ${id}`;
   return GM.send('b2b', html, text);
 }
 
@@ -4204,7 +4266,116 @@ const NT = (() => {
   return { update, panel, perm, askPerm, show, unread, badge, markRead: id => { read.add(id); saveRead(); badge(); } };
 })();
 
-window.__dt = { parseReply, GM, NT, refresh: () => { st.sigs = {}; return cycle(true); }, me: () => ME(), expire: () => { if (tok) tok.exp = Date.now() - 1000; } };   // for checks from the browser console
+window.__dt_avatar = (p, s) => avatar(p, s); window.__dt = { parseReply, GM, NT, refresh: () => { st.sigs = {}; return cycle(true); }, me: () => ME(), expire: () => { if (tok) tok.exp = Date.now() - 1000; } };   // for checks from the browser console
+
+/* ================= DIBBU (original box mascot) & TEAM ================= */
+function mascot(mood = 'happy', size = 64) {
+  const mouth = { happy: '<path class="ms-mouth" d="M26 41 Q32 47 38 41"/>', wave: '<path class="ms-mouth" d="M26 41 Q32 47 38 41"/>', calm: '<path class="ms-mouth" d="M27.5 42.5 Q32 45 36.5 42.5"/>', sad: '<path class="ms-mouth" d="M26.5 45 Q32 40 37.5 45"/>', wow: '<ellipse class="ms-o" cx="32" cy="43" rx="3.2" ry="3.8"/>' }[mood] || '';
+  const eyes = mood === 'calm' ? '<path class="ms-mouth" d="M20.5 33.5 Q24 30.5 27.5 33.5"/><path class="ms-mouth" d="M36.5 33.5 Q40 30.5 43.5 33.5"/>'
+    : '<ellipse class="ms-eye" cx="24" cy="33" rx="3.1" ry="3.7"/><ellipse class="ms-eye" cx="40" cy="33" rx="3.1" ry="3.7"/><circle class="ms-shine" cx="25.1" cy="31.7" r="1"/><circle class="ms-shine" cx="41.1" cy="31.7" r="1"/>';
+  const arm = mood === 'wave' ? '<path class="ms-arm" d="M53 38 q8 -3 9 -13"/>' : '<path class="ms-arm" d="M53 40 q5 3 6 8"/>';
+  return `<svg class="masc m-${mood}" viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true"><ellipse class="ms-shadow" cx="32" cy="60.5" rx="17" ry="2.6"/><g class="ms-body"><path class="ms-arm" d="M11 40 q-5 3 -6 8"/>${arm}<rect class="ms-box" x="10" y="19" width="44" height="38" rx="6"/><path class="ms-flap" d="M10.5 20 L19 11 L31 19 Z"/><path class="ms-flap" d="M53.5 20 L45 11 L33 19 Z"/><rect class="ms-tape" x="28" y="19" width="8" height="10" rx="1.5"/><g class="ms-eyes">${eyes}</g><circle class="ms-cheek" cx="18.5" cy="40.5" r="2.8"/><circle class="ms-cheek" cx="45.5" cy="40.5" r="2.8"/>${mouth}</g></svg>`;
+}
+/* photos: a picture uploaded from the app (kept small inside the sheet), an
+   image link, or a Google Drive share link (file shared "anyone with the link") */
+function photoSrc(v) {
+  const x = str(v); if (!x) return '';
+  if (/^data:image\//.test(x)) return x;
+  const d = x.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{10,})/);
+  if (d) return `https://drive.google.com/thumbnail?id=${d[1]}&sz=w256`;
+  return /^https?:\/\//.test(x) ? x : '';
+}
+const AVC = ['#1E9E8E', '#E07A5F', '#6D72C3', '#C9A227', '#3D8BD9', '#B5508A', '#4E9F3D', '#D9663D'];
+function avatar(p, size = 44, online = false) {
+  const src = photoSrc(p.photo); const nm = p.name || p.email || '?';
+  const ini = nm.replace(/@.*/, '').split(/[\s._-]+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '?';
+  let h = 0; for (const c of nm) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return `<span class="ava ${p.active === false ? 'off' : ''}" style="width:${size}px;height:${size}px;font-size:${Math.round(size * .38)}px" title="${esc(nm)}">${src ? `<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ini',textContent:'${esc(ini)}',style:'background:${AVC[h % AVC.length]}'}))">` : `<span class="ini" style="background:${AVC[h % AVC.length]}">${esc(ini)}</span>`}${online ? '<i class="dot pulse"></i>' : ''}</span>`;
+}
+const ONLINE_MS = 10 * 60e3;
+function teamData() {
+  const M = st.M; const map = new Map(); const keyOf = (code, name) => code ? 'C:' + nk(code) : 'N:' + nk(name);
+  for (const p of M.stationary) map.set(keyOf(p.code, p.name), { ...p, inStat: true, active: true, email: '', role: '', photo: '', phone: '', row: 0 });
+  const sh = st.books.t3 && st.books.t3.map.TEAM;
+  if (sh && sh.rows.length) {
+    const H = (sh.rows[0] || []).map(E.hk); const ix = n => H.indexOf(n);
+    const c = { code: ix('CODE'), name: ix('NAME'), email: ix('EMAIL'), team: ix('TEAM'), role: ix('ROLE'), photo: ix('PHOTO'), active: ix('ACTIVE'), phone: ix('PHONE') };
+    for (let r = 1; r < sh.rows.length; r++) {
+      const R = sh.rows[r] || []; const g = k => c[k] >= 0 ? str(R[c[k]]) : '';
+      const name = g('name'), code = g('code'); if (!name && !code) continue;
+      let m = map.get(keyOf(code, name)) || (code ? null : null);
+      if (!m && name) m = [...map.values()].find(x => nk(x.name) === nk(name));
+      if (!m) { m = { code, name, team: g('team'), pen: 0, marker: 0, inStat: false }; map.set(keyOf(code, name) + ':' + r, m); }
+      Object.assign(m, { row: r + 1, email: g('email').toLowerCase(), role: g('role'), photo: g('photo'), phone: g('phone'), active: !/^(no|n|0|false|inactive|off|left)$/i.test(g('active')) });
+      if (g('team')) m.team = g('team'); if (!m.code && code) m.code = code;
+    }
+  }
+  const users = st.users || []; const now = Date.now();
+  const L = [...map.values()].map(m => { const u = m.email && users.find(x => x.email === m.email); return { ...m, online: !!(u && now - u.seen < ONLINE_MS), seen: u ? u.seen : 0 }; });
+  const onlineUsers = users.filter(u => now - u.seen < ONLINE_MS).map(u => L.find(m => m.email === u.email) || { name: u.name || u.email, email: u.email, photo: '', active: true, online: true, seen: u.seen });
+  return { list: L.sort((a, b) => (b.active - a.active) || a.name.localeCompare(b.name)), online: onlineUsers };
+}
+let beatAt = 0;
+async function heartbeat() {   // "online now": every 5 minutes the open app notes the time against your email in USERS
+  if (st.conn !== 'ok' || st.readOnly || !st.users || document.visibilityState !== 'visible' || Date.now() - beatAt < 5 * 60e3) return;
+  const me = String(st.user || '').toLowerCase(); const u = st.users.find(x => x.email === me); if (!u) return;
+  beatAt = Date.now();
+  await ensureTab('USERS'); await setCell('USERS', u.row, 'Last seen', new Date().toISOString());
+}
+const seenTx = t => { if (!t) return 'never'; const m = Math.round((Date.now() - t) / 60e3); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m / 60) + ' h ago' : fS(new Date(t).toISOString().slice(0, 10)); };
+const V_stationery = V.team;
+V.team = () => {
+  const T = teamData(); const L = T.list; const act = L.filter(m => m.active);
+  const teams = new Map(); for (const m of L) { const t = str(m.team) || 'No team'; if (!teams.has(t)) teams.set(t, []); teams.get(t).push(m); }
+  const order = [...teams.keys()].sort((a, b) => { const x = parseFloat(a), y = parseFloat(b); return isFinite(x) && isFinite(y) ? x - y : a === 'No team' ? 1 : b === 'No team' ? -1 : a.localeCompare(b); });
+  const card = m => `<button class="mcard ${m.active ? '' : 'inactive'}" data-mem="${esc(m.code || m.name)}">${avatar(m, 68, m.online)}<b>${esc(m.name)}</b><span class="mrole">${esc(m.role || (m.active ? 'Team member' : 'Not active'))}</span>${m.code ? `<span class="mcode">${esc(m.code)}</span>` : ''}${m.inStat ? `<span class="mtick"><i class="${m.pen >= 1 ? '' : 'no'}">Pen</i><i class="${m.marker >= 1 ? '' : 'no'}">Marker</i></span>` : ''}</button>`;
+  return `<div class="page-head"><div><h2>Team</h2><p>Everyone on the offline floor. Photos, role and active are kept in the TEAM tab of Test 3; names and stationery come from STATIONARY.</p></div></div>
+  <div class="tm-top">${kpi('Team members', fN(L.length), `${teams.size - (teams.has('No team') ? 1 : 0)} teams`, '', '', L.length)}${kpi('Active', fN(act.length), L.length ? Math.round(100 * act.length / L.length) + '% of the team' : '—', act.length ? 'good' : '', '', act.length)}${kpi('Online in app now', fN(T.online.length), 'Seen in the last 10 min', T.online.length ? 'good' : '', '', T.online.length)}${kpi('With photo', fN(L.filter(m => photoSrc(m.photo)).length), canEdit('team') ? 'Tap a person to add' : '', '')}</div>
+  <div class="tm-online">${T.online.length ? `<span class="stack">${T.online.slice(0, 8).map(m => avatar(m, 38, true)).join('')}</span><span class="small"><b>${T.online.map(m => esc((m.name || m.email).split(' ')[0])).slice(0, 6).join(', ')}</b>${T.online.length > 6 ? ' +' + (T.online.length - 6) : ''} using the app now</span>` : `${mascot('calm', 40)}<span class="small muted">Nobody else is online right now. People listed in Settings → Users show here while the app is open.</span>`}</div>
+  ${order.map(t => `<div class="panel mt"><div class="panel-head"><div><h3>${t === 'No team' ? 'No team number' : 'Team ' + esc(t)}</h3><div class="sub">${teams.get(t).filter(m => m.active).length} active of ${teams.get(t).length}</div></div></div><div class="mgrid">${teams.get(t).map(card).join('')}</div></div>`).join('') || `<div class="panel empty mt"><h4>No team yet</h4><p>Add people in the STATIONARY sheet, or tap a member to add a photo.</p></div>`}
+  <details class="panel mt"><summary style="cursor:pointer;font-weight:600">Stationery — pens, markers, cutters, tape guns</summary><div class="mt">${V_stationery().replace(/<div class="page-head">[\s\S]*?<\/div><\/div>/, '')}</div></details>`;
+};
+MOUNT.team = () => { $$('[data-mem]').forEach(b => b.onclick = () => memberEditor(b.dataset.mem)); };
+function shrinkPhoto(file) {
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file); const img = new Image();
+    img.onload = () => { const S = 192, c = document.createElement('canvas'); c.width = c.height = S; const x = c.getContext('2d'); const m = Math.min(img.width, img.height); x.drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, S, S); URL.revokeObjectURL(url); let q = .82, d = c.toDataURL('image/jpeg', q); while (d.length > 38000 && q > .3) { q -= .1; d = c.toDataURL('image/jpeg', q); } res(d); };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error('That file is not a photo')); }; img.src = url;
+  });
+}
+function memberEditor(id) {
+  const m = teamData().list.find(x => (x.code || x.name) === id); if (!m) return;
+  const edit = canEdit('team'); let photo = m.photo;
+  const draw = () => { $('#phPrev').innerHTML = avatar({ ...m, photo }, 112, m.online); };
+  openSheet(`<h3>${esc(m.name)}</h3><div class="sub">${m.code ? 'Code ' + esc(m.code) + ' · ' : ''}${m.team ? 'Team ' + esc(m.team) : 'No team'}${m.email ? ' · last seen ' + seenTx(m.seen) : ''}</div>`,
+    `<div class="ph-edit"><div id="phPrev"></div>${edit ? `<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><label class="btn sm primary" style="cursor:pointer">${ico('plus')}Upload photo<input type="file" accept="image/*" id="phFile" hidden></label><button class="btn sm ghost" type="button" id="phDel">Remove photo</button></div><div class="tiny muted" style="text-align:center">Camera or gallery. The app makes it small and saves it in the TEAM tab. A Google Drive or image link pasted in the Photo column works too.</div>` : ''}</div>
+    <form class="form two" id="fMem" data-form autocomplete="off">
+      <div class="fld"><label for="mRole">Role</label><input id="mRole" value="${esc(m.role)}" placeholder="Packer, Picker, Lead…" ${edit ? '' : 'disabled'}></div>
+      <div class="fld"><label for="mPhone">Phone</label><input id="mPhone" inputmode="tel" value="${esc(m.phone)}" ${edit ? '' : 'disabled'}></div>
+      <div class="fld full"><label for="mEmail">Google email</label><input id="mEmail" type="email" value="${esc(m.email)}" placeholder="to show when they are online" ${edit ? '' : 'disabled'}></div>
+      <div class="fld full"><label class="tgl"><input type="checkbox" id="mAct" ${m.active ? 'checked' : ''} ${edit ? '' : 'disabled'}><span class="sw"></span><span><b>Active</b><em>Working on the offline floor now</em></span></label></div>
+      ${edit ? '<div class="full"><button class="btn primary" type="submit">Save</button></div>' : ''}
+    </form>`);
+  st.sheetFn = null; draw();
+  if (!edit) return;
+  $('#phFile').onchange = async e => { const f = e.target.files[0]; if (!f) return; try { photo = await shrinkPhoto(f); draw(); SND.play('scan'); } catch (er) { toast(er.message); } };
+  $('#phDel').onclick = () => { photo = ''; draw(); };
+  $('#fMem').onsubmit = async ev => {
+    ev.preventDefault(); const btn = ev.target.querySelector('button[type=submit]'); btn.disabled = true;
+    const email = str($('#mEmail').value).toLowerCase(); if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { btn.disabled = false; return bad('mEmail', 'Not a valid email'); }
+    const vals = { CODE: m.code, NAME: m.name, EMAIL: email, TEAM: m.team || '', ROLE: str($('#mRole').value), PHOTO: photo || '', ACTIVE: $('#mAct').checked ? 'Yes' : 'No', PHONE: str($('#mPhone').value) };
+    try {
+      const sh = await ensureTab('TEAM');
+      if (m.row) {
+        const H = (sh.rows[0] || []).map(E.hk); const old = sh.rows[m.row - 1] || [];
+        const row = H.map((h, i) => h in vals ? vals[h] : (old[i] ?? ''));
+        await gfetch(API + FILES.t3.id + '/values/' + encodeURIComponent(qt(sh.name) + '!A' + m.row + ':' + colL(H.length - 1) + m.row) + '?valueInputOption=RAW', { method: 'PUT', body: JSON.stringify({ values: [row] }) });
+      } else await appendRow('TEAM', vals);
+      closeSheet(); toast(`${m.name} saved`); SND.play('success'); SND.buzz([18, 40, 18]); await reloadT3(); render();
+    } catch (er) { toast(failTx(er)); btn.disabled = false; }
+  };
+}
+
 /* ---------- start ---------- */
 render();
 try { boot(); } catch (e) { console.error(e); st.err.t2 = { code: 'boot', message: 'The app could not start: ' + (e.message || e) }; hideSplash(); render(); }
