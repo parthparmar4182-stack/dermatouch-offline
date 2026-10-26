@@ -1,0 +1,8 @@
+{
+  "name": "dermatouch-offline",
+  "private": true,
+  "description": "Dermatouch Offline app. index.html is the site; netlify/functions has the sign-in helper and Dermi's voice.",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

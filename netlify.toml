@@ -1,7 +1,12 @@
 # Dermatouch Offline — Netlify settings. No build step: the site is index.html.
+# package.json only brings @netlify/blobs for Dermi's shared voice library.
 [build]
   publish = "."
   functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@netlify/blobs"]
 
 [[headers]]
   for = "/sw.js"

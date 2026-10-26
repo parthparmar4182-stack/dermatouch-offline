@@ -744,6 +744,43 @@ body.gate .main { min-width: 0 }
 .rtype{display:inline-flex;gap:4px}.rtype i{width:7px;height:7px;border-radius:50%;background:var(--ink3);animation:rbDot 1s infinite}.rtype i:nth-child(2){animation-delay:.15s}.rtype i:nth-child(3){animation-delay:.3s}
 .rb-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.rb-chips::-webkit-scrollbar{display:none}
 .rb-in{display:flex;gap:8px}.rb-in input{flex:1;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:0 12px;font:inherit;font-size:16px}
+.rb.rb-talk .rb-smile{opacity:1;animation:rbTalk .2s ease-in-out infinite alternate}
+.rb.rb-talk:not(.rb-active):not(.rb-happy) .rb-smile{stroke:var(--ink)}
+@keyframes rbTalk{from{transform:scaleY(.4)}to{transform:scaleY(1.6)}}
+.rb-hd .rb-lang{margin-left:auto;font-weight:600;font-size:14px;min-width:44px}.rb-hd .rb-lang+.icon-btn{margin-left:6px}
+.vset{display:flex;flex-direction:column;gap:14px;margin-top:14px}.vset>div>b{display:block;font-size:13px;color:var(--ink2);margin-bottom:6px}
+.vcards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vcard{display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:16px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font:inherit;transition:border-color .2s,transform .2s,box-shadow .2s}
+.vcard>span:not(.rb){flex:1;min-width:0}.vcard span b{display:block;font-size:14px}.vcard span em{display:block;font-style:normal;font-size:12px;color:var(--ink2);line-height:1.35;margin-top:2px}
+.vcard.on{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-s)}.vcard:active{transform:scale(.97)}
+.vcard .vplay{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--teal-s);color:var(--teal-d);flex:none}
+.vcard .vplay svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.vcard.playing .vplay{animation:vPulse .8s ease-in-out infinite}@keyframes vPulse{50%{transform:scale(1.18);background:var(--teal);color:#fff}}
+.vstat{font-size:12.5px;line-height:1.45;padding:9px 12px;border-radius:12px;background:var(--surface2);color:var(--ink2)}
+.vstat.ok{background:var(--green-s);color:var(--green)}.vstat.warn{background:var(--amber-s,var(--surface2));color:var(--ink2)}
+@media (max-width:520px){.vcards{grid-template-columns:1fr}}
+.rb .rb-o,.rb .rb-brow,.rb .rb-steam,.rb .rb-z{opacity:0;transition:opacity .25s}
+.rb .rb-o{fill:var(--ink)}.rb .rb-brow{stroke:var(--ink);stroke-width:2.6;stroke-linecap:round}.rb .rb-steam circle{fill:#9aa5a3}
+.rb .rb-z{font:700 9px/1 sans-serif;fill:var(--teal)}
+.rb.rb-angry .rb-head{stroke:#E5484D;fill:#FFE9E9}.rb.rb-angry .rb-eye,.rb.rb-angry .rb-antb{fill:#E5484D}.rb.rb-angry .rb-ant{stroke:#E5484D}
+.rb.rb-angry .rb-brow{opacity:1;stroke:#B4232A}.rb.rb-angry .rb-eye{transform:scaleY(.62) translateY(2px)}
+.rb.rb-angry .rb-smile{opacity:1;stroke:#B4232A;transform:scaleY(-1) translateY(-1px)}
+.rb.rb-angry .rb-body{animation:rbShake .32s ease-in-out infinite}.rb.rb-angry .rb-steam{opacity:1}.rb.rb-angry .rb-steam circle{animation:rbSteam 1s ease-out infinite}.rb.rb-angry .rb-steam circle:nth-child(n+3){animation-delay:.4s}
+@keyframes rbSteam{0%{transform:translateY(4px);opacity:0}30%{opacity:.9}100%{transform:translateY(-8px);opacity:0}}
+.rb.rb-pout .rb-eye{transform:scaleY(.4)}.rb.rb-pout .rb-o{opacity:1;transform:scale(.8);transform-box:fill-box;transform-origin:center}.rb.rb-pout .rb-body{animation:rbPout 2.4s ease-in-out}
+.rb.rb-pout .rb-head{stroke:#C2410C}.rb.rb-pout .rb-brow{opacity:.85}
+@keyframes rbPout{0%,100%{transform:rotate(0)}20%,80%{transform:rotate(-12deg) translateX(-2px) scale(1.04,.97)}}
+.rb.rb-party .rb-head{fill:var(--teal);stroke:var(--teal)}.rb.rb-party .rb-eye{fill:#fff;transform:scaleY(.35) translateY(-3px)}.rb.rb-party .rb-smile{opacity:1}.rb.rb-party .rb-gloss{opacity:.35}.rb.rb-party .rb-antb{fill:#FFD23F}
+.rb.rb-party .rb-body{animation:rbParty 1.1s cubic-bezier(.3,1.5,.5,1) 2}
+@keyframes rbParty{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-10px) rotate(-14deg)}60%{transform:translateY(-4px) rotate(14deg)}}
+.rb.rb-sleepy .rb-eye{transform:scaleY(.1)}.rb.rb-sleepy .rb-body{animation:rbFloat 4.5s ease-in-out infinite}.rb.rb-sleepy .rb-z{opacity:1;animation:rbZ 2.4s ease-in-out infinite}.rb.rb-sleepy .rb-z2{animation-delay:1.2s}
+@keyframes rbZ{0%{opacity:0;transform:translate(0,4px)}40%{opacity:1}100%{opacity:0;transform:translate(3px,-5px)}}
+.rlist{display:flex;flex-direction:column;gap:4px;margin-top:8px}
+.rlist button{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;border:0;background:var(--surface);border-radius:10px;padding:7px 10px;font:inherit;font-size:13px;color:var(--ink);cursor:pointer}
+.rlist button span{min-width:0;word-break:break-all}.rlist button small{display:block;font-size:11.5px;color:var(--ink2);word-break:normal}
+.rlist button b{flex:none;text-align:right;font-size:13px}.rlist button b i{display:block;font-style:normal;font-weight:400;font-size:11px;color:var(--ink3)}
+.rlist em{font-style:normal;font-size:12px;color:var(--ink3);padding:2px 4px}
+.rmsg.me .rbub .rlist button{background:rgba(255,255,255,.15);color:#fff}
 body.gate #robo{display:none!important}
 body:not(.gate) #view::after{content:'';display:block;height:64px}
 @media (prefers-reduced-motion:reduce){.rb *{animation:none!important}}
@@ -752,7 +789,7 @@ body:not(.gate) #view::after{content:'';display:block;height:64px}
      ONE-TIME SETUP  —  paste your Google OAuth Client ID between the
      quotes on the clientId line a few lines below, then save and upload.
 
-         clientId: "1234567890-abc123.apps.googleusercontent.com"
+         clientId: "200372153073-ph97sfa91r3njnd7plhh4slv42dh8d21.apps.googleusercontent.com"
 
      Leave it empty and the app asks for it once on each device instead.
      test2 / test3 are your sheet IDs and are already filled in.
@@ -1933,7 +1970,11 @@ const SND = (() => {
     roboTalk() { tone(650 + Math.random() * 550, ctx.currentTime, { type: 'square', a: 0.002, d: 0.03, peak: 0.014 }); },
     roboUp() { const t = ctx.currentTime; noise(t, 0.07, { f0: 1500, f1: 4200, q: 0.9, peak: 0.03 }); tone(784, t + 0.02, { a: 0.003, d: 0.1, peak: 0.05, to: 1175 }); tone(1568, t + 0.13, { a: 0.003, d: 0.38, peak: 0.05 }); },
     roboSad() { const t = ctx.currentTime; tone(620, t, { type: 'triangle', a: 0.005, d: 0.18, peak: 0.06, to: 470 }); tone(470, t + 0.2, { type: 'triangle', a: 0.005, d: 0.3, peak: 0.055, to: 300 }); },
-    roboLoad() { tone(1250, ctx.currentTime, { a: 0.002, d: 0.025, peak: 0.01 }); }
+    roboLoad() { tone(1250, ctx.currentTime, { a: 0.002, d: 0.025, peak: 0.01 }); },
+    roboAngry() { const t = ctx.currentTime; tone(180, t, { type: 'sawtooth', a: 0.01, d: 0.22, peak: 0.035, to: 120 }); tone(170, t + 0.24, { type: 'sawtooth', a: 0.01, d: 0.28, peak: 0.035, to: 105 }); noise(t + 0.05, 0.4, { f0: 600, f1: 300, q: 1.2, peak: 0.02 }); },
+    roboPout() { const t = ctx.currentTime; tone(520, t, { type: 'triangle', a: 0.004, d: 0.09, peak: 0.05, to: 700 }); tone(640, t + 0.12, { type: 'triangle', a: 0.004, d: 0.22, peak: 0.05, to: 380 }); },
+    roboParty() { const t = ctx.currentTime; [784, 988, 1175, 1568, 1976].forEach((f, i) => tone(f, t + i * 0.07, { a: 0.003, d: 0.18, peak: 0.04 })); noise(t + 0.36, 0.25, { f0: 3000, f1: 8000, q: 0.7, peak: 0.02 }); },
+    roboSleep() { const t = ctx.currentTime; tone(330, t, { type: 'sine', a: 0.08, d: 0.6, peak: 0.025, to: 260 }); }
   };
   function play(name) {
     try {
@@ -1974,7 +2015,7 @@ function ask(msg, okLabel) {
 }
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600); }
 function openSheet(head, body) { if (!$('#sheet').classList.contains('on')) SND.play('open'); $('#sheetHead').innerHTML = head; $('#sheetBody').innerHTML = body; $('#sheetBody').scrollTop = 0; $('#scrim').classList.add('on'); $('#sheet').classList.add('on'); }
-function closeSheet() { $('#scrim').classList.remove('on'); $('#sheet').classList.remove('on'); st.sheetFn = null; }
+function closeSheet() { $('#scrim').classList.remove('on'); $('#sheet').classList.remove('on'); st.sheetFn = null; try { if ($('#rbLog')) { ROBO.forget(); $('#rbLog').innerHTML = ''; } } catch { } }
 $('#scrim').onclick = closeSheet; $('#sheetX').onclick = closeSheet;
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSheet(); hideAc(); } });
 (() => { let y0 = null; const sh = $('#sheet'); sh.addEventListener('touchstart', e => { if ($('#sheetBody').scrollTop <= 0) y0 = e.touches[0].clientY; }, { passive: true }); sh.addEventListener('touchmove', e => { if (y0 != null && e.touches[0].clientY - y0 > 90) { y0 = null; closeSheet(); } }, { passive: true }); sh.addEventListener('touchend', () => { y0 = null; }); })();
@@ -3796,14 +3837,33 @@ function alertsPanel() {
 const V_settingsAll = V.settings;
 V.settings = () => V_settingsAll() + `<div class="panel mt"><div class="rb-hd" style="margin-bottom:8px">${robot('active', 44)}<div><h3>Dermi — app dost</h3><div class="sub">Notification bol ke batata hai, sawaal ka jawab deta hai. Sirf is phone pe.</div></div></div>
   <div class="toggles"><label class="tgl"><input type="checkbox" id="tRobo" ${lsg('dt-robo') !== 'off' ? 'checked' : ''}><span class="sw"></span><span><b>Dermi dikhe</b><em>Neeche kone me robot, notification bubble ke saath</em></span></label>
-  <label class="tgl"><input type="checkbox" id="tVoice" ${lsg('dt-voice') === 'on' ? 'checked' : ''} ${'speechSynthesis' in window ? '' : 'disabled'}><span class="sw"></span><span><b>Bol ke batao</b><em>${'speechSynthesis' in window ? 'Notification aur jawab awaaz me' : 'Is phone pe awaaz support nahi'}</em></span></label></div>
+  <label class="tgl"><input type="checkbox" id="tVoice" ${VOICE.on() ? 'checked' : ''}><span class="sw"></span><span><b>Bol ke batao</b><em>Notification aur jawab awaaz me</em></span></label>
+  <label class="tgl"><input type="checkbox" id="tRemind" ${lsg('dt-remind') !== 'off' ? 'checked' : ''}><span class="sw"></span><span><b>Minus ki yaad dilao</b><em>Har 2 ghante; der ho to Dermi gussa karegi 😤</em></span></label></div>
+  <div class="vset"><div><b>Bhasha</b><div class="seg">${[['hi', 'हिंदी'], ['en', 'English']].map(([v, l]) => `<button type="button" class="${VOICE.lang() === v ? 'on' : ''}" data-vl="${v}">${l}</button>`).join('')}</div></div>
+  <div><b>Awaaz</b><div class="vcards">${[['kid', 'Chhota Dermi', 'Cute, patli, masti bhari bachche jaisi awaaz'], ['girl', 'Dermi Didi', '20–25 saal ki ladki — saaf, meethi, khush awaaz']].map(([v, t, d]) => `<button type="button" class="vcard ${VOICE.who() === v ? 'on' : ''}" data-vw="${v}">${robot(v === 'kid' ? 'active' : 'normal', 34)}<span><b>${t}</b><em>${d}</em></span><i class="vplay">${ico('sound')}</i></button>`).join('')}</div></div>
+  <div class="vstat" id="vStat">Awaaz check ho rahi hai…</div></div>
   <div class="mt"><button class="btn sm" id="tRoboChat" type="button">Dermi se baat karo</button></div></div>`;
 document.addEventListener('change', e => {
-  if (e.target.id === 'tRobo') { lss('dt-robo', e.target.checked ? null : 'off'); ROBO.show(); if (e.target.checked) ROBO.say('Main wapas aa gaya! 👋', { mood: 'active' }); }
-  if (e.target.id === 'tVoice') { lss('dt-voice', e.target.checked ? 'on' : 'off'); if (e.target.checked) ROBO.say('Ab main bol ke bataunga.', { mood: 'active' }); }
+  if (e.target.id === 'tRobo') { lss('dt-robo', e.target.checked ? null : 'off'); ROBO.show(); if (e.target.checked) ROBO.say('Main wapas aa gaya! 👋', { mood: 'active', sp: { hi: `मैं वापस आ ${VOICE.g('गया', 'गई')}!`, en: "I'm back!" } }); }
+  if (e.target.id === 'tRemind') { lss('dt-remind', e.target.checked ? null : 'off'); if (e.target.checked) setTimeout(() => ROBO.remind(true), 300); }
+  if (e.target.id === 'tVoice') { lss('dt-voice', e.target.checked ? null : 'off'); if (e.target.checked) ROBO.say('Ab main bol ke bataungi.', { mood: 'active', sp: { hi: `अब मैं बोल के ${VOICE.g('बताऊँगा', 'बताऊँगी')}।`, en: "I'll speak out loud now." } }); else VOICE.stop(); }
 });
-document.addEventListener('click', e => { if (e.target.closest('#tRoboChat')) ROBO.chat(); });
+const V_SAMPLE = { kid: { hi: 'हाय! मैं छोटा डर्मी हूँ। आज का माइनस मैं याद दिलाऊँगा, और लो स्टॉक भी बताऊँगा!', en: "Hi! I'm little Dermi. I'll remind you about today's minus and tell you about low stock!" }, girl: { hi: 'नमस्ते! मैं डर्मी दीदी हूँ। आज बारह SKU पैक होने बाकी हैं, चलो जल्दी से कर लेते हैं!', en: "Hello! I'm Dermi Didi. Twelve SKUs are waiting to be packed today, let's get them done!" } };
+async function vStat() {
+  const el = $('#vStat'); if (!el) return;
+  const c = await VOICE.detect(true); const s = VOICE.status(); if (!$('#vStat')) return;
+  el.className = 'vstat ' + (c ? 'ok' : 'warn');
+  const I = s.info || {};
+  el.innerHTML = c ? `✔ Natural awaaz chalu (Sarvam${I.model ? ' ' + esc(I.model) : ''}) · is mahine <b>${fN(I.used || 0)} / ${fN(I.limit || 0)}</b> naye characters${I.shared === false ? ' · shared library band (har phone alag banayega)' : ''}${s.lastErr === 'budget' ? '<br><b>Is mahine ki free limit poori</b> — jo lines pehle bani hain woh natural, nayi lines phone ki awaaz me.' : s.lastErr ? `<br><b>Error:</b> ${esc(s.lastErr)} — abhi phone ki awaaz.` : ''}`
+    : `Abhi <b>phone ki awaaz</b> chal rahi hai${s.hiPhone || VOICE.lang() === 'en' ? '' : ' (is phone me Hindi awaaz nahi mili — phone Settings → Text-to-speech → Hindi download karo)'}. Natural awaaz free me chahiye to Netlify me <b>SARVAM_API_KEY</b> daalo (Sarvam ka free account, card nahi lagta).`;
+}
+document.addEventListener('click', e => {
+  if (e.target.closest('#tRoboChat')) { ROBO.chat(); return; }
+  const l = e.target.closest('[data-vl]'); if (l) { lss('dt-vlang', l.dataset.vl === 'hi' ? null : 'en'); $$('[data-vl]').forEach(b => b.classList.toggle('on', b === l)); VOICE.say(V_SAMPLE[VOICE.who()], { force: true }).then(vStat); vStat(); return; }
+  const w = e.target.closest('[data-vw]'); if (w) { lss('dt-vwho', w.dataset.vw === 'kid' ? 'kid' : null); $$('[data-vw]').forEach(b => b.classList.toggle('on', b === w)); w.classList.add('playing'); VOICE.say(V_SAMPLE[w.dataset.vw], { force: true, onend: () => w.classList.remove('playing') }).then(v => { if (!v) w.classList.remove('playing'); vStat(); }); return; }
+});
 MOUNT.settings = () => {
+  vStat();
   $$('[data-uedit]').forEach(b => b.onclick = () => userEditor(b.dataset.uedit));
   $$('[data-al]').forEach(inp => inp.oninput = () => { const r = st.ui.alerts[+inp.dataset.al]; if (r) r.min = inp.value === '' ? null : Math.max(0, Math.round(num(inp.value))); });
   $$('[data-alrm]').forEach(b => b.onclick = () => { st.ui.alerts.splice(+b.dataset.alrm, 1); render(); });
@@ -3883,7 +3943,7 @@ MOUNT.minus = () => {
     const D = st.M.dayMinusMap.get(st.ui.minus.date); if (!D) return;
     if (!await ask(`Have you minused ${fN(D.minus)} pcs${D.back ? ` and added back ${fN(D.back)}` : ''} for ${fD(D.date)} in Uniware?`, 'Yes, mark done')) return;
     dn.disabled = true;
-    try { await appendRow('UNIWARELOG', { MINUSDATE: fD(D.date), DONEAT: fD(today()) + ' ' + nowT(), MINUSQTY: D.minus, ADDBACK: D.back, SKUS: D.lines.length, BY: st.user || '', NOTE: D.state === 'changed' ? 'Marked again after a change' : '' }); toast(`${fD(D.date)} marked done in Uniware`); SND.play('success'); SND.buzz([18, 40, 18]); await reloadT3(); render(); }
+    try { await appendRow('UNIWARELOG', { MINUSDATE: fD(D.date), DONEAT: fD(today()) + ' ' + nowT(), MINUSQTY: D.minus, ADDBACK: D.back, SKUS: D.lines.length, BY: st.user || '', NOTE: D.state === 'changed' ? 'Marked again after a change' : '' }); toast(`${fD(D.date)} marked done in Uniware`); SND.play('success'); SND.buzz([18, 40, 18]); lss('dt-rem', null); await reloadT3(); render(); try { const nm = ROBO.myName(); ROBO.cheer(`🎉 Shabaash${nm ? ' ' + esc(nm) : ''}! ${fD(D.date)} ka minus ho gaya.`, { hi: `शाबाश${nm ? ' ' + SP.pn(nm) : ''}! ${SP.date(D.date, 'hi')} का माइनस हो गया।`, en: `Well done${nm ? ' ' + SP.pn(nm) : ''}! The minus for ${SP.date(D.date, 'en')} is done.` }); } catch { } }
     catch (e) { toast(failTx(e)); dn.disabled = false; }
   };
 };
@@ -4274,19 +4334,22 @@ const NT = (() => {
         lss('dt-morning', day);
         const minus = un.filter(e => e.kind === 'day').length, low = un.filter(e => e.kind === 'low').length, rev = un.filter(e => e.kind === 'revise').length;
         const parts = [minus ? `${minus} day${minus > 1 ? 's' : ''} to minus in Uniware` : '', low ? `${low} low stock` : '', rev ? `${rev} revised PI${rev > 1 ? 's' : ''}` : ''].filter(Boolean);
-        if (parts.length) { setTimeout(() => { ROBO.say((new Date().getHours() < 12 ? 'Good morning! ' : 'Namaste! ') + parts.join(' · '), { go: minus ? 'minus' : '', mood: 'active' }); ring(); }, 2600); show('Dermatouch Offline', parts.join(' · '), 'morning', minus ? 'minus' : ''); }
+        const am = new Date().getHours() < 12;
+        const hiP = [minus ? `${minus} दिन का माइनस यूनिवेयर में बाकी है` : '', low ? `${low} SKU का स्टॉक कम है` : '', rev ? `${rev} पी आई बदले हैं` : ''].filter(Boolean);
+        const enP = [minus ? `${minus} day${minus > 1 ? 's' : ''} of minus pending in Uniware` : '', low ? `${low} SKU${low > 1 ? 's are' : ' is'} low` : '', rev ? `${rev} PI${rev > 1 ? 's were' : ' was'} revised` : ''].filter(Boolean);
+        if (parts.length) { setTimeout(() => { ROBO.say((am ? 'Good morning! ' : 'Namaste! ') + parts.join(' · '), { go: minus ? 'minus' : '', mood: 'active', sp: { hi: (am ? 'गुड मॉर्निंग! ' : 'नमस्ते! ') + SP.list(hiP, 'hi') + '।', en: (am ? 'Good morning! ' : 'Hello! ') + SP.list(enP, 'en') + '.' } }); ring(); }, 2600); show('Dermatouch Offline', parts.join(' · '), 'morning', minus ? 'minus' : ''); }
       }
     } else {
       const fresh = evs.filter(e => !known.has(e.id)); fresh.forEach(e => known.add(e.id));
       const shown = fresh.filter(e => !read.has(e.id));
       if (shown.length) {
-        ROBO.say(`<b>${esc(shown[0].title)}</b>${shown[0].body ? '<br>' + esc(shown[0].body).slice(0, 140) : ''}${shown.length > 1 ? `<br>+${shown.length - 1} aur` : ''}`, { ev: shown[0], mood: shown[0].lvl === 'bad' || shown[0].lvl === 'warn' ? 'alert' : 'active' }); SND.buzz([30, 60, 30]); ring();
+        ROBO.say(`<b>${esc(shown[0].title)}</b>${shown[0].body ? '<br>' + esc(shown[0].body).slice(0, 140) : ''}${shown.length > 1 ? `<br>+${shown.length - 1} aur` : ''}`, { ev: shown[0], mood: shown[0].lvl === 'bad' || shown[0].lvl === 'warn' ? 'alert' : 'active', sp: (() => { const p = SP.ev(shown[0]), m = shown.length - 1; return { hi: p.hi + (m ? ` और ${m} नई ख़बरें हैं।` : ''), en: p.en + (m ? ` And ${m} more update${m > 1 ? 's' : ''}.` : '') }; })() }); SND.buzz([30, 60, 30]); ring();
         for (const e of shown.slice(0, 3)) show(e.title, e.body, e.id, goOf(e));
       }
     }
     // evening reminder: today's packing must be minused in Uniware before midnight
     const D = M.dayMinusMap && M.dayMinusMap.get(M.today); const h = new Date().getHours();
-    if (D && (D.state === 'open' || D.state === 'changed') && h >= 21 && lsg('dt-eve') !== M.today) { lss('dt-eve', M.today); ROBO.say(`Aaj ka minus baaki hai: <b>${D.minus} pcs</b>. Raat 12 se pehle Uniware me kar do.`, { go: 'minus', mood: 'alert' }); ring(); show('Minus today in Uniware', `${D.minus} pcs · ${D.lines.length} SKU · download the day sheet`, 'eve', 'minus'); }
+    if (D && (D.state === 'open' || D.state === 'changed') && h >= 21 && lsg('dt-eve') !== M.today) { lss('dt-eve', M.today); ROBO.say(`Aaj ka minus baaki hai: <b>${D.minus} pcs</b>. Raat 12 se pehle Uniware me kar do.`, { go: 'minus', mood: 'alert', sp: { hi: `आज का माइनस बाकी है, ${D.minus} पीस। रात बारह बजे से पहले यूनिवेयर में कर दो।`, en: `Today's minus is pending, ${D.minus} pieces. Please do it in Uniware before midnight.` } }); ring(); show('Minus today in Uniware', `${D.minus} pcs · ${D.lines.length} SKU · download the day sheet`, 'eve', 'minus'); }
     badge();
   }
   const goOf = e => !e.go ? '' : e.go.startsWith('minus') ? 'minus' : e.go.startsWith('b2b') ? 'request' : e.go === 'checks' ? 'health' : '';
@@ -4435,24 +4498,198 @@ function robot(state = 'normal', size = 56) {
       <path class="rb-head" d="M32 12.5 C46.5 12.5 56 19 56 31.5 C56 44.5 46.5 51.5 32 51.5 C17.5 51.5 8 44.5 8 31.5 C8 19 17.5 12.5 32 12.5 Z"/>
       <ellipse class="rb-gloss" cx="21" cy="20.5" rx="6.5" ry="2.4" transform="rotate(-18 21 20.5)"/>
       <g class="rb-eyes"><rect class="rb-eye" x="20.5" y="26" width="6.4" height="10.5" rx="3.2"/><rect class="rb-eye" x="37.1" y="26" width="6.4" height="10.5" rx="3.2"/></g>
-      <path class="rb-smile" d="M27 41.5 Q32 45.5 37 41.5"/></g>
+      <path class="rb-smile" d="M27 41.5 Q32 45.5 37 41.5"/><ellipse class="rb-o" cx="32" cy="43.2" rx="2.4" ry="2.9"/>
+      <path class="rb-brow" d="M19.5 21.5 L28 24.6"/><path class="rb-brow" d="M44.5 21.5 L36 24.6"/>
+      <g class="rb-steam"><circle cx="10" cy="14" r="2.6"/><circle cx="54" cy="14" r="2.6"/><circle cx="7" cy="7" r="1.8"/><circle cx="57" cy="7" r="1.8"/></g>
+      <text class="rb-z" x="47" y="11">z</text><text class="rb-z rb-z2" x="53" y="5">z</text></g>
     <g class="rb-dots">${RB_DOTS}</g></svg></span>`;
 }
+/* ---------- Dermi's voice: Hindi or English, two voices ----------
+   1st choice: natural Google voice through our Netlify function (key stays in Netlify).
+   Fallback: the phone's own voice. Lines spoken once are kept on the phone, so the
+   same line never costs twice. */
+const VOICE = (() => {
+  /* Natural voice: Sarvam (free credits) through our Netlify function. A line is cut
+     into small pieces — fixed words, numbers, names — each made once, kept on the
+     server for every phone and on this phone, then joined back like a railway
+     announcement. Anything not ready → the phone's own voice. */
+  const FN = '/.netlify/functions/voice';
+  let cloud = null, info = {}, lastErr = '', seq = 0, via = '', ac = null, src = null, lastParts = [];
+  const on = () => lsg('dt-voice') !== 'off';
+  const lang = () => lsg('dt-vlang') === 'en' ? 'en' : 'hi';
+  const who = () => lsg('dt-vwho') === 'kid' ? 'kid' : 'girl';
+  async function detect(force) {
+    if (cloud !== null && !force) return cloud;
+    if (location.protocol !== 'https:' && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return (cloud = false);
+    try {
+      const c = new AbortController(); const t = setTimeout(() => c.abort(), 4000);
+      const r = await fetch(FN, { signal: c.signal, cache: 'no-store' }); clearTimeout(t);
+      const j = r.ok && /json/.test(r.headers.get('content-type') || '') ? await r.json() : null;
+      info = j || {}; cloud = !!(j && j.configured);
+    } catch { cloud = false; }
+    return cloud;
+  }
+  /* "आज ⟦73⟧ पीस…" → ['आज', '73', 'पीस…'] */
+  function pieces(text) {
+    const out = [];
+    const push = p => { p = p.replace(/\s+/g, ' ').trim(); if (!p) return; if (!/[\p{L}\p{N}]/u.test(p)) { if (out.length) out[out.length - 1] += p; return; } out.push(p.slice(0, 280)); };
+    for (const chunk of String(text).split(/(⟦[^⟧]*⟧)/)) {
+      if (chunk.startsWith('⟦')) { push(chunk.slice(1, -1)); continue; }
+      for (const s of chunk.split(/(?<=[।.!?])\s+/)) for (const n of s.split(/(?<![\p{L}\d])(\d[\d,]*(?:\.\d+)?)(?![\p{L}\d])/u)) push(n);
+    }
+    return out;
+  }
+  const plain = t => String(t).replace(/[⟦⟧]/g, '');
+  const hash = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36) + s.length; };
+  const CK = 'dt-voice-v2';
+  async function cached(k) { try { const c = await caches.open(CK); const r = await c.match('/__voice/' + k); return r ? await r.arrayBuffer() : null; } catch { return null; } }
+  async function store(k, buf) { try { const c = await caches.open(CK); await c.put('/__voice/' + k, new Response(buf, { headers: { 'Content-Type': 'audio/mpeg' } })); } catch { } }
+  const b64buf = s => { const bin = atob(s); const u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); return u8.buffer; };
+  async function getParts(parts, L, W) {
+    const keys = parts.map(p => hash(W + '|' + L + '|' + p));
+    const bufs = await Promise.all(keys.map(cached));
+    const need = parts.map((p, i) => bufs[i] ? -1 : i).filter(i => i >= 0);
+    if (!need.length) return bufs;
+    if (!(await detect())) return null;
+    if (!tokOk() && !(AUTH.helper() && await AUTH.refresh() === true)) return null;
+    let r; try { r = await fetch(FN, { method: 'POST', headers: { Authorization: 'Bearer ' + tok.a, 'Content-Type': 'application/json' }, body: JSON.stringify({ lang: L, who: W, parts: need.map(i => parts[i]) }) }); } catch { lastErr = 'No internet'; return null; }
+    let j = {}; try { j = await r.json(); } catch { }
+    if (!r.ok) { lastErr = j.message || j.error || 'HTTP ' + r.status; return null; }
+    lastErr = j.budget ? 'budget' : j.error || '';
+    (j.audios || []).forEach((a, x) => { if (!a) return; const i = need[x]; bufs[i] = b64buf(a); store(keys[i], bufs[i].slice(0)); });
+    return bufs.every(Boolean) ? bufs : null;
+  }
+  function ctx() { if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch { ac = null; } } if (ac && ac.state === 'suspended') ac.resume().catch(() => { }); return ac; }
+  ['pointerdown', 'keydown', 'touchend'].forEach(e => addEventListener(e, () => { ctx(); }, { passive: true }));
+  function trim(b) {
+    const d = b.getChannelData(0), th = 0.012; let s = 0, e = d.length - 1;
+    while (s < e && Math.abs(d[s]) < th) s++; while (e > s && Math.abs(d[e]) < th) e--;
+    const pad = Math.floor(b.sampleRate * 0.025); return [Math.max(0, s - pad), Math.min(d.length, e + pad)];
+  }
+  async function join(bufs, parts) {
+    const A = ctx(); if (!A) return null;
+    const dec = await Promise.all(bufs.map(b => new Promise(res => { try { const p = A.decodeAudioData(b.slice(0), res, () => res(null)); if (p && p.catch) p.catch(() => res(null)); } catch { res(null); } })));
+    if (dec.some(x => !x)) return null;
+    const sr = A.sampleRate, cuts = dec.map(trim);
+    const gap = i => i === dec.length - 1 ? 0 : Math.floor(sr * (/[।.!?]$/.test(parts[i]) ? 0.22 : /[,;:]$/.test(parts[i]) ? 0.12 : 0.045));
+    const len = cuts.reduce((a, [s, e], i) => a + (e - s) + gap(i), 0);
+    const outB = A.createBuffer(1, Math.max(1, len), sr); const o = outB.getChannelData(0); let at = 0;
+    dec.forEach((b, i) => { const [s, e] = cuts[i]; o.set(b.getChannelData(0).subarray(s, e), at); at += (e - s) + gap(i); });
+    return outB;
+  }
+  function playBuf(buf, W, o) {
+    return new Promise(res => {
+      const A = ctx(); if (!A || A.state !== 'running') { res(false); return; }
+      const s = A.createBufferSource(); s.buffer = buf; s.playbackRate.value = W === 'kid' ? 1.12 : 1; s.connect(A.destination);
+      s.onended = () => { if (src === s) src = null; o.onend && o.onend(); };
+      src = s; s.start(); o.onstart && o.onstart(); res(true);
+    });
+  }
+  let voices = [];
+  const loadVoices = () => { try { voices = speechSynthesis.getVoices() || []; } catch { } };
+  if ('speechSynthesis' in window) { loadVoices(); try { speechSynthesis.addEventListener('voiceschanged', loadVoices); } catch { } }
+  function pick(L) {
+    if (!voices.length) loadVoices();
+    const order = L === 'hi' ? [/^hi/i] : [/^en[-_]IN/i, /^en[-_]GB/i, /^en/i];
+    for (const re of order) { const c = voices.filter(v => re.test(v.lang)); if (c.length) return c.find(v => /female|lekha|veena|heera|kalpana|swara|neerja|aditi|raveena|google/i.test(v.name)) || c[0]; }
+    return null;
+  }
+  function fromPhone(text, L, W, o) {
+    if (!('speechSynthesis' in window)) return false;
+    try {
+      const u = new SpeechSynthesisUtterance(text); const v = pick(L);
+      if (v) { u.voice = v; u.lang = v.lang; } else u.lang = L === 'hi' ? 'hi-IN' : 'en-IN';
+      u.rate = W === 'kid' ? 1.06 : 0.98; u.pitch = W === 'kid' ? 1.6 : 1.15;
+      u.onstart = () => o.onstart && o.onstart(); u.onend = u.onerror = () => o.onend && o.onend();
+      speechSynthesis.speak(u); return true;
+    } catch { return false; }
+  }
+  function stop() { seq++; try { if (src) { src.onended = null; src.stop(); src = null; } } catch { } try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch { } }
+  const clean = (t, L) => String(t || '').replace(/<br\s*\/?>/gi, L === 'hi' ? '। ' : '. ').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/[·•→|]/g, ', ').replace(/\s+/g, ' ').trim().slice(0, 420);
+  /* sp: { hi, en } or text. o: { lang, who, force, onstart, onend } */
+  async function say(sp, o = {}) {
+    if (!on() && !o.force) return '';
+    const L = o.lang || lang(), W = o.who || who();
+    const text = clean(typeof sp === 'string' ? sp : (sp && (sp[L] || sp.en || sp.hi)), L);
+    if (!plain(text).trim()) return '';
+    stop(); const my = seq;
+    const parts = pieces(text); lastParts = parts;
+    let buf = null;
+    try { const bufs = parts.length ? await getParts(parts, L, W) : null; if (bufs && my === seq) buf = await join(bufs, parts); } catch (e) { lastErr = String((e && e.message) || e); }
+    if (my !== seq) return '';
+    if (buf && await playBuf(buf, W, o)) return (via = 'cloud');
+    return (via = fromPhone(plain(text), L, W, o) ? 'phone' : '');
+  }
+  return { say, stop, detect, on, lang, who, pieces, g: (m, f) => who() === 'kid' ? m : f, status: () => ({ cloud, info, lastErr, via, parts: lastParts, phone: 'speechSynthesis' in window, hiPhone: !!pick('hi') }) };
+})();
+
+/* words Dermi speaks */
+const SP = (() => {
+  const HM = ['जनवरी', 'फ़रवरी', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुलाई', 'अगस्त', 'सितंबर', 'अक्टूबर', 'नवंबर', 'दिसंबर'];
+  const EM = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const date = (iso, L) => { const [, m, d] = String(iso || '').split('-'); return m ? `⟦${+d} ${(L === 'hi' ? HM : EM)[+m - 1]}⟧` : ''; };
+  const name = sku => { const s = st.M && st.M.stockMap.get(nk(sku)); const n = (s && s.name) || String(sku || '').replace(/[_-]+/g, ' '); return '⟦' + n.replace(/(\d)\s*ml\b/gi, '$1 ML').replace(/(\d)\s*gm?\b/gi, '$1 gram') + '⟧'; };
+  const doc = (d, L) => { const m = String(d || '').match(/(\d+)\D*$/); return (L === 'hi' ? 'डॉक ' : 'Doc ') + (m ? m[1] : d); };
+  const list = (a, L) => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + (L === 'hi' ? ' और ' : ' and ') + a[a.length - 1];
+  function ev(e) {
+    const M = st.M || {};
+    if (e.kind === 'low' || e.kind === 'trend') {
+      const x = (M.lowList || []).find(s => s.sku === e.sku) || {}; const n = name(e.sku);
+      const a = x.alert || (e.kind === 'trend' ? 'rising' : 'low'); const g = x.good || 0, p = x.pending || 0, bx = x.needBoxes || 0, w = (x.trend || {}).last7 || 0;
+      return {
+        hi: ({ out: `${n} ख़त्म हो गया है, ऑफ़लाइन में एक भी नहीं बचा।`, short: `${n} पेंडिंग ऑर्डर के लिए कम पड़ रहा है। ऑफ़लाइन में ${g} हैं, और ${p} पैक करने हैं।`, low: `${n} का स्टॉक कम है, ऑफ़लाइन में सिर्फ़ ${g} बचे हैं।`, soon: `पेंडिंग ऑर्डर पैक होने के बाद ${n} कम हो जाएगा।`, rising: `${n} के ऑर्डर तेज़ी से बढ़ रहे हैं, इस हफ़्ते ${w} पीस आए।` }[a] || e.title) + (bx ? ` B2B से ${bx} बॉक्स मँगा लो।` : ''),
+        en: ({ out: `${n} is out of stock in offline.`, short: `${n} is short for pending orders. ${g} in offline, ${p} to pack.`, low: `${n} is running low. Only ${g} left in offline.`, soon: `${n} will run low after the pending orders are packed.`, rising: `Orders for ${n} are rising fast. ${w} pieces this week.` }[a] || e.title) + (bx ? ` Please ask B2B for ${bx} box${bx > 1 ? 'es' : ''}.` : '')
+      };
+    }
+    if (e.kind === 'revise') return {
+      hi: `${doc(e.doc, 'hi')} का पी आई बदल गया है${e.afterPack ? ', और ये पैकिंग के बाद बदला है' : ''}।${e.plus ? ` ${e.plus} पीस बढ़े।` : ''}${e.minus ? ` ${e.minus} पीस घटे।` : ''}`,
+      en: `${doc(e.doc, 'en')} was revised${e.afterPack ? ' after packing' : ''}.${e.plus ? ` ${e.plus} pieces added.` : ''}${e.minus ? ` ${e.minus} pieces removed.` : ''}`
+    };
+    if (e.kind === 'day') {
+      const d = e.date; const D = (M.dayMinusMap && M.dayMinusMap.get(d)) || {};
+      return /changed/.test(e.id) ? { hi: `${date(d, 'hi')} का माइनस डन करने के बाद बदल गया है, दोबारा देख लो।`, en: `The minus for ${date(d, 'en')} changed after it was marked done. Please check again.` }
+        : { hi: `${date(d, 'hi')} का माइनस यूनिवेयर में अभी बाकी है${D.minus ? `, ${D.minus} पीस` : ''}।`, en: `The minus for ${date(d, 'en')} is still pending in Uniware${D.minus ? `, ${D.minus} pieces` : ''}.` };
+    }
+    if (e.kind === 'b2b') return { hi: 'B2B टीम का जवाब आ गया है, देख लो।', en: 'The B2B team has replied. Please have a look.' };
+    if (e.kind === 'check') return { hi: `डेटा चेक में गड़बड़ी मिली है, ${parseInt(e.body) || ''} चीज़ें देखनी हैं।`, en: `Data check found a problem: ${e.title}.` };
+    return { hi: e.title, en: e.title };
+  }
+  const pn = n => n ? '⟦' + n + '⟧' : '';
+  return { date, name, doc, list, ev, pn };
+})();
+
 const ROBO = (() => {
   let wrap, face, bubble, hideT, backT, ev = null, gTo = '';
   const on = () => lsg('dt-robo') !== 'off';
-  const voiceOn = () => lsg('dt-voice') === 'on';
   function mount() {
     if (wrap) return;
     wrap = document.createElement('div'); wrap.id = 'robo';
     wrap.innerHTML = `<div id="roboSay" role="status" aria-live="polite"></div><button id="roboBtn" type="button" aria-label="Dermi — app dost">${robot('normal', 58)}</button>`;
     document.body.appendChild(wrap); face = wrap.querySelector('#roboBtn .rb'); bubble = wrap.querySelector('#roboSay');
-    wrap.querySelector('#roboBtn').onclick = () => { hide(); chat(); };
-    bubble.onclick = e => { if (e.target.closest('.rs-x')) { hide(); return; } const e2 = ev, g = gTo; hide(); if (e2) NT.openEv(e2); else if (g) go_(g); else chat(); };
+    wrap.querySelector('#roboBtn').onclick = () => {
+      taps = taps.filter(t => Date.now() - t < 1800); taps.push(Date.now()); clearTimeout(tapT);
+      if (taps.length >= 4) { taps = []; set('party', 2000); SND.play('roboParty'); say('Hihihi 🤭 gudgudi ho rahi hai!', { mood: 'party', silent: true, ms: 4000, sp: { hi: 'हीहीही! गुदगुदी हो रही है!', en: 'Hee hee! That tickles!' } }); return; }
+      if (taps.length > 1) { set('happy', 600); SND.play('tap'); }
+      tapT = setTimeout(() => { taps = []; hide(); lastRem = 0; chat(); }, 330);
+    };
+    bubble.onclick = e => { if (e.target.closest('.rs-x')) { hide(); VOICE.stop(); ignored(); return; } lastRem = 0; const e2 = ev, g = gTo; hide(); if (e2) NT.openEv(e2); else if (g) go_(g); else chat(); };
   }
   const go_ = g => { const [v, x] = g.split(':'); go(v, x); };
-  function show() { mount(); wrap.hidden = !on() || document.body.classList.contains('gate') || !st.M; }
-  function set(state, ms) { mount(); clearTimeout(backT); face.className = 'rb masc rb-' + state; if (ms) backT = setTimeout(() => { face.className = 'rb masc rb-normal'; }, ms); }
+  /* names: USERS → TEAM → what you told Dermi → asks */
+  const cap = n => { n = String(n || '').trim().split(/\s+/)[0] || ''; return n ? n[0].toUpperCase() + n.slice(1).toLowerCase() : ''; };
+  const fromMail = e => cap(String(e || '').split('@')[0].replace(/[._\-\d]+/g, ' '));
+  function myName() {
+    const em = String(st.user || '').toLowerCase();
+    const u = ME().name; if (u && !u.includes('@')) return cap(u);
+    try { const m = teamData().list.find(x => x.email && x.email.toLowerCase() === em); if (m && m.name) return cap(m.name); } catch { }
+    return cap(lsg('dt-myname') || '');
+  }
+  const personName = m => { const n = m.name && !String(m.name).includes('@') ? m.name : ((st.users || []).find(u => u.email === m.email) || {}).name; return cap(n && !n.includes('@') ? n : '') || fromMail(m.email || m.name); };
+  let askName = false;
+  function show() { mount(); wrap.hidden = !on() || document.body.classList.contains('gate') || !st.M; if (!wrap.hidden) startRem(); }
+  function set(state, ms) { mount(); clearTimeout(backT); const t = face.classList.contains('rb-talk'); face.className = 'rb masc rb-' + state + (t ? ' rb-talk' : ''); if (ms) backT = setTimeout(() => { face.className = 'rb masc rb-normal' + (face.classList.contains('rb-talk') ? ' rb-talk' : ''); }, ms); }
+  const talk = b => { $$('.rb').forEach(r => r.classList.toggle('rb-talk', b && (r === face || !!r.closest('.rb-hd, #rbLog .rmsg:last-child')))); };
+  function speak(sp) { return VOICE.say(sp, { onstart: () => talk(true), onend: () => talk(false) }); }
   function say(text, o = {}) {
     show(); if (wrap.hidden) { toast(text.replace(/<[^>]+>/g, '')); return; }
     ev = o.ev || null; gTo = o.go || '';
@@ -4460,122 +4697,254 @@ const ROBO = (() => {
     bubble.classList.remove('on'); void bubble.offsetWidth; bubble.classList.add('on');
     set(o.mood || 'active', 2400);
     if (!o.silent) SND.play('notify');
-    speak(text);
-    clearTimeout(hideT); hideT = setTimeout(hide, o.ms || 9000);
+    setTimeout(() => speak(o.sp || text), o.silent ? 0 : 650);
+    clearTimeout(hideT); hideT = setTimeout(hide, o.ms || 11000);
   }
   function hide() { if (bubble) bubble.classList.remove('on'); }
-  function speak(text) {
-    if (!voiceOn() || !('speechSynthesis' in window)) return;
-    try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text.replace(/<[^>]+>/g, ' ').replace(/[·•→]/g, ',').slice(0, 220)); const v = speechSynthesis.getVoices().find(x => /en-IN|hi-IN/i.test(x.lang)); if (v) u.voice = v; u.lang = v ? v.lang : 'en-IN'; u.rate = 1.02; u.pitch = 1.25; speechSynthesis.speak(u); } catch { }
+  /* ---------- faces, idle, reminders ---------- */
+  let idleT = 0, taps = [], tapT = 0;
+  function poke() { clearTimeout(idleT); if (face && /rb-sleepy/.test(face.className)) { set('active', 1200); SND.play('roboHi'); } idleT = setTimeout(() => { if (face && /rb-normal/.test(face.className) && !document.hidden) { set('sleepy'); SND.play('roboSleep'); } }, 4 * 60e3); }
+  ['pointerdown', 'keydown'].forEach(e => addEventListener(e, poke, { passive: true }));
+  function cheer(text, sp) { set('party', 2600); SND.play('roboParty'); if (text) say(text, { mood: 'party', sp, silent: true, ms: 6000 }); }
+  const remOn = () => lsg('dt-remind') !== 'off';
+  const REM = {
+    alert: [
+      ['Yaad dila rahi hoon — <b>{d}</b> ka minus Uniware me abhi baaki hai.', '{d} का माइनस यूनिवेयर में अभी बाकी है। जल्दी कर लो।', 'Reminder: the minus for {d} is still pending in Uniware.'],
+      ['Minus baaki hai: <b>{n}</b> din. Day Excel nikaalo aur Uniware me kar do.', '{n} दिन का माइनस बाकी है। डे एक्सेल निकालो और यूनिवेयर में कर दो।', '{n} days of minus are pending. Download the day sheet and do it in Uniware.']
+    ],
+    angry: [
+      ['😤 Ye theek nahi hai{nm}! <b>{n}</b> din se minus nahi hua. Abhi karo!', 'ये ठीक नहीं है{nm}! {n} दिन से माइनस नहीं हुआ। अभी करो!', 'This is not okay{nm}! The minus has been pending for {n} days. Do it now!'],
+      ['😠 Kitni baar bolun{nm}? <b>{d}</b> ka minus abhi bhi baaki hai. Stock galat dikh raha hai!', 'कितनी बार बोलूँ{nm}? {d} का माइनस अभी भी बाकी है। स्टॉक गलत दिख रहा है!', 'How many times do I have to say it{nm}? The minus for {d} is still pending. The stock looks wrong!'],
+      ['😡 Main naraz hoon{nm}! Pehle Uniware me minus karo, phir baat karenge.', 'मैं नाराज़ {hu}{nm}! पहले यूनिवेयर में माइनस करो, फिर बात करेंगे।', "I'm upset{nm}! Do the minus in Uniware first, then we'll talk."]
+    ],
+    today: [
+      ['Aaj ka minus baaki hai: <b>{p} pcs</b>. Raat 12 se pehle kar dena.', 'आज का माइनस बाकी है, {p} पीस। रात बारह बजे से पहले कर देना।', "Today's minus is pending, {p} pieces. Please finish it before midnight."]
+    ]
+  };
+  function remind(force) {
+    const M = st.M; if (!M || !can('minus') || !wrap || wrap.hidden || (!remOn() && !force)) return false;
+    const open = M.dayOpen.filter(x => x.date < M.today).sort((a, b) => a.date.localeCompare(b.date));
+    const D = M.dayMinusMap.get(M.today); const h = new Date().getHours();
+    const todayDue = D && (D.state === 'open' || D.state === 'changed') && h >= 18;
+    if (!open.length && !todayDue) return false;
+    let R = {}; try { R = JSON.parse(lsg('dt-rem') || '{}'); } catch { }
+    if (R.d !== M.today) R = { d: M.today, n: 0, t: 0 };
+    const gap = open.length ? 2 * 3600e3 : h >= 22 ? 30 * 60e3 : 3600e3;
+    if (!force && Date.now() - (R.t || 0) < gap) return false;
+    R.n++; R.t = Date.now(); lss('dt-rem', JSON.stringify(R));
+    const old = open.length ? diffDays(open[0].date, M.today) : 0;
+    const kind = open.length ? (open.length >= 2 || old >= 2 || R.n >= 3 ? 'angry' : 'alert') : (h >= 23 || R.n >= 3 ? 'angry' : 'today');
+    const L = REM[kind]; const line = L[(R.n - 1) % L.length];
+    const nm = myName(); const d0 = open[0] ? open[0].date : M.today;
+    const fill = (t, lang) => t.replace('{d}', lang === 'tx' ? fS(d0) : SP.date(d0, lang)).replace('{n}', open.length || 1).replace('{p}', D ? D.minus : 0).replace('{nm}', nm ? (lang === 'tx' ? ' ' + esc(nm) : ' ' + SP.pn(nm)) : '').replace('{hu}', 'हूँ');
+    const mood = kind === 'angry' ? 'angry' : 'alert';
+    say(fill(line[0], 'tx'), { go: 'minus', mood, ms: 15000, sp: { hi: fill(line[1], 'hi'), en: fill(line[2], 'en') }, silent: true });
+    SND.play(kind === 'angry' ? 'roboAngry' : 'notify'); SND.buzz(kind === 'angry' ? [60, 50, 60, 50, 60] : [30, 60, 30]);
+    lastRem = Date.now();
+    return true;
   }
-  let busyT = 0;
-  function busy(b, changed) { if (!wrap) return; if (b) { set('loading'); SND.play('roboLoad'); } else { clearTimeout(busyT); if (changed) set('active', 1300); else set('normal'); } }
+  let lastRem = 0;
+  function ignored() {
+    if (Date.now() - lastRem > 20000) return;
+    lastRem = 0; set('pout', 2600); SND.play('roboPout');
+    const nm = myName();
+    setTimeout(() => say(`Hmph! 😤 Mujhe ignore mat karo${nm ? ' ' + esc(nm) : ''}… minus abhi bhi baaki hai.`, { mood: 'pout', silent: true, ms: 6000, sp: { hi: `हम्फ़! मुझे इग्नोर मत करो${nm ? ' ' + SP.pn(nm) : ''}। माइनस अभी भी बाकी है।`, en: `Hmph! Don't ignore me${nm ? ' ' + SP.pn(nm) : ''}. The minus is still pending.` } }), 450);
+  }
+  let remStarted = false;
+  function startRem() { if (remStarted) return; remStarted = true; setTimeout(() => { remind(); setInterval(() => remind(), 60e3); }, 120e3); poke(); }
+  function busy(b, changed) { if (!wrap) return; if (b) { set('loading'); SND.play('roboLoad'); } else { if (changed) set('active', 1300); else set('normal'); } }
   window.__roboHook = name => { if (!face) return; if (name === 'success') { set('active', 1600); } else if (name === 'error') { set('sad', 1800); } };
 
   /* ---------- chat: answers from the app's own data ---------- */
   const log = [];
   const pcs = n => `${fN(n)} pcs`;
   const btn = (label, attrs) => `<button class="btn sm" ${attrs}>${label}</button>`;
-  const noRight = page => ({ text: `Is cheez ki permission aapke paas nahi hai (${permLabel(page)}). Admin se bolo.`, mood: 'sad' });
+  const noRight = page => ({ text: `Is cheez ki permission aapke paas nahi hai (${permLabel(page)}). Admin se bolo.`, mood: 'sad', hi: 'ये देखने की परमिशन आपके पास नहीं है, एडमिन से बोलो।', en: "You don't have permission to see this. Please ask the admin." });
+  const HREQ = { draft: ['मेल अभी नहीं गया', 'the mail has not gone yet'], sent: ['मेल चला गया, जवाब का इंतज़ार है', 'the mail is sent, waiting for a reply'], replied: ['B2B ने जवाब दे दिया है', 'B2B has replied'], received: ['माल आ गया है', 'the stock has arrived'] };
   function answer(q0) {
-    const M = st.M; if (!M) return { text: 'Abhi data load ho raha hai, ek second.' , mood: 'loading' };
+    const M = st.M; if (!M) return { text: 'Abhi data load ho raha hai, ek second.', mood: 'loading', hi: 'अभी डेटा लोड हो रहा है, एक सेकंड।', en: 'Data is still loading, one second.' };
     const q = q0.toLowerCase().trim(); const k = M.k;
     const has = (...w) => w.some(x => q.includes(x));
-    if (!q || has('hi', 'hello', 'namaste', 'hey', 'helo')) return { text: greet() };
-    if (has('thank', 'shukriya', 'dhanyavad', 'thanks')) return { text: 'Koi baat nahi! Main yahin hoon 🙂' };
-    if (has('help', 'madad', 'kya kar', 'kya pooch')) return { text: 'Mujhse ye pooch sakte ho: aaj ka minus, pending kitna hai, low stock, kaun online hai, aaj ka dispatch, revised PI, B2B request, ya koi bhi doc number ya SKU (jaise 5304 ya best serum).' };
+    const nmM = q0.match(/(?:mera naam|my name is|my name)\s+(?:hai\s+)?([A-Za-z\u0900-\u097F]{2,20})(?:\s+hai)?\s*$/i) || (askName && /^[A-Za-z\u0900-\u097F]{2,20}(\s+[A-Za-z\u0900-\u097F]{2,20})?$/.test(q0.trim()) && !INTENT.test(q) && !searchSku(q0, 1).length ? [0, q0.trim()] : null);
+    if (nmM) { askName = false; const n = cap(nmM[1]); lss('dt-myname', n); return { text: `Hello <b>${esc(n)}</b>! 🤝 Ab main aapko naam se ${VOICE.g('bulaunga', 'bulaungi')}.${ME().name ? '' : ' (Admin Team page me bhi naam daal de to har phone pe yaad rahega.)'}`, mood: 'party', hi: `हेलो ${SP.pn(n)}! अब मैं आपको नाम से ${VOICE.g('बुलाऊँगा', 'बुलाऊँगी')}।`, en: `Hello ${SP.pn(n)}! I'll call you by your name from now on.` }; }
+    if (!q || /^(hi|hello|hey|helo|namaste|namaskar|नमस्ते)\b/.test(q)) return greet();
+    if (has('thank', 'shukriya', 'dhanyavad', 'धन्यवाद')) return { text: 'Koi baat nahi! Main yahin hoon 🙂', hi: 'कोई बात नहीं! मैं यहीं हूँ।', en: "You're welcome! I'm right here." };
+    if (has('help', 'madad', 'kya kar', 'kya pooch')) return { text: 'Mujhse ye pooch sakte ho: aaj ka minus, pending kitna hai, low stock, kaun online hai, aaj ka dispatch, revised PI, B2B request, koi doc number (jaise 9002), ya product — "best" (saare variant + qty), "best ka dimension", "best case size", "best ean". Apna naam batana ho to: "mera naam Ramesh hai".', hi: 'आप मुझसे पूछ सकते हो: आज का माइनस, कितना पेंडिंग है, लो स्टॉक, कौन ऑनलाइन है, आज का डिस्पैच, या कोई डॉक नंबर या SKU।', en: "You can ask me about today's minus, pending orders, low stock, who is online, today's dispatch, or any doc number or SKU." };
+    const pq = productQ(q0, q, true); if (pq) return pq;
     const docM = q.match(/(?:doc[-\s]?pi[-\s]?)?(\d{4,6})/);
     if (docM && !has('sku')) {
       if (!can('docs')) return noRight('docs');
       const d = M.docs.find(x => nk(x.doc).endsWith(docM[1]));
-      if (d) return { text: `<b>${esc(d.doc)}</b> · ${esc(d.name)} · ${d.status === 'dispatched' ? `dispatch ho gaya ${fD(d.dd)} (${esc(d.courier || 'courier nahi likha')})` : d.status === 'packed' ? `pack ho gaya${d.packDate ? ' ' + fD(d.packDate) : ''}, dispatch baaki` : `pending hai, ${d.age ?? '—'} din se`} · ${d.lines.length ? pcs(d.pcs) : 'SKU data nahi bhara'}${d.b2bPick ? ' · B2B pick' : ''}${d.revised ? ' · revised PI' : ''}`, html: btn('Doc kholo', `data-doc="${esc(d.key)}"`) };
+      if (d) {
+        const hiSt = d.status === 'dispatched' ? `${SP.date(d.dd, 'hi')} को डिस्पैच हो गया है।` : d.status === 'packed' ? 'पैक हो गया है, डिस्पैच बाकी है।' : `अभी पैक होना बाकी है${d.age ? `, ${d.age} दिन से` : ''}।`;
+        const enSt = d.status === 'dispatched' ? `It was dispatched on ${SP.date(d.dd, 'en')}.` : d.status === 'packed' ? 'It is packed, dispatch is pending.' : `It is still waiting to be packed${d.age ? `, for ${d.age} days` : ''}.`;
+        return { text: `<b>${esc(d.doc)}</b> · ${esc(d.name)} · ${d.status === 'dispatched' ? `dispatch ho gaya ${fD(d.dd)} (${esc(d.courier || 'courier nahi likha')})` : d.status === 'packed' ? `pack ho gaya${d.packDate ? ' ' + fD(d.packDate) : ''}, dispatch baaki` : `pending hai, ${d.age ?? '—'} din se`} · ${d.lines.length ? pcs(d.pcs) : 'SKU data nahi bhara'}${d.b2bPick ? ' · B2B pick' : ''}${d.revised ? ' · revised PI' : ''}${d.lines.length ? `<div class="rlist">${d.lines.slice(0, 12).map(l => `<button type="button" data-sku="${esc(l.k)}"><span>${esc(l.sku)}</span><b>${fN(l.qty)}</b></button>`).join('')}${d.lines.length > 12 ? `<em>+${d.lines.length - 12} aur</em>` : ''}</div>` : ''}`, html: btn('Doc kholo', `data-doc="${esc(d.key)}"`),
+          hi: `${SP.doc(d.doc, 'hi')} ${SP.pn(d.name)} का है। ${hiSt}${d.lines.length ? ` कुल ${d.pcs} पीस, ${d.skuCount} SKU। ${SP.list(d.lines.slice(0, 3).map(l => `${SP.name(l.sku)} ${l.qty}`), 'hi')}${d.lines.length > 3 ? ', और बाकी स्क्रीन पर।' : '।'}` : ''}`,
+          en: `${SP.doc(d.doc, 'en')} is for ${SP.pn(d.name)}. ${enSt}${d.lines.length ? ` ${d.pcs} pieces in ${d.skuCount} SKUs: ${SP.list(d.lines.slice(0, 3).map(l => `${SP.name(l.sku)} ${l.qty}`), 'en')}${d.lines.length > 3 ? ', and more on screen.' : '.'}` : ''}` };
+      }
     }
-    if (has('minus', 'uniware')) {
+    if (has('minus', 'uniware', 'माइनस')) {
       if (!can('minus')) return noRight('minus');
       const D = M.dayMinusMap.get(M.today); const open = M.dayOpen.filter(x => x.date < M.today);
       st.ui.minus.date = D ? M.today : (open[0] || {}).date || M.today;
-      return { text: `${D ? `Aaj ${pcs(D.minus)} minus${D.back ? `, ${pcs(D.back)} wapas add` : ''}, ${D.lines.length} SKU, ${D.docs.length} doc — ${D.state === 'done' ? 'Uniware me done ✔' : 'Uniware me karna baaki'}.` : 'Aaj abhi kuch pack nahi hua.'}${open.length ? ` ${open.length} purane din abhi done nahi: ${open.slice(0, 3).map(x => fS(x.date)).join(', ')}.` : ''}`, html: btn('Minus page', 'data-go="minus"') + (D ? btn('Day Excel', 'data-mx="day"') : ''), mood: open.length ? 'alert' : 'active' };
+      return { text: `${D ? `Aaj ${pcs(D.minus)} minus${D.back ? `, ${pcs(D.back)} wapas add` : ''}, ${D.lines.length} SKU, ${D.docs.length} doc — ${D.state === 'done' ? 'Uniware me done ✔' : 'Uniware me karna baaki'}.` : 'Aaj abhi kuch pack nahi hua.'}${open.length ? ` ${open.length} purane din abhi done nahi: ${open.slice(0, 3).map(x => fS(x.date)).join(', ')}.` : ''}`, html: btn('Minus page', 'data-go="minus"') + (D ? btn('Day Excel', 'data-mx="day"') : ''), mood: open.length ? 'alert' : 'active',
+        hi: (D ? `आज ${D.minus} पीस का माइनस है${D.back ? `, और ${D.back} पीस वापस जोड़ने हैं` : ''}। ${D.lines.length} SKU, ${D.docs.length} डॉक। ${D.state === 'done' ? 'यूनिवेयर में हो गया है।' : 'यूनिवेयर में करना बाकी है।'}` : 'आज अभी कुछ पैक नहीं हुआ।') + (open.length ? ` ${open.length} पुराने दिन का माइनस भी बाकी है।` : ''),
+        en: (D ? `Today's minus is ${D.minus} pieces${D.back ? `, with ${D.back} to add back` : ''}. ${D.lines.length} SKUs from ${D.docs.length} docs. ${D.state === 'done' ? 'It is done in Uniware.' : 'It is not done in Uniware yet.'}` : 'Nothing has been packed today yet.') + (open.length ? ` ${open.length} older day${open.length > 1 ? 's are' : ' is'} still pending.` : '') };
     }
-    if (has('pending', 'baaki', 'baki', 'pack nahi')) {
+    if (has('pending', 'baaki', 'baki', 'pack nahi', 'पेंडिंग')) {
       if (!can('pending') && !can('home')) return noRight('pending');
-      const old = M.pending.reduce((a, d) => Math.max(a, d.age || 0), 0);
-      return { text: `${pcs(k.pendingPcs)} pack hona baaki hai — ${fN(k.pending)} doc, ${fN(M.demand.length)} SKU. ${k.overdue ? `${k.overdue} doc ${M.sla} din se zyada purane (sabse purana ${old} din).` : 'Koi late nahi.'}${M.demand.some(x => x.short) ? ` ${M.demand.filter(x => x.short).length} SKU me stock kam pad raha hai.` : ''}`, html: btn('Pending dekho', 'data-go="pending"'), mood: k.overdue ? 'alert' : 'active' };
+      const old = M.pending.reduce((a, d) => Math.max(a, d.age || 0), 0); const sh = M.demand.filter(x => x.short).length;
+      return { text: `${pcs(k.pendingPcs)} pack hona baaki hai — ${fN(k.pending)} doc, ${fN(M.demand.length)} SKU. ${k.overdue ? `${k.overdue} doc ${M.sla} din se zyada purane (sabse purana ${old} din).` : 'Koi late nahi.'}${sh ? ` ${sh} SKU me stock kam pad raha hai.` : ''}`, html: btn('Pending dekho', 'data-go="pending"'), mood: k.overdue ? 'alert' : 'active',
+        hi: `${k.pendingPcs} पीस पैक होना बाकी है, ${k.pending} डॉक में। ${k.overdue ? `${k.overdue} डॉक ${M.sla} दिन से ज़्यादा ${k.overdue > 1 ? 'पुराने हैं' : 'पुराना है'}।` : 'कोई डॉक लेट नहीं है।'}${sh ? ` ${sh} SKU में स्टॉक कम पड़ रहा है।` : ''}`,
+        en: `${k.pendingPcs} pieces are waiting to be packed, across ${k.pending} doc${k.pending === 1 ? '' : 's'}. ${k.overdue ? `${k.overdue} doc${k.overdue > 1 ? 's are' : ' is'} older than ${M.sla} days.` : 'Nothing is late.'}${sh ? ` ${sh} SKUs are short on stock.` : ''}` };
     }
-    if (has('online', 'kaun', 'active', 'team', 'log hai')) {
+    if (has('online', 'kaun', 'active', 'team', 'log hai', 'ऑनलाइन')) {
       if (!can('team')) return noRight('team');
-      const T = teamData(); const a = T.list.filter(m => m.active);
-      return { text: `${a.length} log active hain (${T.list.length} me se). Abhi app pe ${T.online.length ? T.online.map(m => esc((m.name || m.email).split(' ')[0])).join(', ') : 'koi aur online nahi'}.`, html: btn('Team page', 'data-go="team"') };
+      const T = teamData(); const a = T.list.filter(m => m.active); const nm = T.online.map(personName);
+      return { text: `${a.length} log active hain (${T.list.length} me se). Abhi app pe ${nm.length ? nm.map(esc).join(', ') : 'koi aur online nahi'}.`, html: btn('Team page', 'data-go="team"'),
+        hi: `${a.length} लोग एक्टिव हैं। ${nm.length ? `अभी ऐप पर ${SP.list(nm.map(SP.pn), 'hi')} ऑनलाइन ${nm.length > 1 ? 'हैं' : 'है'}।` : 'अभी ऐप पर और कोई ऑनलाइन नहीं है।'}`,
+        en: `${a.length} people are active. ${nm.length ? `${SP.list(nm.map(SP.pn), 'en')} ${nm.length > 1 ? 'are' : 'is'} online right now.` : 'Nobody else is online right now.'}` };
     }
     if (has('badh', 'rising', 'zyada order', 'trend')) {
       if (!can('stock')) return noRight('stock');
-      return { text: M.rising.length ? `In SKU me order badh rahe hain: ${M.rising.slice(0, 5).map(s => `${esc(s.sku)} (${s.trend.last7} is hafte)`).join(', ')}.` : 'Abhi kisi SKU me order tezi se nahi badh rahe.', html: btn('Stock alerts', 'data-go="stock:lowalert"'), mood: M.rising.length ? 'alert' : 'active' };
+      const R = M.rising.slice(0, 3);
+      return { text: M.rising.length ? `In SKU me order badh rahe hain: ${M.rising.slice(0, 5).map(s => `${esc(s.sku)} (${s.trend.last7} is hafte)`).join(', ')}.` : 'Abhi kisi SKU me order tezi se nahi badh rahe.', html: btn('Stock alerts', 'data-go="stock:lowalert"'), mood: M.rising.length ? 'alert' : 'active',
+        hi: R.length ? `इनके ऑर्डर बढ़ रहे हैं: ${SP.list(R.map(s => `${SP.name(s.sku)} के इस हफ़्ते ${s.trend.last7}`), 'hi')}।` : 'अभी किसी SKU के ऑर्डर तेज़ी से नहीं बढ़ रहे।',
+        en: R.length ? `Orders are rising for ${SP.list(R.map(s => `${SP.name(s.sku)} with ${s.trend.last7} this week`), 'en')}.` : 'No SKU has fast-rising orders right now.' };
     }
-    if (has('low', 'kam', 'khatam', 'out of stock', 'alert', 'stock')) {
+    if (has('low', 'kam', 'khatam', 'out of stock', 'alert', 'stock', 'स्टॉक')) {
       if (!can('stock')) return noRight('stock');
-      const L = M.lowList.filter(s => s.alert !== 'rising');
-      return { text: L.length ? `${L.length} SKU low hain. Sabse zaroori: ${L.slice(0, 5).map(s => `${esc(s.sku)} (${fN(s.good)} offline${s.pending ? `, ${fN(s.pending)} pending` : ''})`).join(', ')}.` : 'Sab SKU theek hain, koi low nahi 👍', html: btn('Stock alerts', 'data-go="stock:lowalert"') + (can('request') && L.length ? btn('B2B se mangao', 'data-go="request"') : ''), mood: L.length ? 'alert' : 'active' };
+      const L = M.lowList.filter(s => s.alert !== 'rising'); const T3 = L.slice(0, 3);
+      return { text: L.length ? `${L.length} SKU low hain. Sabse zaroori: ${L.slice(0, 5).map(s => `${esc(s.sku)} (${fN(s.good)} offline${s.pending ? `, ${fN(s.pending)} pending` : ''})`).join(', ')}.` : 'Sab SKU theek hain, koi low nahi 👍', html: btn('Stock alerts', 'data-go="stock:lowalert"') + (can('request') && L.length ? btn('B2B se mangao', 'data-go="request"') : ''), mood: L.length ? 'alert' : 'active',
+        hi: L.length ? `${L.length} SKU कम हैं। सबसे ज़रूरी: ${SP.list(T3.map(s => `${SP.name(s.sku)} में ${s.good} बचे`), 'hi')}।` : 'सब SKU ठीक हैं, कोई कम नहीं है।',
+        en: L.length ? `${L.length} SKUs are low. Most urgent: ${SP.list(T3.map(s => `${SP.name(s.sku)} with ${s.good} left`), 'en')}.` : 'All SKUs are fine, nothing is low.' };
     }
-    if (has('dispatch', 'courier', 'bheja', 'nikla')) {
+    if (has('dispatch', 'courier', 'bheja', 'nikla', 'डिस्पैच')) {
       if (!can('dispatch')) return noRight('dispatch');
       const D = M.dayMap.get(M.today);
-      return { text: D ? `Aaj ${D.docs.length} doc dispatch hue, ${pcs(D.pcs)}. Courier: ${[...D.couriers.entries()].map(([c, n]) => `${esc(c)} ${n}`).join(', ')}.` : `Aaj abhi koi dispatch nahi. ${fN(k.toDispatch)} doc pack hoke courier ka wait kar rahe hain.`, html: btn('Dispatch', 'data-go="dispatch"') };
+      return { text: D ? `Aaj ${D.docs.length} doc dispatch hue, ${pcs(D.pcs)}. Courier: ${[...D.couriers.entries()].map(([c, n]) => `${esc(c)} ${n}`).join(', ')}.` : `Aaj abhi koi dispatch nahi. ${fN(k.toDispatch)} doc pack hoke courier ka wait kar rahe hain.`, html: btn('Dispatch', 'data-go="dispatch"'),
+        hi: D ? `आज ${D.docs.length} डॉक डिस्पैच हुए, ${D.pcs} पीस।` : `आज अभी कोई डिस्पैच नहीं हुआ। ${k.toDispatch} डॉक पैक होकर कूरियर का इंतज़ार कर रहे हैं।`,
+        en: D ? `${D.docs.length} docs were dispatched today, ${D.pcs} pieces.` : `Nothing dispatched yet today. ${k.toDispatch} packed docs are waiting for the courier.` };
     }
     if (has('revise', 'revised', 'badla')) {
       if (!can('docs')) return noRight('docs');
-      const R = M.events.filter(e => e.kind === 'revise').slice(0, 3);
-      return { text: R.length ? R.map(e => `<b>${esc(e.doc)}</b> (${fS(e.date)}): ${esc(e.body)}`).join('<br>') : 'Pichhle 30 din me koi PI revise nahi hua.', html: btn('Revised docs', 'data-go="docs:revised"') };
+      const all = M.events.filter(e => e.kind === 'revise'); const R = all.slice(0, 3);
+      return { text: R.length ? R.map(e => `<b>${esc(e.doc)}</b> (${fS(e.date)}): ${esc(e.body)}`).join('<br>') : 'Pichhle 30 din me koi PI revise nahi hua.', html: btn('Revised docs', 'data-go="docs:revised"'),
+        hi: R.length ? `पिछले तीस दिन में ${all.length} बार पी आई बदला। सबसे नया: ${SP.ev(R[0]).hi}` : 'पिछले तीस दिन में कोई पी आई नहीं बदला।',
+        en: R.length ? `${all.length} PI revisions in the last 30 days. Latest: ${SP.ev(R[0]).en}` : 'No PI was revised in the last 30 days.' };
     }
     if (has('b2b', 'request', 'reply', 'mangaya')) {
       if (!can('request')) return noRight('request');
-      const r = M.b2bReq[0], g = M.b2bIn[0];
-      return { text: `${r ? `Aakhri request ${esc(r.id)} (${fS(r.date)}): ${r.lines.length} SKU, ${pcs(r.qty)} — ${({ draft: 'mail nahi gaya', sent: 'mail gaya, reply ka wait', replied: 'B2B ne reply kiya', received: 'maal aa gaya' })[r.state] || r.state}.` : 'Abhi koi B2B request nahi.'}${g ? ` B2B ka aakhri reply ${fS(g.date)} ${esc(g.time)}.` : ''}`, html: btn('B2B request', 'data-go="request"') };
+      const r = M.b2bReq[0], g = M.b2bIn[0]; const hs = r && (HREQ[r.state] || [r.state, r.state]);
+      return { text: `${r ? `Aakhri request ${esc(r.id)} (${fS(r.date)}): ${r.lines.length} SKU, ${pcs(r.qty)} — ${({ draft: 'mail nahi gaya', sent: 'mail gaya, reply ka wait', replied: 'B2B ne reply kiya', received: 'maal aa gaya' })[r.state] || r.state}.` : 'Abhi koi B2B request nahi.'}${g ? ` B2B ka aakhri reply ${fS(g.date)} ${esc(g.time)}.` : ''}`, html: btn('B2B request', 'data-go="request"'),
+        hi: r ? `आख़िरी रिक्वेस्ट ${r.lines.length} SKU की है, ${r.qty} पीस। ${hs[0]}।` : 'अभी कोई B2B रिक्वेस्ट नहीं है।',
+        en: r ? `The last request has ${r.lines.length} SKUs, ${r.qty} pieces, and ${hs[1]}.` : 'There is no B2B request yet.' };
     }
-    if (has('notif', 'naya', 'update', 'khabar', 'news')) {
-      const U = NT.unread();
-      return { text: U.length ? `${U.length} nayi baatein: ${U.slice(0, 3).map(e => esc(e.title)).join(' · ')}` : 'Kuch naya nahi, sab padh liya 👍', html: btn('Sab dekho', 'id="rbBell"') };
+    if (has('notif', 'naya', 'update', 'khabar', 'news', 'नया')) {
+      const U = NT.unread(); const f = U[0] ? SP.ev(U[0]) : null;
+      return { text: U.length ? `${U.length} nayi baatein: ${U.slice(0, 3).map(e => esc(e.title)).join(' · ')}` : 'Kuch naya nahi, sab padh liya 👍', html: btn('Sab dekho', 'id="rbBell"'),
+        hi: U.length ? `${U.length} नई ख़बरें हैं। पहली: ${f.hi}` : 'कुछ नया नहीं है, सब पढ़ लिया।',
+        en: U.length ? `${U.length} new updates. First one: ${f.en}` : 'Nothing new, you are all caught up.' };
     }
-    if (can('stock') || can('lookup')) {
-      const x = searchSku(q0, 1)[0];
-      if (x) { const s = M.stockMap.get(x.k); const b = M.b2b.map.get(x.k); return { text: `<b>${esc(x.sku)}</b>${x.name ? ' · ' + esc(x.name) : ''}: offline ${s ? fN(s.good) : 0}${s && s.bad ? ` (+${fN(s.bad)} BAD)` : ''}${s && s.pending ? `, ${fN(s.pending)} pending` : ''}${b ? `, B2B warehouse ${fN(b.wh)}` : ''}${s && s.alert ? ` — ${ALERT_TX[s.alert] || 'orders badh rahe'}` : ''}.`, html: btn('SKU kholo', `data-sku="${esc(x.k)}"`) }; }
+    const pq2 = productQ(q0, q, false); if (pq2) return pq2;
+    return { text: 'Ye mujhe samajh nahi aaya 🤔 Ye pooch ke dekho: aaj ka minus, pending kitna, low stock, kaun online, ya koi doc number / SKU.', mood: 'sad', hi: 'ये मुझे समझ नहीं आया। आज का माइनस, पेंडिंग, लो स्टॉक, या कोई डॉक नंबर पूछ के देखो।', en: "Sorry, I didn't get that. Try asking about today's minus, pending orders, low stock, or a doc number." };
+  }
+
+  /* ---------- product questions: variants + qty, dimensions, case size, EAN ---------- */
+  const INTENT = /\b(low|kam|khatam|alert|minus|uniware|pending|baaki|baki|dispatch|courier|online|kaun|team|revise|revised|b2b|request|reply|naya|notif|update|help|madad|rising|badh|trend)\b/;
+  const FILL = new Set('ka ki ke ko kitna kitni kitne hai h hain he batao bata btao bolo do dikhao dikha qty quantity stock kya me mein main se sa sab saare sare saara variant variants varient verient variyant dimension dimensions dimantion dimention dimenshan naap size case cases carton box boxes peti ean barcode code wajan weight wt lbh info detail details please plz pls the of for what is are how many much aur and or ek one'.split(' '));
+  const pName = x => { const s = st.M.stockMap.get(x.k), b = st.M.b2b.map.get(x.k); return (s && s.name) || (b && b.name) || x.name || st.M.names.get(x.k) || x.sku; };
+  function productQ(q0, q, strict) {
+    if (!(can('stock') || can('lookup'))) return null;
+    const wDim = /dimen|diman|dimention|naap|lbh|l\s*[x×*]\s*b|lambai|chaudai|unchai/.test(q);
+    const wCase = !wDim && /\bcase|carton|peti|box me|ek box/.test(q);
+    const wEan = /\bean\b|barcode/.test(q);
+    const wQty = /qty|quantity|kitn|stock|variant|varient|verient|variyant|saare|sare|sab/.test(q);
+    if (strict && !(wDim || wCase || wEan || wQty)) return null;
+    const words = q.split(/[\s,?!.।]+/).filter(Boolean); const restW = words.filter(w => !FILL.has(w));
+    if (!restW.length || restW.every(w => INTENT.test(w))) return null;
+    const rest = restW.join(' ');
+    let hits = searchSku(rest, 40);
+    if (!hits.length) return null;
+    const exact = hits.find(h => nk(h.sku) === nk(rest)); if (exact) hits = [exact];
+    const M = st.M, t3 = st.t3;
+    const row = x => { const s = M.stockMap.get(x.k), b = M.b2b.map.get(x.k); return { x, name: pName(x), good: s ? s.good : 0, pend: s ? s.pending || 0 : 0, bad: s ? s.bad || 0 : 0, wh: b ? b.wh : 0, cs: t3.cases.get(x.k) || [], dm: t3.dims.get(x.k) || [], ean: (t3.ean.get(x.k) || {}).ean || '' }; };
+    const R = hits.map(row);
+    const many = R.length > 1; const tot = R.reduce((a, r) => a + r.good, 0); const totWh = R.reduce((a, r) => a + r.wh, 0);
+    const dimTx = d => `${d.l}×${d.b}×${d.h}${d.w ? ` · ${d.w} kg` : ''}`;
+    const dimHi = d => `लंबाई ${d.l}, चौड़ाई ${d.b}, ऊँचाई ${d.h}${d.w ? `, वज़न ${d.w}` : ''}`;
+    const dimEn = d => `length ${d.l}, breadth ${d.b}, height ${d.h}${d.w ? `, weight ${d.w}` : ''}`;
+    const cell = r => wDim ? (r.dm.length ? r.dm.map(dimTx).join(' / ') : '—') : wCase ? (r.cs.length ? r.cs.map(c => `${fN(c)} pcs/case`).join(' / ') : '—') : wEan ? (r.ean || '—') : `${fN(r.good)}${r.wh ? ` <i>B2B ${fN(r.wh)}</i>` : ''}`;
+    const list = `<div class="rlist">${R.slice(0, 15).map(r => `<button type="button" data-sku="${esc(r.x.k)}"><span>${esc(r.x.sku)}<small>${esc(r.name)}</small></span><b>${cell(r)}</b></button>`).join('')}${R.length > 15 ? `<em>+${R.length - 15} aur — thoda aur likho (jaise "${esc(rest)} 30")</em>` : ''}</div>`;
+    const top = R.slice(0, 3);
+    let text, hi, en;
+    if (wDim) {
+      text = many ? `"${esc(rest)}" ke ${R.length} variant — case ka L×B×H · W:` : `<b>${esc(R[0].x.sku)}</b> case L×B×H · W: <b>${R[0].dm.length ? R[0].dm.map(dimTx).join(' / ') : 'sheet me nahi'}</b>`;
+      hi = top.map(r => r.dm.length ? `${SP.name(r.x.sku)} के केस का साइज़: ${dimHi(r.dm[0])}।` : `${SP.name(r.x.sku)} का डाइमेंशन शीट में नहीं है।`).join(' ') + (R.length > 3 ? ' बाकी स्क्रीन पर देख लो।' : '');
+      en = top.map(r => r.dm.length ? `${SP.name(r.x.sku)} case: ${dimEn(r.dm[0])}.` : `${SP.name(r.x.sku)} has no dimensions in the sheet.`).join(' ') + (R.length > 3 ? ' The rest are on screen.' : '');
+    } else if (wCase) {
+      text = many ? `"${esc(rest)}" ke ${R.length} variant — case size:` : `<b>${esc(R[0].x.sku)}</b>: 1 case = <b>${R[0].cs.length ? R[0].cs.map(fN).join(' / ') : '—'}</b> pcs`;
+      hi = top.map(r => r.cs.length ? `${SP.name(r.x.sku)} के एक केस में ${r.cs[0]} पीस।` : `${SP.name(r.x.sku)} का केस साइज़ शीट में नहीं है।`).join(' ') + (R.length > 3 ? ' बाकी स्क्रीन पर देख लो।' : '');
+      en = top.map(r => r.cs.length ? `${SP.name(r.x.sku)}: ${r.cs[0]} pieces per case.` : `${SP.name(r.x.sku)} has no case size in the sheet.`).join(' ') + (R.length > 3 ? ' The rest are on screen.' : '');
+    } else if (wEan) {
+      text = many ? `"${esc(rest)}" ke ${R.length} variant — EAN:` : `<b>${esc(R[0].x.sku)}</b> EAN: <b>${esc(R[0].ean || '—')}</b>`;
+      hi = many ? `${R.length} वेरिएंट के EAN स्क्रीन पर हैं।` : R[0].ean ? `${SP.name(R[0].x.sku)} का EAN स्क्रीन पर है।` : `${SP.name(R[0].x.sku)} का EAN शीट में नहीं है।`;
+      en = many ? `The EANs for ${R.length} variants are on screen.` : R[0].ean ? `The EAN for ${SP.name(R[0].x.sku)} is on screen.` : `${SP.name(R[0].x.sku)} has no EAN in the sheet.`;
+    } else if (many) {
+      text = `"<b>${esc(rest)}</b>" ke <b>${R.length} variant</b> · offline total <b>${fN(tot)}</b>${totWh ? ` · B2B ${fN(totWh)}` : ''}`;
+      hi = `${SP.pn(rest)} के ${R.length} वेरिएंट हैं। ऑफ़लाइन में कुल ${tot} पीस हैं। ${SP.list(top.map(r => `${SP.name(r.x.sku)} में ${r.good}`), 'hi')}।${R.length > 3 ? ' बाकी स्क्रीन पर देख लो।' : ''}`;
+      en = `${SP.pn(rest)} has ${R.length} variants, ${tot} pieces in offline in all. ${SP.list(top.map(r => `${SP.name(r.x.sku)} has ${r.good}`), 'en')}.${R.length > 3 ? ' The rest are on screen.' : ''}`;
+    } else {
+      const r = R[0];
+      text = `<b>${esc(r.x.sku)}</b> · ${esc(r.name)}<br>Offline <b>${fN(r.good)}</b>${r.bad ? ` (+${fN(r.bad)} BAD)` : ''}${r.pend ? ` · ${fN(r.pend)} pending` : ''}${r.wh ? ` · B2B warehouse ${fN(r.wh)}` : ''}<br>Case: ${r.cs.length ? r.cs.map(fN).join(' / ') + ' pcs' : '—'} · L×B×H: ${r.dm.length ? r.dm.map(dimTx).join(' / ') : '—'}${r.ean ? ` · EAN ${esc(r.ean)}` : ''}`;
+      hi = `${SP.name(r.x.sku)}: ऑफ़लाइन में ${r.good} हैं${r.pend ? `, ${r.pend} पेंडिंग` : ''}${r.wh ? `, और B2B वेयरहाउस में ${r.wh}` : ''}।${r.cs.length ? ` एक केस में ${r.cs[0]} पीस।` : ''}`;
+      en = `${SP.name(r.x.sku)}: ${r.good} in offline${r.pend ? `, ${r.pend} pending` : ''}${r.wh ? `, and ${r.wh} in the B2B warehouse` : ''}.${r.cs.length ? ` ${r.cs[0]} pieces per case.` : ''}`;
+      return { text, hi, en, html: btn('SKU kholo', `data-sku="${esc(r.x.k)}"`) + btn('Lookup', 'data-go="lookup"'), mood: r.good <= 0 ? 'sad' : 'active' };
     }
-    return { text: 'Ye mujhe samajh nahi aaya 🤔 Ye pooch ke dekho: aaj ka minus, pending kitna, low stock, kaun online, ya koi doc number / SKU.', mood: 'sad' };
+    return { text: text + list, hi, en, html: btn('Lookup page', 'data-go="lookup"'), mood: 'active' };
   }
   function greet() {
-    const M = st.M, h = new Date().getHours(); const nm = (ME().name || st.user || '').split(/[\s@.]/)[0];
-    const hi = (h < 12 ? 'Good morning' : h < 17 ? 'Namaste' : 'Good evening') + (nm ? ' ' + esc(nm[0].toUpperCase() + nm.slice(1)) : '') + '! Main Dermi hoon, aapka app dost.';
-    if (!M) return hi;
-    const bits = [];
-    if (can('pending') || can('home')) bits.push(`${pcs(M.k.pendingPcs)} pack hona baaki`);
-    if (can('minus') && M.dayOpen.filter(x => x.date < M.today).length) bits.push(`${M.dayOpen.filter(x => x.date < M.today).length} din Uniware me minus baaki`);
-    if (can('stock') && M.lowList.length) bits.push(`${M.lowList.length} SKU pe alert`);
-    return hi + (bits.length ? ' Aaj: ' + bits.join(' · ') + '.' : ' Sab theek chal raha hai.');
+    const M = st.M, h = new Date().getHours(); const nm = myName();
+    const r = { text: (h < 12 ? 'Good morning' : h < 17 ? 'Namaste' : 'Good evening') + (nm ? ' ' + esc(nm) : '') + '! Main Dermi hoon, aapka app dost.', hi: `${h < 12 ? 'गुड मॉर्निंग' : h < 17 ? 'नमस्ते' : 'गुड ईवनिंग'}${nm ? ' ' + SP.pn(nm) : ''}! मैं डर्मी हूँ, आपका ऐप दोस्त।`, en: `${h < 12 ? 'Good morning' : h < 17 ? 'Hello' : 'Good evening'}${nm ? ' ' + SP.pn(nm) : ''}! I'm Dermi, your app buddy.`, mood: 'active' };
+    if (!nm) { askName = true; r.text += ` Aapka naam kya hai? Likh do, main yaad ${VOICE.g('rakhunga', 'rakhungi')} 🙂`; r.hi += ` आपका नाम क्या है? लिख दो, मैं याद ${VOICE.g('रखूँगा', 'रखूँगी')}।`; r.en += " What's your name? Type it and I'll remember."; return r; }
+    if (!M) return r;
+    const t = [], hi = [], en = []; const od = M.dayOpen.filter(x => x.date < M.today).length;
+    if (can('pending') || can('home')) { t.push(`${pcs(M.k.pendingPcs)} pack hona baaki`); hi.push(`${M.k.pendingPcs} पीस पैक होना बाकी है`); en.push(`${M.k.pendingPcs} pieces to pack`); }
+    if (can('minus') && od) { t.push(`${od} din Uniware me minus baaki`); hi.push(`${od} दिन का माइनस बाकी है`); en.push(`${od} day${od > 1 ? 's' : ''} of minus pending`); }
+    if (can('stock') && M.lowList.length) { t.push(`${M.lowList.length} SKU pe alert`); hi.push(`${M.lowList.length} SKU पर अलर्ट है`); en.push(`${M.lowList.length} SKU alert${M.lowList.length > 1 ? 's' : ''}`); }
+    r.text += t.length ? ' Aaj: ' + t.join(' · ') + '.' : ' Sab theek chal raha hai.';
+    r.hi += hi.length ? ' आज ' + SP.list(hi, 'hi') + '।' : ' सब ठीक चल रहा है।';
+    r.en += en.length ? ' Today: ' + SP.list(en, 'en') + '.' : ' Everything looks good.';
+    return r;
   }
-  const CHIPS = [['Aaj ka minus', 'minus'], ['Pending kitna?', 'pending'], ['Low stock', 'low stock'], ['Kaun online?', 'kaun online'], ['Aaj ka dispatch', 'dispatch'], ['Kya naya?', 'kya naya'], ['Help', 'help']];
+  const CHIPS = [['Aaj ka minus', 'minus'], ['Pending kitna?', 'pending'], ['best ke variant', 'best ke variant'], ['best ka dimension', 'best ka dimension'], ['best case size', 'best case size'], ['Low stock', 'low stock'], ['Kaun online?', 'kaun online'], ['Kya naya?', 'kya naya'], ['Help', 'help']];
   const msgHtml = m => `<div class="rmsg ${m.me ? 'me' : 'bot'}">${m.me ? '' : robot(m.mood || 'normal', 30)}<div class="rbub">${m.text}${m.html ? `<div class="racts">${m.html}</div>` : ''}</div></div>`;
   function paint() { const L = $('#rbLog'); if (!L) return; L.innerHTML = log.slice(-40).map(msgHtml).join(''); L.scrollTop = L.scrollHeight; }
   function ask(q) {
     log.push({ me: true, text: esc(q) }); paint();
     const t = { typing: true, text: '<span class="rtype"><i></i><i></i><i></i></span>', mood: 'loading' }; log.push(t); paint();
     let n = 0; const tick = setInterval(() => { if (n++ < 5) SND.play('roboTalk'); }, 90);
-    setTimeout(() => { clearInterval(tick); const a = answer(q); log.splice(log.indexOf(t), 1, { text: a.text, html: a.html, mood: a.mood || 'active' }); paint(); SND.play(a.mood === 'sad' ? 'roboSad' : 'roboUp'); speak(a.text); }, 650);
+    setTimeout(() => { clearInterval(tick); const a = answer(q); log.splice(log.indexOf(t), 1, { text: a.text, html: a.html, mood: a.mood || 'active' }); paint(); SND.play(a.mood === 'sad' ? 'roboSad' : 'roboUp'); setTimeout(() => speak(a.hi || a.en ? { hi: a.hi, en: a.en } : a.text), 350); }, 650);
   }
+  const vBtns = () => { const b = $('#rbVoice'); if (b) { b.classList.toggle('on', VOICE.on()); b.setAttribute('aria-pressed', VOICE.on()); } const l = $('#rbLang'); if (l) l.textContent = VOICE.lang() === 'hi' ? 'हिं' : 'EN'; };
   function chat() {
     if (!st.M) return;
-    if (!log.length) log.push({ text: greet(), mood: 'active' });
-    openSheet(`<div class="rb-hd">${robot('active', 46)}<div><h3>Dermi</h3><div class="sub">Aapka app dost · data se jawab deta hai</div></div><button class="icon-btn" id="rbVoice" title="Bol ke batao" aria-pressed="${voiceOn()}">${ico('sound')}</button></div>`,
+    log.length = 0; const first = greet(); log.push(first);   /* every chat starts fresh — nothing is kept */
+    openSheet(`<div class="rb-hd">${robot('active', 46)}<div><h3>Dermi</h3><div class="sub">Aapka app dost · app ke data se jawab</div></div><button class="icon-btn rb-lang" id="rbLang" title="Bhasha: Hindi / English" type="button">हिं</button><button class="icon-btn" id="rbVoice" title="Bol ke batao" type="button">${ico('sound')}</button></div>`,
       `<div class="rb-chat"><div id="rbLog" class="rb-log"></div><div class="rb-chips">${CHIPS.map(([l, q]) => `<button type="button" class="fbtn" data-rbq="${esc(q)}">${l}</button>`).join('')}</div>
        <form id="rbForm" class="rb-in" autocomplete="off"><input id="rbQ" placeholder="Poocho: 5304, best serum, aaj ka minus…" enterkeyhint="send"><button class="btn primary" type="submit">Bhejo</button></form></div>`);
-    st.sheetFn = null; paint(); SND.play('roboHi');
-    $('#rbVoice').classList.toggle('on', voiceOn());
-    $('#rbVoice').onclick = () => { lss('dt-voice', voiceOn() ? 'off' : 'on'); $('#rbVoice').classList.toggle('on', voiceOn()); toast(voiceOn() ? 'Dermi ab bol ke batayega' : 'Dermi chup rahega'); if (voiceOn()) speak('Haan, ab main bol ke bataunga'); };
+    st.sheetFn = null; paint(); SND.play('roboHi'); vBtns();
+    if (first) setTimeout(() => speak({ hi: first.hi, en: first.en }), 400);
+    $('#rbVoice').onclick = () => { lss('dt-voice', VOICE.on() ? 'off' : null); vBtns(); if (VOICE.on()) speak({ hi: `हाँ, अब मैं बोल के ${VOICE.g('बताऊँगा', 'बताऊँगी')}।`, en: "Okay, I'll speak out loud now." }); else { VOICE.stop(); toast('Dermi chup rahega'); } };
+    $('#rbLang').onclick = () => { lss('dt-vlang', VOICE.lang() === 'hi' ? 'en' : null); vBtns(); speak({ hi: `अब मैं हिंदी में ${VOICE.g('बोलूँगा', 'बोलूँगी')}।`, en: "I'll speak in English now." }); };
     $('#rbForm').onsubmit = e => { e.preventDefault(); const v = $('#rbQ').value.trim(); if (!v) return; $('#rbQ').value = ''; ask(v); };
-    $$('[data-rbq]').forEach(b => b.onclick = () => ask(b.textContent));
+    $$('[data-rbq]').forEach(b => b.onclick = () => ask(b.dataset.rbq));
   }
   document.addEventListener('click', e => { if (e.target.closest('#rbBell')) { NT.panel(); } });
-  return { mount, show, set, say, hide, busy, chat, answer, robot };
+  return { mount, show, set, say, hide, busy, chat, answer, robot, speak, remind, cheer, myName, forget: () => { log.length = 0; askName = false; } };
 })();
 
-window.__dt.robo = ROBO;
+window.__dt.robo = ROBO; window.__dt.voice = VOICE;
 /* ---------- start ---------- */
 render();
 try { boot(); } catch (e) { console.error(e); st.err.t2 = { code: 'boot', message: 'The app could not start: ' + (e.message || e) }; hideSplash(); render(); }
