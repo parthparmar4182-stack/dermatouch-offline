@@ -150,10 +150,10 @@ img{max-width:100%}
 .kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 14px 12px;position:relative;cursor:default;min-width:0}
 .kpi[data-go]{cursor:pointer}
 .kpi[data-go]:hover{border-color:var(--teal)}
-.kpi .l{font-size:13px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.kpi .v{font-family:var(--f-head);font-size:30px;font-weight:500;line-height:1.15;margin-top:2px}
+.kpi .l{font-size:13px;color:var(--ink2);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3}
+.kpi .v{font-family:var(--f-head);font-size:30px;font-weight:500;line-height:1.15;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:clip;font-variant-numeric:tabular-nums}
 .kpi .v small{font-size:15px;color:var(--ink2);font-weight:400;margin-left:2px}
-.kpi .d{font-size:12px;color:var(--ink3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi .d{font-size:12px;color:var(--ink3);margin-top:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.35}
 .kpi.warn{border-color:color-mix(in srgb,var(--amber) 45%,var(--line))}
 .kpi.warn .v{color:var(--amber)}
 .kpi.bad{border-color:color-mix(in srgb,var(--red) 45%,var(--line))}
@@ -227,7 +227,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:14px}
 .card .t{font-weight:500;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .card .s{font-size:13px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .r{text-align:right;flex:none}
-.card .r .big{font-family:var(--f-head);font-size:20px;font-weight:500;line-height:1.1}
+.card .r .big{font-family:var(--f-head);font-size:20px;font-weight:500;line-height:1.1;white-space:nowrap}
 @media (min-width:980px){.m-only{display:none!important}}
 .only-m{display:block}.only-d{display:none}
 @media (min-width:760px){.only-m{display:none}.only-d{display:block}}
@@ -699,32 +699,114 @@ body.gate .main { min-width: 0 }
 @media (max-width:700px){.tm-top{grid-template-columns:1fr 1fr}.mgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){.masc *,.ph-ico svg{animation:none!important}}
 
-/* ---------- Dermi ---------- */
-.rb{display:inline-block;position:relative;flex:none;line-height:0}.rb svg{overflow:visible;display:block}
-.rb .rb-head{fill:var(--surface);stroke:var(--ink);stroke-width:2.6;transition:fill .4s,stroke .4s}
-.rb .rb-ant{stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;transition:stroke .4s}.rb .rb-antb{fill:#33E3A9;transition:fill .4s}
-.rb .rb-eye{fill:#33E3A9;transition:fill .4s;transform-box:fill-box;transform-origin:center}
-.rb .rb-gloss{fill:#fff;opacity:0;transition:opacity .4s}.rb .rb-smile{fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;opacity:0;transition:opacity .3s;transform-box:fill-box;transform-origin:center}
-.rb .rb-shadow{fill:#000;opacity:.13;transform-box:fill-box;transform-origin:center;transition:opacity .3s}
-.rb .rb-body{transform-origin:32px 52px;transition:opacity .35s,transform .5s cubic-bezier(.34,1.56,.64,1)}
-.rb .rb-dot{fill:var(--ink);opacity:0;transition:opacity .25s}
-.rb.rb-normal .rb-eyes{animation:rbLook 6s ease-in-out infinite}.rb.rb-normal .rb-eye,.rb.rb-active .rb-eye,.rb.rb-alert .rb-eye{animation:rbBlink 4.6s infinite}
-.rb.rb-normal .rb-body{animation:rbFloat 3.4s ease-in-out infinite}
-.rb.rb-loading .rb-body{opacity:0;transform:scale(.7)}.rb.rb-loading .rb-shadow{opacity:.05}
-.rb.rb-loading .rb-dot{opacity:.25;animation:rbDot 1.05s ease-in-out infinite;animation-delay:calc(var(--d) * .1s)}
-.rb.rb-active .rb-head,.rb.rb-happy .rb-head{fill:var(--teal);stroke:var(--teal)}.rb.rb-active .rb-eye{fill:#fff}.rb.rb-active .rb-gloss{opacity:.35}.rb.rb-active .rb-smile{opacity:1}
-.rb.rb-active .rb-ant{stroke:var(--teal)}.rb.rb-active .rb-antb{fill:#fff}
-.rb.rb-active .rb-body{animation:rbJump 1.1s cubic-bezier(.3,1.5,.5,1) 2}.rb.rb-active .rb-shadow{animation:rbSquash 1.1s cubic-bezier(.3,1.5,.5,1) 2}
-.rb.rb-alert .rb-head{stroke:var(--amber)}.rb.rb-alert .rb-eye,.rb.rb-alert .rb-antb{fill:var(--amber)}.rb.rb-alert .rb-body{animation:rbShake .5s ease-in-out 3}
-.rb.rb-sad .rb-eye{fill:#7fb6ad;transform:scaleY(.5) translateY(4px)}.rb.rb-sad .rb-smile{opacity:1;stroke:var(--ink);transform:scaleY(-1) translateY(-2px)}.rb.rb-sad .rb-body{animation:rbDroop 2.6s ease-in-out infinite}
-@keyframes rbLook{0%,18%,100%{transform:translateX(0)}28%,44%{transform:translateX(-3px)}56%,72%{transform:translateX(3px)}}
+/* ---------- agents (Dermi · Momo · Tinku) ---------- */
+.rb{display:inline-block;position:relative;flex:none;line-height:0;--lx:0;--ly:0}.rb svg{overflow:visible;display:block}
+.rb .rb-body{transform-origin:32px 54px;transition:opacity .35s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.rb .rb-face{transform:translate(calc(var(--lx)*1px),calc(var(--ly)*1px));transition:transform .2s ease-out}
+.rb .rb-eye,.rb .rb-glint{transform-box:fill-box;transform-origin:center;transition:opacity .2s,transform .25s}
+.rb .rb-hap,.rb .rb-shut,.rb .rb-wink,.rb .rb-smile,.rb .rb-brow{fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;transition:opacity .2s}
+.rb .rb-smile{transform-box:fill-box;transform-origin:center}
+.rb .rb-love{fill:#FF4F8B;transform-box:fill-box;transform-origin:center}
+.rb .rb-blush{fill:#FF8FA3}.rb .rb-tear{fill:#5AB8FF}.rb .rb-steam circle{fill:#A8B3B0}.rb .rb-spark path{fill:#FFC93C}.rb .rb-hearts path{fill:#FF4F8B}
+.rb .rb-z,.rb .rb-q{font:800 9px/1 system-ui,sans-serif;fill:var(--teal)}.rb .rb-q{font-size:12px;fill:#F59E0B}
+.rb .rb-o,.rb .rb-hap,.rb .rb-shut,.rb .rb-wink,.rb .rb-love,.rb .rb-brow,.rb .rb-blush,.rb .rb-tear,.rb .rb-steam,.rb .rb-z,.rb .rb-q,.rb .rb-spark,.rb .rb-hearts,.rb .rb-dot{transition:opacity .2s}
+.rb .rb-arm{transform-box:fill-box;transform-origin:50% 20%}
+/* Dermi follows the theme */
+.rb.c-dermi .rb-head{fill:var(--surface);stroke:var(--ink);transition:fill .35s,stroke .35s}.rb.c-dermi .rb-ant{stroke:var(--ink)}
+.rb.c-dermi .rb-smile,.rb.c-dermi .rb-hap,.rb.c-dermi .rb-shut,.rb.c-dermi .rb-wink{stroke:var(--ink)}.rb.c-dermi .rb-o{fill:var(--ink)}
+.rb.c-momo .rb-head{fill:#B9A3F0}
+.rb.c-tinku .rb-head{fill:#F7F9F7}
+/* always: blink + gentle float + look around */
+.rb .rb-eyes .rb-eye{animation:rbBlink 4.6s infinite}
+.rb.rb-normal .rb-body,.rb.rb-think .rb-body{animation:rbFloat 3.4s ease-in-out infinite}
+.rb.rb-normal .rb-eyes{animation:rbLook 7s ease-in-out infinite}body.rb-follow .rb .rb-eyes{animation:none}
+/* happy / active / wave / party: ^ ^ eyes, smile */
+.rb.rb-happy .rb-eyes,.rb.rb-party .rb-eyes,.rb.rb-wave .rb-eyes{opacity:0}
+.rb.rb-happy .rb-hap,.rb.rb-party .rb-hap,.rb.rb-wave .rb-hap{opacity:1}
+.rb.rb-happy .rb-smile,.rb.rb-active .rb-smile,.rb.rb-party .rb-smile,.rb.rb-wave .rb-smile,.rb.rb-love .rb-smile{opacity:1}
+.rb.rb-happy .rb-blush,.rb.rb-love .rb-blush,.rb.rb-party .rb-blush,.rb.rb-wave .rb-blush{opacity:.75}
+.rb.rb-happy .rb-body{animation:rbHop .9s cubic-bezier(.3,1.5,.5,1) 2}
+.rb.rb-active .rb-body{animation:rbJump 1.1s cubic-bezier(.3,1.5,.5,1) 2}.rb.rb-active .rb-shadow{animation:rbSquash 1.1s cubic-bezier(.3,1.5,.5,1) 2;transform-box:fill-box;transform-origin:center}
+.rb.c-dermi.rb-active .rb-head,.rb.c-dermi.rb-party .rb-head,.rb.c-dermi.rb-happy .rb-head,.rb.c-dermi.rb-love .rb-head,.rb.c-dermi.rb-wave .rb-head{fill:var(--teal);stroke:var(--teal)}
+.rb.c-dermi.rb-active .rb-eye{fill:#fff}.rb.c-dermi.rb-active .rb-gloss,.rb.c-dermi.rb-party .rb-gloss,.rb.c-dermi.rb-happy .rb-gloss,.rb.c-dermi.rb-love .rb-gloss,.rb.c-dermi.rb-wave .rb-gloss{opacity:.35}
+.rb.c-dermi.rb-active .rb-smile,.rb.c-dermi.rb-party .rb-smile,.rb.c-dermi.rb-happy .rb-smile,.rb.c-dermi.rb-love .rb-smile,.rb.c-dermi.rb-wave .rb-smile,.rb.c-dermi.rb-party .rb-hap,.rb.c-dermi.rb-happy .rb-hap,.rb.c-dermi.rb-wave .rb-hap{stroke:#fff}
+.rb.c-dermi.rb-active .rb-ant,.rb.c-dermi.rb-party .rb-ant,.rb.c-dermi.rb-happy .rb-ant,.rb.c-dermi.rb-love .rb-ant,.rb.c-dermi.rb-wave .rb-ant{stroke:var(--teal)}
+.rb.rb-party .rb-body{animation:rbParty 1.1s cubic-bezier(.3,1.5,.5,1) 2}.rb.rb-party .rb-spark{opacity:1;animation:rbTw .6s ease-in-out infinite alternate}
+.rb.rb-wave .rb-arm-r{animation:rbWave .5s ease-in-out 4 alternate}.rb.rb-wave .rb-body{animation:rbFloat 2s ease-in-out infinite}
+.rb.rb-party .rb-arm-l{animation:rbWave .35s ease-in-out 6 alternate}.rb.rb-party .rb-arm-r{animation:rbWave .35s ease-in-out 6 alternate-reverse}
+/* love */
+.rb.rb-love .rb-eyes{opacity:0}.rb.rb-love .rb-love{opacity:1;animation:rbBeat .7s ease-in-out infinite}.rb.rb-love .rb-hearts{opacity:1}.rb.rb-love .rb-hearts path{animation:rbRise 1.6s ease-out infinite}.rb.rb-love .rb-hearts path:nth-child(2){animation-delay:.6s}
+.rb.rb-love .rb-body{animation:rbSway 1.6s ease-in-out infinite}
+/* wow / surprised */
+.rb.rb-wow .rb-eye{transform:scale(1.28)}.rb.rb-wow .rb-o{opacity:1}.rb.rb-wow .rb-body{animation:rbPop .5s cubic-bezier(.3,1.8,.5,1)}
+.rb.rb-wow .rb-brow{opacity:1;transform:translateY(-1.6px) rotate(0);transform-box:fill-box;transform-origin:center}
+/* think / confused */
+.rb.rb-think .rb-eyes{transform:translate(1.6px,-2px)}.rb.rb-think .rb-q{opacity:1;animation:rbBob 1.2s ease-in-out infinite}.rb.rb-think .rb-smile{opacity:.9;transform:scaleX(.5) translateX(3px)}
+.rb.rb-confused .rb-q{opacity:1}.rb.rb-confused .rb-brow:nth-of-type(1){opacity:1;transform:translateY(-1.2px) rotate(-14deg);transform-box:fill-box;transform-origin:center}
+.rb.rb-confused .rb-o{opacity:1;transform:scale(.6,.45);transform-box:fill-box;transform-origin:center}.rb.rb-confused .rb-body{animation:rbTilt 1.8s ease-in-out infinite}
+/* alert */
+.rb.rb-alert .rb-brow{opacity:1;transform:translateY(-1px) scaleY(-1);transform-box:fill-box;transform-origin:center}.rb.rb-alert .rb-body{animation:rbShake .5s ease-in-out 3}
+.rb.c-dermi.rb-alert .rb-head{stroke:var(--amber)}.rb.c-dermi.rb-alert .rb-eye,.rb.c-dermi.rb-alert .rb-antb{fill:var(--amber)}.rb.c-momo.rb-alert .rb-antb,.rb.c-tinku.rb-alert .rb-antb{fill:#F59E0B}.rb.c-tinku.rb-alert .rb-eye{fill:#FFC93C}
+/* angry */
+.rb.rb-angry .rb-brow{opacity:1}.rb.rb-angry .rb-eye{transform:scaleY(.62) translateY(1.5px)}.rb.rb-angry .rb-smile{opacity:1;transform:scaleY(-1) translateY(-1px)}
+.rb.rb-angry .rb-body{animation:rbShake .32s ease-in-out infinite}.rb.rb-angry .rb-steam{opacity:1}.rb.rb-angry .rb-steam circle{animation:rbSteam 1s ease-out infinite}.rb.rb-angry .rb-steam circle:nth-child(n+3){animation-delay:.4s}
+.rb.c-dermi.rb-angry .rb-head{stroke:#E5484D;fill:#FFE9E9}.rb.c-dermi.rb-angry .rb-eye,.rb.c-dermi.rb-angry .rb-antb{fill:#E5484D}.rb.c-dermi.rb-angry .rb-ant{stroke:#E5484D}.rb.c-dermi.rb-angry .rb-brow,.rb.c-dermi.rb-angry .rb-smile{stroke:#B4232A}
+.rb.c-momo.rb-angry .rb-head{fill:#E89AB8}.rb.c-momo.rb-angry .rb-win{fill:#FFE3E3}.rb.c-tinku.rb-angry .rb-eye,.rb.c-tinku.rb-angry .rb-smile,.rb.c-tinku.rb-angry .rb-brow{fill:#FF5A5F;stroke:#FF5A5F}.rb.c-tinku.rb-angry .rb-smile{fill:none}.rb.c-tinku.rb-angry .rb-ear{fill:#E5484D}
+/* sad */
+.rb.rb-sad .rb-eye{transform:scaleY(.55) translateY(3px)}.rb.rb-sad .rb-smile{opacity:1;transform:scaleY(-1) translateY(-2px)}.rb.rb-sad .rb-tear{opacity:1;animation:rbDrip 1.6s ease-in infinite}
+.rb.rb-sad .rb-brow{opacity:.9;transform:scaleX(-1) translateY(-.5px);transform-box:fill-box;transform-origin:center}.rb.rb-sad .rb-body{animation:rbDroop 2.6s ease-in-out infinite}
+.rb.c-dermi.rb-sad .rb-eye{fill:#7fb6ad}.rb.c-tinku.rb-sad .rb-eye,.rb.c-tinku.rb-sad .rb-smile{fill:#7DB7FF;stroke:#7DB7FF}.rb.c-tinku.rb-sad .rb-smile{fill:none}.rb.c-momo.rb-sad .rb-head{fill:#A79BD0}
+/* pout (ignored) */
+.rb.rb-pout .rb-eye{transform:scaleY(.4)}.rb.rb-pout .rb-o{opacity:1;transform:scale(.75);transform-box:fill-box;transform-origin:center}.rb.rb-pout .rb-brow{opacity:.85}.rb.rb-pout .rb-blush{opacity:.9}
+.rb.rb-pout .rb-body{animation:rbPout 2.4s ease-in-out}.rb.c-dermi.rb-pout .rb-head{stroke:#C2410C}
+/* sleepy */
+.rb.rb-sleepy .rb-eyes{opacity:0}.rb.rb-sleepy .rb-shut{opacity:1}.rb.rb-sleepy .rb-z{opacity:1;animation:rbZ 2.4s ease-in-out infinite}.rb.rb-sleepy .rb-z2{animation-delay:1.2s}
+.rb.rb-sleepy .rb-body{animation:rbBreath 4.2s ease-in-out infinite}.rb.c-momo.rb-sleepy .rb-body{transform:translateY(6px) scaleY(.9)}
+/* wink */
+.rb.rb-wink .rb-eyes .rb-eye:nth-of-type(2),.rb.rb-wink .rb-eyes .rb-glint:nth-of-type(2){opacity:0}.rb.rb-wink .rb-wink{opacity:1}.rb.rb-wink .rb-smile{opacity:1}
+/* loading: the face becomes a 3×3 wave */
+.rb.rb-loading .rb-eyes,.rb.rb-loading .rb-smile{opacity:0}.rb.rb-loading .rb-dot{animation:rbDot 1.05s ease-in-out infinite;animation-delay:calc(var(--d) * .1s)}
+.rb.c-dermi.rb-loading .rb-head,.rb.c-dermi.rb-loading .rb-ant,.rb.c-dermi.rb-loading .rb-antb,.rb.c-dermi.rb-loading .rb-gloss{opacity:0;transition:opacity .3s}
+/* talking mouth */
+.rb.rb-talk .rb-smile{opacity:1!important;animation:rbTalk .2s ease-in-out infinite alternate}
+@keyframes rbLook{0%,18%,100%{transform:translateX(0)}28%,44%{transform:translateX(-2.6px)}56%,72%{transform:translateX(2.6px)}}
 @keyframes rbBlink{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.08)}}
 @keyframes rbFloat{50%{transform:translateY(-2px)}}
-@keyframes rbDot{0%,100%{opacity:.22;fill:var(--ink)}45%{opacity:1;fill:#33E3A9}}
+@keyframes rbBreath{50%{transform:translateY(1px) scale(1.02,.98)}}
+@keyframes rbDot{0%,100%{opacity:.25}45%{opacity:1}}
 @keyframes rbJump{0%,100%{transform:translateY(0) scale(1)}15%{transform:translateY(0) scale(1.08,.9)}45%{transform:translateY(-9px) scale(.96,1.05)}75%{transform:translateY(0) scale(1.04,.96)}}
+@keyframes rbHop{0%,100%{transform:translateY(0)}40%{transform:translateY(-5px) rotate(-3deg)}70%{transform:translateY(0) rotate(2deg)}}
 @keyframes rbSquash{45%{transform:scaleX(.6);opacity:.06}}
 @keyframes rbShake{25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
 @keyframes rbDroop{50%{transform:translateY(2px)}}
+@keyframes rbSteam{0%{transform:translateY(4px);opacity:0}30%{opacity:.9}100%{transform:translateY(-8px);opacity:0}}
+@keyframes rbPout{0%,100%{transform:rotate(0)}20%,80%{transform:rotate(-12deg) translateX(-2px) scale(1.04,.97)}}
+@keyframes rbParty{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-10px) rotate(-14deg)}60%{transform:translateY(-4px) rotate(14deg)}}
+@keyframes rbZ{0%{opacity:0;transform:translate(0,4px)}40%{opacity:1}100%{opacity:0;transform:translate(3px,-5px)}}
+@keyframes rbTalk{from{transform:scaleY(.4)}to{transform:scaleY(1.6)}}
+@keyframes rbWave{from{transform:rotate(0)}to{transform:rotate(-55deg)}}
+@keyframes rbBeat{50%{transform:scale(1.18)}}
+@keyframes rbRise{0%{transform:translateY(4px);opacity:0}30%{opacity:1}100%{transform:translateY(-8px);opacity:0}}
+@keyframes rbSway{25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+@keyframes rbPop{0%{transform:scale(.9)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+@keyframes rbBob{50%{transform:translateY(-2px)}}
+@keyframes rbTilt{50%{transform:rotate(-8deg)}}
+@keyframes rbTw{to{opacity:.4;transform:scale(.85)}}
+@keyframes rbDrip{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(6px);opacity:0}}
+.rb-hd .rb-back{margin-left:0!important;margin-right:-4px;font-size:20px;font-weight:700}
+.rb-hd .rb-lang{margin-left:auto;font-weight:600;font-size:14px;min-width:44px}.rb-hd .rb-lang+.icon-btn{margin-left:6px}
+@media (min-width:980px){.sheet.rb-sheet .rb-log{max-height:calc(100vh - 300px)}.sheet.rb-sheet .rb-detail{max-height:calc(100vh - 150px)}.sheet.rb-sheet .rb-chat{min-height:calc(100vh - 170px)}}
+.rb-stage{position:relative}.rb-detail{max-height:68vh;overflow:auto;animation:ntfIn .3s both}.rb-dhead{margin-bottom:10px}.rb-dhead h3{margin:0}
+.sheet.rb-sheet .sheet-body{padding-bottom:12px}
+.sheet.rb-nudge{animation:rbNudge .35s ease-in-out}@keyframes rbNudge{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.rkv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}.rkv span{background:var(--surface);border-radius:10px;padding:6px 8px;font-size:11.5px;color:var(--ink2)}.rkv span b{display:block;font-size:14px;color:var(--ink)}
+.rhist{margin:8px 0 0;padding-left:18px;font-size:13px;line-height:1.55}.rhist li{margin:1px 0}
+.rlist{max-height:46vh;overflow:auto}.rlist .rmore{justify-content:center;font-weight:600;color:var(--teal-d);background:var(--teal-s)}
+.chars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.chcard{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px 10px;border-radius:18px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font:inherit;text-align:center;transition:border-color .2s,transform .2s,box-shadow .2s}
+.chcard.on{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-s)}.chcard:active{transform:scale(.96)}.chcard b{font-size:15px}.chcard em{font-style:normal;font-size:11.5px;color:var(--ink2);line-height:1.3}
+.ntf-i .rb{margin-right:2px}
+@media (max-width:520px){.chars{grid-template-columns:repeat(3,minmax(0,1fr))}.chcard em{display:none}}
 #robo{position:fixed;right:14px;bottom:calc(74px + env(safe-area-inset-bottom,0px));z-index:65;display:flex;align-items:flex-end;gap:8px;pointer-events:none}
 #robo[hidden]{display:none!important}
 #roboBtn{pointer-events:auto;border:0;background:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 6px 14px rgba(0,0,0,.18));transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
@@ -744,9 +826,6 @@ body.gate .main { min-width: 0 }
 .rtype{display:inline-flex;gap:4px}.rtype i{width:7px;height:7px;border-radius:50%;background:var(--ink3);animation:rbDot 1s infinite}.rtype i:nth-child(2){animation-delay:.15s}.rtype i:nth-child(3){animation-delay:.3s}
 .rb-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.rb-chips::-webkit-scrollbar{display:none}
 .rb-in{display:flex;gap:8px}.rb-in input{flex:1;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:0 12px;font:inherit;font-size:16px}
-.rb.rb-talk .rb-smile{opacity:1;animation:rbTalk .2s ease-in-out infinite alternate}
-.rb.rb-talk:not(.rb-active):not(.rb-happy) .rb-smile{stroke:var(--ink)}
-@keyframes rbTalk{from{transform:scaleY(.4)}to{transform:scaleY(1.6)}}
 .rb-hd .rb-lang{margin-left:auto;font-weight:600;font-size:14px;min-width:44px}.rb-hd .rb-lang+.icon-btn{margin-left:6px}
 .vset{display:flex;flex-direction:column;gap:14px;margin-top:14px}.vset>div>b{display:block;font-size:13px;color:var(--ink2);margin-bottom:6px}
 .vcards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -759,28 +838,30 @@ body.gate .main { min-width: 0 }
 .vstat{font-size:12.5px;line-height:1.45;padding:9px 12px;border-radius:12px;background:var(--surface2);color:var(--ink2)}
 .vstat.ok{background:var(--green-s);color:var(--green)}.vstat.warn{background:var(--amber-s,var(--surface2));color:var(--ink2)}
 @media (max-width:520px){.vcards{grid-template-columns:1fr}}
-.rb .rb-o,.rb .rb-brow,.rb .rb-steam,.rb .rb-z{opacity:0;transition:opacity .25s}
-.rb .rb-o{fill:var(--ink)}.rb .rb-brow{stroke:var(--ink);stroke-width:2.6;stroke-linecap:round}.rb .rb-steam circle{fill:#9aa5a3}
-.rb .rb-z{font:700 9px/1 sans-serif;fill:var(--teal)}
-.rb.rb-angry .rb-head{stroke:#E5484D;fill:#FFE9E9}.rb.rb-angry .rb-eye,.rb.rb-angry .rb-antb{fill:#E5484D}.rb.rb-angry .rb-ant{stroke:#E5484D}
-.rb.rb-angry .rb-brow{opacity:1;stroke:#B4232A}.rb.rb-angry .rb-eye{transform:scaleY(.62) translateY(2px)}
-.rb.rb-angry .rb-smile{opacity:1;stroke:#B4232A;transform:scaleY(-1) translateY(-1px)}
-.rb.rb-angry .rb-body{animation:rbShake .32s ease-in-out infinite}.rb.rb-angry .rb-steam{opacity:1}.rb.rb-angry .rb-steam circle{animation:rbSteam 1s ease-out infinite}.rb.rb-angry .rb-steam circle:nth-child(n+3){animation-delay:.4s}
-@keyframes rbSteam{0%{transform:translateY(4px);opacity:0}30%{opacity:.9}100%{transform:translateY(-8px);opacity:0}}
-.rb.rb-pout .rb-eye{transform:scaleY(.4)}.rb.rb-pout .rb-o{opacity:1;transform:scale(.8);transform-box:fill-box;transform-origin:center}.rb.rb-pout .rb-body{animation:rbPout 2.4s ease-in-out}
-.rb.rb-pout .rb-head{stroke:#C2410C}.rb.rb-pout .rb-brow{opacity:.85}
-@keyframes rbPout{0%,100%{transform:rotate(0)}20%,80%{transform:rotate(-12deg) translateX(-2px) scale(1.04,.97)}}
-.rb.rb-party .rb-head{fill:var(--teal);stroke:var(--teal)}.rb.rb-party .rb-eye{fill:#fff;transform:scaleY(.35) translateY(-3px)}.rb.rb-party .rb-smile{opacity:1}.rb.rb-party .rb-gloss{opacity:.35}.rb.rb-party .rb-antb{fill:#FFD23F}
-.rb.rb-party .rb-body{animation:rbParty 1.1s cubic-bezier(.3,1.5,.5,1) 2}
-@keyframes rbParty{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-10px) rotate(-14deg)}60%{transform:translateY(-4px) rotate(14deg)}}
-.rb.rb-sleepy .rb-eye{transform:scaleY(.1)}.rb.rb-sleepy .rb-body{animation:rbFloat 4.5s ease-in-out infinite}.rb.rb-sleepy .rb-z{opacity:1;animation:rbZ 2.4s ease-in-out infinite}.rb.rb-sleepy .rb-z2{animation-delay:1.2s}
-@keyframes rbZ{0%{opacity:0;transform:translate(0,4px)}40%{opacity:1}100%{opacity:0;transform:translate(3px,-5px)}}
 .rlist{display:flex;flex-direction:column;gap:4px;margin-top:8px}
 .rlist button{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;border:0;background:var(--surface);border-radius:10px;padding:7px 10px;font:inherit;font-size:13px;color:var(--ink);cursor:pointer}
 .rlist button span{min-width:0;word-break:break-all}.rlist button small{display:block;font-size:11.5px;color:var(--ink2);word-break:normal}
 .rlist button b{flex:none;text-align:right;font-size:13px}.rlist button b i{display:block;font-style:normal;font-weight:400;font-size:11px;color:var(--ink3)}
 .rlist em{font-style:normal;font-size:12px;color:var(--ink3);padding:2px 4px}
 .rmsg.me .rbub .rlist button{background:rgba(255,255,255,.15);color:#fff}
+/* search totals: animated bars */
+.sbars{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px}
+.sb-split{display:flex;height:14px;border-radius:99px;overflow:hidden;background:var(--surface2)}
+.sb-split i{display:block;height:100%;width:0;animation:sbGrow .9s cubic-bezier(.22,1,.36,1) forwards}
+.sb-split i.w,.sb-key b.w{background:var(--teal)}.sb-split i.o,.sb-key b.o{background:#8FD9C8}.sb-split i.l,.sb-key b.l{background:var(--amber)}
+.sb-split i.o{animation-delay:.15s}.sb-split i.l{animation-delay:.3s}
+.sb-key{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:12px;color:var(--ink2)}.sb-key b{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.sbar{height:6px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-top:6px}.sbar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--teal),#5EDDC2);animation:sbGrow 1s cubic-bezier(.22,1,.36,1) forwards;animation-delay:calc(var(--d,0) * .04s)}
+.sbar-card{animation:tileIn .45s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(var(--d,0) * .03s)}
+@keyframes sbGrow{from{width:0}to{width:var(--w)}}
+.sfind{margin-bottom:14px}
+@media (max-width:759px){.tbl-wrap.stackw{overflow:visible;border:0;background:none}.tbl.stack,.tbl.stack tbody{display:block;width:100%}.tbl.stack thead{display:none}
+.tbl.stack tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;padding:12px 14px;margin-bottom:8px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md)}
+.tbl.stack td{display:block;border:0!important;padding:0;text-align:left!important;white-space:normal;min-width:0;overflow-wrap:anywhere}.tbl.stack td::before{content:attr(data-l);display:block;font-size:11px;color:var(--ink3);margin-bottom:1px}
+.tbl.stack td:first-child{grid-column:1/-1}.tbl.stack td:first-child::before{display:none}.tbl.stack .skuc{min-width:0}.tbl.stack td:empty{display:none}}
+.pulse-card b,.tday b{white-space:nowrap;max-width:100%;overflow:hidden}.flow .st{min-width:0}.flow .st .v{white-space:nowrap;max-width:100%;overflow:hidden}.flow .st .l{overflow-wrap:anywhere;font-size:clamp(10.5px,3.2vw,12px)}.tool b{white-space:nowrap;max-width:100%;overflow:hidden;display:block}
+.card .r{min-width:0;max-width:46%}
+@media (prefers-reduced-motion:reduce){.sb-split i,.sbar i{animation:none;width:var(--w)}}
 body.gate #robo{display:none!important}
 body:not(.gate) #view::after{content:'';display:block;height:64px}
 @media (prefers-reduced-motion:reduce){.rb *{animation:none!important}}
@@ -1869,8 +1950,8 @@ const PERMS = [['home', 'Overview'], ['docs', 'Docs'], ['stock', 'Offline stock'
   ['request', 'B2B request'], ['pm', 'Packing material'], ['b2b', 'B2B stock'], ['lookup', 'SKU lookup'], ['flow', 'Workflow'], ['team', 'Team & stationery'], ['health', 'Data checks'], ['reports', 'Reports']];
 const LOG_TABS = ['inward', 'damage', 'other', 'audit'];
 const ACCESS = { admin: 'Admin', full: 'Full access', view: 'View only', custom: 'Chosen pages' };
-const permKey = x => { const h = E.hk(x); if (!h) return ''; const p = PERMS.find(([k, l]) => E.hk(k) === h || E.hk(l) === h); return p ? p[0] : ''; };
-const permLabel = k => (PERMS.find(p => p[0] === k) || [k, k])[1];
+const permKey = x => { const h = E.hk(x); if (!h) return ''; if (h.startsWith('DERMI') || h.startsWith('AGENT') || h === 'BOT') return 'dermi'; const p = PERMS.find(([k, l]) => E.hk(k) === h || E.hk(l) === h); return p ? p[0] : ''; };
+const permLabel = k => k === 'dermi' ? 'Dermi agent' : (PERMS.find(p => p[0] === k) || [k, k])[1];
 function parseUsers() {
   const sh = st.books.t3 && st.books.t3.map.USERS; if (!sh || !sh.rows.length) return null;
   const H = (sh.rows[0] || []).map(E.hk); const ix = n => H.findIndex(h => h === n || h.startsWith(n));
@@ -1889,12 +1970,13 @@ function parseUsers() {
 }
 function ME() {
   const users = st.users, em = String(st.user || '').toLowerCase();
-  if (!users || !users.some(u => u.active)) return { role: 'admin', boot: true, edit: true, pages: null };
+  if (!users || !users.some(u => u.active)) return { role: 'admin', boot: true, edit: true, pages: null, bot: true };
   const u = users.find(x => x.email === em);
-  if (!u || !u.active) return { role: 'none', edit: false, pages: new Set() };
-  if (u.access === 'admin' || u.access === 'full') return { role: u.access, edit: true, pages: null, name: u.name };
-  if (u.access === 'view') return { role: 'view', edit: false, pages: null, name: u.name };
-  return { role: 'custom', edit: u.edit, pages: new Set(u.pages), name: u.name };
+  if (!u || !u.active) return { role: 'none', edit: false, pages: new Set(), bot: false };
+  const bot = u.access === 'admin' || u.pages.includes('dermi');
+  if (u.access === 'admin' || u.access === 'full') return { role: u.access, edit: true, pages: null, name: u.name, bot };
+  if (u.access === 'view') return { role: 'view', edit: false, pages: null, name: u.name, bot };
+  return { role: 'custom', edit: u.edit, pages: new Set(u.pages), name: u.name, bot };
 }
 const isAdmin = () => ME().role === 'admin';
 const writer = () => ['admin', 'full'].includes(ME().role);
@@ -1947,6 +2029,8 @@ const SND = (() => {
     const g = ctx.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(peak, t + dur * 0.3); g.gain.linearRampToValueAtTime(0.0001, t + dur);
     src.connect(bp); bp.connect(g); g.connect(out); src.start(t); src.stop(t + dur + 0.02);
   }
+  const AGS = () => { try { const c = localStorage.getItem('dt-char'); return c === 'momo' || c === 'tinku' ? c : 'dermi'; } catch { return 'dermi'; } };
+  const AGF = () => ({ dermi: 1, momo: .72, tinku: 1.35 })[AGS()];
   const P = {
     // timed to the splash: pen draws 0.15–1.15s, ink fills at ~0.95s, wordmark wipes at ~1.0s
     intro() {
@@ -1966,15 +2050,19 @@ const SND = (() => {
     refresh() { tone(520, ctx.currentTime, { a: 0.01, d: 0.22, peak: 0.04, to: 1040 }); },
     notify() { const t = ctx.currentTime; P.roboHi(); tone(1568, t + 0.3, { a: 0.004, d: 0.55, peak: 0.045 }); tone(2093, t + 0.3, { a: 0.004, d: 0.3, peak: 0.01 }); },
     /* Dermi's voice: little synth chirps, no sound files */
-    roboHi() { const t = ctx.currentTime; tone(880, t, { a: 0.004, d: 0.09, peak: 0.05, to: 1320 }); tone(1320, t + 0.11, { a: 0.004, d: 0.14, peak: 0.045, to: 990 }); },
-    roboTalk() { tone(650 + Math.random() * 550, ctx.currentTime, { type: 'square', a: 0.002, d: 0.03, peak: 0.014 }); },
-    roboUp() { const t = ctx.currentTime; noise(t, 0.07, { f0: 1500, f1: 4200, q: 0.9, peak: 0.03 }); tone(784, t + 0.02, { a: 0.003, d: 0.1, peak: 0.05, to: 1175 }); tone(1568, t + 0.13, { a: 0.003, d: 0.38, peak: 0.05 }); },
-    roboSad() { const t = ctx.currentTime; tone(620, t, { type: 'triangle', a: 0.005, d: 0.18, peak: 0.06, to: 470 }); tone(470, t + 0.2, { type: 'triangle', a: 0.005, d: 0.3, peak: 0.055, to: 300 }); },
-    roboLoad() { tone(1250, ctx.currentTime, { a: 0.002, d: 0.025, peak: 0.01 }); },
-    roboAngry() { const t = ctx.currentTime; tone(180, t, { type: 'sawtooth', a: 0.01, d: 0.22, peak: 0.035, to: 120 }); tone(170, t + 0.24, { type: 'sawtooth', a: 0.01, d: 0.28, peak: 0.035, to: 105 }); noise(t + 0.05, 0.4, { f0: 600, f1: 300, q: 1.2, peak: 0.02 }); },
-    roboPout() { const t = ctx.currentTime; tone(520, t, { type: 'triangle', a: 0.004, d: 0.09, peak: 0.05, to: 700 }); tone(640, t + 0.12, { type: 'triangle', a: 0.004, d: 0.22, peak: 0.05, to: 380 }); },
-    roboParty() { const t = ctx.currentTime; [784, 988, 1175, 1568, 1976].forEach((f, i) => tone(f, t + i * 0.07, { a: 0.003, d: 0.18, peak: 0.04 })); noise(t + 0.36, 0.25, { f0: 3000, f1: 8000, q: 0.7, peak: 0.02 }); },
-    roboSleep() { const t = ctx.currentTime; tone(330, t, { type: 'sine', a: 0.08, d: 0.6, peak: 0.025, to: 260 }); }
+    /* agent voices — each character has its own: Dermi chirps, Momo boops, Tinku beeps */
+    roboHi() { const t = ctx.currentTime, c = AGS(); if (c === 'momo') { tone(440, t, { a: .006, d: .12, peak: .07, to: 760 }); tone(660, t + .14, { a: .006, d: .2, peak: .065, to: 1040 }); noise(t + .02, .05, { f0: 900, f1: 1800, q: 2, peak: .015 }); } else if (c === 'tinku') { [1175, 1568, 2093].forEach((f, i) => tone(f, t + i * .075, { type: 'triangle', a: .002, d: .07, peak: .045 })); } else { tone(880, t, { a: .004, d: .09, peak: .05, to: 1320 }); tone(1320, t + .11, { a: .004, d: .14, peak: .045, to: 990 }); } },
+    roboTalk() { const t = ctx.currentTime, c = AGS(), r = Math.random(); if (c === 'momo') tone(380 + r * 320, t, { a: .004, d: .05, peak: .03, to: 460 + r * 380 }); else if (c === 'tinku') tone([988, 1175, 1319, 1568][Math.floor(r * 4)], t, { type: 'triangle', a: .001, d: .035, peak: .022 }); else tone(650 + r * 550, t, { type: 'square', a: .002, d: .03, peak: .013 }); },
+    roboUp() { const t = ctx.currentTime, c = AGS(); if (c === 'momo') { tone(300, t, { a: .004, d: .16, peak: .07, to: 900 }); tone(900, t + .17, { a: .004, d: .22, peak: .05, to: 1180 }); } else if (c === 'tinku') { [1047, 1319, 1568, 2093].forEach((f, i) => tone(f, t + i * .06, { type: 'triangle', a: .002, d: .1, peak: .04 })); } else { noise(t, .07, { f0: 1500, f1: 4200, q: .9, peak: .03 }); tone(784, t + .02, { a: .003, d: .1, peak: .05, to: 1175 }); tone(1568, t + .13, { a: .003, d: .38, peak: .05 }); } },
+    roboSad() { const t = ctx.currentTime, k = AGF(); tone(620 * k, t, { type: 'triangle', a: .005, d: .2, peak: .06, to: 470 * k }); tone(470 * k, t + .22, { type: 'triangle', a: .005, d: .34, peak: .055, to: 290 * k }); },
+    roboLoad() { tone(1250 * AGF(), ctx.currentTime, { a: .002, d: .025, peak: .01 }); },
+    roboAngry() { const t = ctx.currentTime, c = AGS(); if (c === 'tinku') { [0, .12, .24].forEach(d => tone(220, t + d, { type: 'square', a: .002, d: .08, peak: .03 })); noise(t, .3, { f0: 2000, f1: 500, q: 3, peak: .015 }); } else { const k = c === 'momo' ? .8 : 1; tone(180 * k, t, { type: 'sawtooth', a: .01, d: .22, peak: .035, to: 120 * k }); tone(170 * k, t + .24, { type: 'sawtooth', a: .01, d: .28, peak: .035, to: 105 * k }); noise(t + .05, .4, { f0: 600, f1: 300, q: 1.2, peak: .02 }); } },
+    roboPout() { const t = ctx.currentTime, k = AGF(); tone(520 * k, t, { type: 'triangle', a: .004, d: .09, peak: .05, to: 700 * k }); tone(640 * k, t + .12, { type: 'triangle', a: .004, d: .22, peak: .05, to: 380 * k }); },
+    roboParty() { const t = ctx.currentTime, k = AGF(); [784, 988, 1175, 1568, 1976].forEach((f, i) => tone(f * k, t + i * .07, { type: AGS() === 'tinku' ? 'triangle' : 'sine', a: .003, d: .18, peak: .04 })); noise(t + .36, .25, { f0: 3000, f1: 8000, q: .7, peak: .02 }); tone(2637 * k, t + .42, { a: .002, d: .3, peak: .02 }); },
+    roboSleep() { const t = ctx.currentTime; tone(330 * AGF(), t, { a: .08, d: .6, peak: .025, to: 260 * AGF() }); tone(300 * AGF(), t + .9, { a: .08, d: .6, peak: .018, to: 240 * AGF() }); },
+    roboLove() { const t = ctx.currentTime, k = AGF(); tone(1047 * k, t, { a: .004, d: .16, peak: .05 }); tone(1568 * k, t + .14, { a: .004, d: .3, peak: .05 }); noise(t + .1, .35, { f0: 5000, f1: 9000, q: .6, peak: .012 }); },
+    roboWow() { const t = ctx.currentTime, k = AGF(); tone(520 * k, t, { a: .01, d: .26, peak: .05, to: 1560 * k }); tone(1560 * k, t + .27, { a: .003, d: .12, peak: .03 }); },
+    roboThink() { const t = ctx.currentTime, k = AGF(); tone(700 * k, t, { type: 'triangle', a: .002, d: .05, peak: .03 }); tone(700 * k, t + .14, { type: 'triangle', a: .002, d: .05, peak: .03 }); tone(330 * k, t + .3, { a: .02, d: .3, peak: .025, to: 380 * k }); }
   };
   function play(name) {
     try {
@@ -2015,9 +2103,9 @@ function ask(msg, okLabel) {
 }
 function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600); }
 function openSheet(head, body) { if (!$('#sheet').classList.contains('on')) SND.play('open'); $('#sheetHead').innerHTML = head; $('#sheetBody').innerHTML = body; $('#sheetBody').scrollTop = 0; $('#scrim').classList.add('on'); $('#sheet').classList.add('on'); }
-function closeSheet() { $('#scrim').classList.remove('on'); $('#sheet').classList.remove('on'); st.sheetFn = null; try { if ($('#rbLog')) { ROBO.forget(); $('#rbLog').innerHTML = ''; } } catch { } }
+function closeSheet() { $('#scrim').classList.remove('on'); $('#sheet').classList.remove('on'); st.sheetFn = null; try { $('#sheet').classList.remove('rb-sheet'); if ($('#rbLog')) { ROBO.forget(); $('#rbLog').innerHTML = ''; } } catch { } }
 $('#scrim').onclick = closeSheet; $('#sheetX').onclick = closeSheet;
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSheet(); hideAc(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { if (window.__sheetBack && window.__sheetBack()) return; closeSheet(); hideAc(); } });
 (() => { let y0 = null; const sh = $('#sheet'); sh.addEventListener('touchstart', e => { if ($('#sheetBody').scrollTop <= 0) y0 = e.touches[0].clientY; }, { passive: true }); sh.addEventListener('touchmove', e => { if (y0 != null && e.touches[0].clientY - y0 > 90) { y0 = null; closeSheet(); } }, { passive: true }); sh.addEventListener('touchend', () => { y0 = null; }); })();
 
 /* ---------- Google connection (standalone) ---------- */
@@ -2599,12 +2687,13 @@ function render(nav, quiet) {
   try {
     const ph = view.querySelector('.page-head h2'); if (ph && !ph.querySelector('.ph-ico')) ph.insertAdjacentHTML('afterbegin', `<span class="ph-ico a-${v.id}">${ico(v.i)}</span>`);
     view.querySelectorAll('.empty').forEach(el => { if (!el.querySelector('.masc')) el.insertAdjacentHTML('afterbegin', mascot('calm', 64)); });
-    const lr = view.querySelector('.lg-masc .rb'); if (lr && !lr.dataset.boot) { lr.dataset.boot = 1; lr.className = 'rb masc rb-loading'; setTimeout(() => { lr.className = 'rb masc rb-' + (noAccess() ? 'sad' : 'active'); SND.play(noAccess() ? 'roboSad' : 'roboUp'); }, 1700); }
+    const lr = view.querySelector('.lg-masc .rb'); if (lr && !lr.dataset.boot) { lr.dataset.boot = 1; lr.className = 'rb masc c-' + AG.cur() + ' rb-loading'; setTimeout(() => { lr.className = 'rb masc c-' + AG.cur() + ' rb-' + (noAccess() ? 'sad' : 'happy'); SND.play(noAccess() ? 'roboSad' : 'roboUp'); }, 1700); }
     view.querySelectorAll('.calm').forEach(el => { if (!el.querySelector('.masc')) { const sv = el.querySelector(':scope > svg'); if (sv) sv.remove(); el.insertAdjacentHTML('afterbegin', mascot('happy', 40)); } });
   } catch { }
   view.classList.toggle('still', !!quiet && !st.firstRender);
   if (nav || st.firstRender) { view.classList.remove('view-enter'); void view.offsetWidth; view.classList.add('view-enter'); }
   const mount = MOUNT[v.id]; if (mount && st.M) { try { mount(); } catch (e) { console.error(e); } }
+  try { labelStacks(view); fitNums(view); } catch { }
   if ((st.firstRender || nav) && st.M) { countUp(); st.firstRender = false; }
   if (prevN) { const now = $$('#view [data-n]'); if (now.length === prevN.length) now.forEach((el, i) => { if (el.dataset.n !== prevN[i]) { el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); } }); }
   if (keep) { const el = document.getElementById(keep.id); if (el) { el.focus(); try { el.setSelectionRange(keep.s, keep.e); } catch { } } }
@@ -2673,9 +2762,26 @@ document.addEventListener('click', e => {
   if (e.target.closest('#swAcc')) { lss('dt-email', null); lss('dt-tok', null); tok = null; st.conn = 'signin'; st.M = null; if (AUTH.helper()) AUTH.logout().then(() => AUTH.login(false)); else signIn(false); }
   if (e.target.closest('#lgOut')) signOut();
 });
-function countUp() {
+/* big numbers shrink to fit their box — works for 7, 70,000 or 40,06,304 on any phone */
+const FIT_SEL = '.kpi .v, .card .r .big, .fit-n, .hero-n, .pulse-card b, .tday b, .flow .st .v, .tool b';
+/* on phones, list tables become cards: every cell gets its column name */
+function labelStacks(root = document) {
+  for (const t of root.querySelectorAll('table.stack')) { const H = [...t.querySelectorAll('thead th')].map(th => th.textContent.trim()); for (const tr of t.querySelectorAll('tbody tr')) [...tr.children].forEach((td, i) => { if (!td.dataset.l) td.dataset.l = H[i] || ''; }); }
+}
+function fitNums(root = document) {
+  const els = root.querySelectorAll ? root.querySelectorAll(FIT_SEL) : [];
+  for (const el of els) {
+    el.style.fontSize = '';
+    const w = el.clientWidth; if (!w) continue;
+    const need = el.scrollWidth; if (need <= w + 1) continue;
+    const cs = parseFloat(getComputedStyle(el).fontSize) || 30;
+    el.style.fontSize = Math.max(12, Math.floor(cs * w / need * 0.96)) + 'px';
+  }
+}
+(() => { let t = 0; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => fitNums(), 120); }, { passive: true }); try { document.fonts && document.fonts.ready.then(() => fitNums()); } catch { } })();
+function countUp(root) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  $$('[data-n]').forEach(el => { const to = +el.dataset.n; if (!isFinite(to) || Math.abs(to) < 2) return; const suf = el.dataset.suf || ''; const t0 = performance.now(); const dur = 900; const step = t => { const p = Math.min(1, (t - t0) / dur); const v = to * (1 - Math.pow(1 - p, 3)); el.firstChild.nodeValue = fN(v) + suf; if (p < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); });
+  (root ? root.querySelectorAll('[data-n]') : $$('[data-n]')).forEach(el => { const to = +el.dataset.n; if (!isFinite(to) || Math.abs(to) < 2) return; const suf = el.dataset.suf || ''; const t0 = performance.now(); const dur = 900; const step = t => { const p = Math.min(1, (t - t0) / dur); const v = to * (1 - Math.pow(1 - p, 3)); el.firstChild.nodeValue = fN(v) + suf; if (p < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); });
 }
 const alertChip = s => s.alert ? `<span class="chip ${s.alert === 'soon' ? 'teal' : s.alert === 'low' ? 'amber' : 'red'}">${ALERT_TX[s.alert]}</span>` : '';
 const kpi = (l, v, d, cls = '', go = '', n = null, suf = '') => `<div class="kpi ${cls}" ${go ? `data-go="${go}" role="button" tabindex="0"` : ''}><div class="l">${l}</div><div class="v" ${n != null ? `data-n="${n}" data-suf="${suf}"` : ''}>${v}</div>${d ? `<div class="d">${d}</div>` : ''}</div>`;
@@ -2890,7 +2996,7 @@ MOUNT.docs = () => {
   bindMore();
   function bindMore() { const m = $('#docMore'); if (m) m.onclick = () => { st.ui.docs.n += 50; $('#docList').innerHTML = docList(); bindMore(); }; }
 };
-function docSheet(key) {
+function docSheet(key, capture) {
   const M = st.M; if (!M) return; if (!can('docs')) { toast('You do not have access to Docs'); return; } const d = M.docMap.get(key) || M.docs.find(x => x.key === key); if (!d) { toast('Doc not found'); return; }
   const tick = ico('check');
   const tl = [
@@ -2901,7 +3007,7 @@ function docSheet(key) {
     { c: d.uploaded ? 'ok' : d.dispatched ? 'bad' : '', t: d.uploaded ? 'Image uploaded' : 'Image not uploaded', s: d.up ? 'Uploads: ' + esc(d.up) : '—' }
   ];
   const lines = d.lines.map(l => { const s = M.stockMap.get(l.k); return `<tr data-sku="${esc(l.k)}" class="click"><td class="skuc">${esc(l.sku)}<span class="nm">${esc(M.names.get(l.k) || '')}</span></td><td class="n">${fN(l.qty)}</td><td class="n">${s ? `<span class="${s.live < 0 ? 'neg' : ''}">${fN(s.live)}</span>` : '<span class="chip">Not offline</span>'}</td>${d.status === 'pending' ? `<td class="n">${l.short ? `<span class="neg">−${fN(l.short)}</span>` : '<span class="pos">OK</span>'}</td>` : ''}</tr>`; }).join('');
-  openSheet(`<h3>${esc(d.doc)}</h3><div class="sub">${esc(d.name)} · row ${d.row} in Approverd${docTags(d)}</div>`,
+  return (capture ? (h, b) => [h, b] : openSheet)(`<h3>${esc(d.doc)}</h3><div class="sub">${esc(d.name)} · row ${d.row} in Approverd${docTags(d)}</div>`,
     `<div class="kv k3"><div><span>Status</span><b class="s">${statusChip(d)}</b></div><div><span>Days taken</span><b>${d.days ?? (d.age != null ? d.age + '…' : '—')}</b></div><div><span>Pieces</span><b>${d.lines.length ? fN(d.pcs) : '—'}</b></div><div><span>Courier</span><b class="s">${esc(d.courier) || '—'}</b></div><div><span>Dispatched</span><b class="s">${fD(d.dd) || '—'}</b></div><div><span>Data fill</span><b class="s">${esc(d.fill) || '—'}</b></div></div>
     ${d.revised ? `<div class="notice teal" style="margin-top:14px">${ico('info')}<div><b>Revised PI</b><div class="small">${d.packed ? `Packed ${fD(d.mv)} with the ${fD(d.baseDate)} version — that is what was minused on the packing day.` : 'Not packed yet, so only the latest version counts.'}${M.reviseRule === 'sum' ? ' Rule: every fill adds on top.' : ''}</div>
       <div class="small" style="margin-top:6px">${d.revDiffs.map(r => `<div><b>${fD(r.date)}${r.time ? ' ' + r.time : ''}</b> · ${r.changes.length ? r.changes.map(c => `${esc(c.sku)} <b class="${c.delta > 0 ? 'neg' : 'pos'}">${c.delta > 0 ? '+' : '−'}${fN(Math.abs(c.delta))}</b>`).join(', ') : 'no change'}${r.afterPack ? (r.counted ? ' · after packing: ' + (r.changes.some(c => c.delta < 0) ? 'added back / ' : '') + 'minused that day' : ' · after packing, before the audit') : ' · before packing'}</div>`).join('')}</div></div></div>` : ''}
@@ -2932,14 +3038,20 @@ function stockList() {
   if (u.f === 'alert' || u.f === 'low') L = L.slice().sort((a, b) => (a.cover ?? 9e9) - (b.cover ?? 9e9));
   if (u.f === 'lowalert') L = M.lowList.slice();
   if (!L.length) return `<div class="panel empty"><h4>No SKUs here</h4><p>${u.q ? 'Nothing matches your filter.' : 'Nothing needs attention in this group.'}</p></div>`;
+  let sumH = '';
+  if (u.q.trim()) {
+    const live = L.reduce((a, s) => a + Math.max(0, s.live), 0), pend = L.reduce((a, s) => a + (s.pending || 0), 0), wh = L.reduce((a, s) => a + ((M.b2b.map.get(s.k) || {}).wh || 0), 0);
+    const ctn = L.reduce((a, s) => { const cs = (st.t3.cases.get(s.k) || [])[0]; return a + (cs ? Math.floor(Math.max(0, s.live) / cs) : 0); }, 0);
+    sumH = `<div class="panel mb sfind"><div class="panel-head"><div><h3>“${esc(u.q.trim())}” · ${L.length} SKU${L.length > 1 ? 's' : ''}</h3><div class="sub">Offline live, pending aur B2B warehouse — sab milaake</div></div></div><div class="bkpi">${kpi('Offline live', fN(live), 'Good stock', 'good', '', live)}${kpi('Pending', fN(pend), 'Pack hona baaki', pend ? 'warn' : '', '', pend)}${kpi('B2B warehouse', fN(wh), 'La sakte ho', '', '', wh)}${kpi('Full cartons', fN(ctn), 'Offline live se', '', '', ctn)}</div></div>`;
+  }
   const st8 = s => alertChip(s) || (s.state === 'neg' ? '<span class="chip red">Negative</span>' : s.state === 'zero' ? '<span class="chip red">Empty</span>' : '');
   const rows = L.slice(0, u.n).map(s => `<tr class="click" data-sku="${esc(s.k)}"><td class="skuc">${hl(s.sku, u.q)}<span class="nm">${hl(s.name, u.q)}</span></td><td class="small">${esc(s.shelves.join(', '))}</td><td class="n">${fN(s.base)}</td><td class="n pos">${s.inw ? '+' + fN(s.inw) : '—'}</td><td class="n">${s.outT ? '−' + fN(s.outT) : '—'}</td><td class="n">${s.dmg ? '−' + fN(s.dmg) : '—'}</td><td class="n"><b class="${s.good < 0 ? 'neg' : ''}">${fN(s.good)}</b>${s.bad ? `<div class="tiny muted">+${fN(s.bad)} BAD</div>` : ''} ${st8(s)}</td><td class="n">${s.pending ? fN(s.pending) + `<div class="tiny ${s.projected < 0 ? 'neg' : 'muted'}">→ ${fN(s.projected)}</div>` : '—'}</td><td class="n">${s.cover == null ? '—' : Math.round(s.cover) + 'd'}</td><td>${lifeBar(s.nearLife)}</td></tr>`).join('');
   const cards = L.slice(0, u.n).map(s => `<div class="card" data-sku="${esc(s.k)}"><div class="main"><div class="t" style="word-break:break-all">${hl(s.sku, u.q)} ${st8(s)}</div><div class="s">${hl(s.name, u.q)}</div><div class="s">${esc(s.shelves.join(', '))} · audit ${fN(s.base)}${s.outT ? ' · −' + fN(s.outT) : ''}${s.inw ? ' · +' + fN(s.inw) : ''}${s.pending ? ' · ' + fN(s.pending) + ' pending' : ''}${s.bad ? ' · ' + fN(s.bad) + ' BAD' : ''}</div></div><div class="r"><div class="big ${s.good < 0 ? 'neg' : ''}">${fN(s.good)}</div><div class="tiny muted">${s.pending ? '→ ' + fN(s.projected) : 'live'}</div></div></div>`).join('');
-  return `<div class="only-d"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>SKU</th><th>Shelf</th><th class="n">Audit</th><th class="n">Inward</th><th class="n">Out</th><th class="n">Damage</th><th class="n">Live (good)</th><th class="n">Pending</th><th class="n">Cover</th><th>Nearest expiry</th></tr></thead><tbody>${rows}</tbody></table></div></div><div class="only-m"><div class="cards">${cards}</div></div>
+  return sumH + `<div class="only-d"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>SKU</th><th>Shelf</th><th class="n">Audit</th><th class="n">Inward</th><th class="n">Out</th><th class="n">Damage</th><th class="n">Live (good)</th><th class="n">Pending</th><th class="n">Cover</th><th>Nearest expiry</th></tr></thead><tbody>${rows}</tbody></table></div></div><div class="only-m"><div class="cards">${cards}</div></div>
   ${L.length > u.n ? `<div class="more-row"><button class="btn" id="stkMore">Show all ${L.length}</button></div>` : `<div class="more-row tiny muted">${L.length} SKUs · cover = live ÷ average daily out over 14 days</div>`}`;
 }
 MOUNT.stock = () => {
-  const q = $('#stkQ'); q.oninput = () => { st.ui.stock.q = q.value; $('#stkList').innerHTML = stockList(); bm(); };
+  const q = $('#stkQ'); let qt = 0; q.oninput = () => { st.ui.stock.q = q.value; clearTimeout(qt); qt = setTimeout(() => { const box = $('#stkList'); box.innerHTML = stockList(); bm(); fitNums(box); if (q.value.trim()) countUp(box); }, 200); };
   $$('[data-sf]').forEach(b => b.onclick = () => { st.ui.stock.f = b.dataset.sf; render(); });
   const bm = () => { const m = $('#stkMore'); if (m) m.onclick = () => { st.ui.stock.n = 9999; $('#stkList').innerHTML = stockList(); }; }; bm();
 };
@@ -3494,8 +3606,8 @@ document.addEventListener('keydown', e => {
   // closing in code never calls history.back(): a navigation may be right behind it
   closeSheet = function () { _close(); if (pushed) { pushed = false; try { if (history.state && history.state.dtSheet) history.replaceState(null, ''); } catch { } } };
   const userClose = () => { if (pushed && history.state && history.state.dtSheet) history.back(); else closeSheet(); };
-  window.addEventListener('popstate', () => { if ($('#sheet').classList.contains('on')) { pushed = false; _close(); } });
-  $('#scrim').onclick = userClose; $('#sheetX').onclick = userClose;
+  window.addEventListener('popstate', () => { if ($('#sheet').classList.contains('on')) { if (window.__sheetBack && window.__sheetBack()) { try { history.pushState({ dtSheet: 1 }, ''); pushed = true; } catch { } return; } pushed = false; _close(); } });
+  $('#scrim').onclick = () => { if (window.__sheetLock && window.__sheetLock()) return; userClose(); }; $('#sheetX').onclick = userClose;
 })();
 
 /* ===== DAILY MINUS ===== */
@@ -3619,7 +3731,8 @@ V.b2b = () => {
     const T = per.reduce((a, x) => a + x.total, 0), W = per.reduce((a, x) => a + x.wh, 0), CT = per.reduce((a, x) => a + (x.ctn || 0), 0), WC = per.reduce((a, x) => a + (x.whCtn || 0), 0);
     sum = per.length ? `<div class="panel mt"><div class="panel-head"><div><h3>“${esc(u.q.trim())}” · ${per.length} SKU${per.length > 1 ? 's' : ''}</h3><div class="sub">Totals across every matching SKU. Case size and dimensions come live from Test 3.</div></div></div>
       <div class="bkpi">${kpi('Total stock', fN(T), 'All B2B shelves', '', '', T)}${kpi('Warehouse', fN(W), 'Can come offline', '', '', W)}${kpi('Full cartons', fN(CT), `${fN(WC)} in warehouse`, '', '', CT)}${kpi('Offline live', fN(per.reduce((a, x) => a + Math.max(0, (st.M.stockMap.get(x.k) || { good: 0 }).good), 0)), 'Same SKUs offline')}</div>
-      <div class="cards mt">${per.slice(0, 24).map(x => `<div class="card" data-sku="${esc(x.k)}"><div class="main"><div class="t" style="word-break:break-all">${esc(x.sku)}</div><div class="s">${esc(x.name)}</div><div class="s">${x.cs ? `Case ${fN(x.cs)} · <b>${fN(x.ctn)}</b> carton${x.ctn === 1 ? '' : 's'}${x.loose ? ' + ' + fN(x.loose) + ' loose' : ''} · warehouse ${fN(x.whCtn)}` : '<span class="neg">No case size</span>'}${x.dm ? ` · ${x.dm.l}×${x.dm.b}×${x.dm.h}${x.dm.w ? ' · ' + x.dm.w + ' kg' : ''}` : ''}</div></div><div class="r"><div class="big">${fN(x.total)}</div><div class="tiny muted">wh ${fN(x.wh)}</div></div></div>`).join('')}</div>
+      ${(() => { const mx = Math.max(1, ...per.map(x => x.total)); const off = per.reduce((a, x) => a + Math.max(0, (st.M.stockMap.get(x.k) || { good: 0 }).good), 0); const all = Math.max(1, W + (T - W) + off); return `<div class="sbars mt"><div class="sb-split" title="Warehouse · B2B offline shelves · Offline live"><i class="w" style="--w:${(W / all * 100).toFixed(1)}%"></i><i class="o" style="--w:${((T - W) / all * 100).toFixed(1)}%"></i><i class="l" style="--w:${(off / all * 100).toFixed(1)}%"></i></div><div class="sb-key"><span><b class="w"></b>Warehouse ${fN(W)}</span><span><b class="o"></b>B2B offline shelves ${fN(T - W)}</span><span><b class="l"></b>Offline live ${fN(off)}</span></div></div>`; })()}
+      <div class="cards mt">${per.slice(0, 24).map((x, i, A) => `<div class="card sbar-card" data-sku="${esc(x.k)}" style="--d:${i}"><div class="main"><div class="t" style="word-break:break-all">${esc(x.sku)}</div><div class="s">${esc(x.name)}</div><div class="sbar"><i style="--w:${(Math.max(0, x.total) / Math.max(1, ...A.map(y => y.total)) * 100).toFixed(1)}%"></i></div><div class="s">${x.cs ? `Case ${fN(x.cs)} · <b>${fN(x.ctn)}</b> carton${x.ctn === 1 ? '' : 's'}${x.loose ? ' + ' + fN(x.loose) + ' loose' : ''} · warehouse ${fN(x.whCtn)}` : '<span class="neg">No case size</span>'}${x.dm ? ` · ${x.dm.l}×${x.dm.b}×${x.dm.h}${x.dm.w ? ' · ' + x.dm.w + ' kg' : ''}` : ''}</div></div><div class="r"><div class="big">${fN(x.total)}</div><div class="tiny muted">wh ${fN(x.wh)}</div></div></div>`).join('')}</div>
       ${per.length > 24 ? `<p class="tiny muted">${per.length - 24} more in the table below</p>` : ''}</div>` : `<div class="panel empty mt"><p>No B2B SKU matches “${esc(u.q)}”.</p></div>`;
   }
   return `<div class="page-head"><div><h2>B2B stock</h2><p>Full Uniware stock from B2B STOCK, for reference: what is out of stock, what can be brought offline, and how much shelf life is left.</p></div></div>
@@ -3627,8 +3740,13 @@ V.b2b = () => {
   <div class="seg mt" style="margin-bottom:12px">${tabs.map(([t, l]) => `<button class="${u.tab === t ? 'on' : ''}" data-bt="${t}">${l}</button>`).join('')}</div>
   <div class="searchbox" data-form style="margin-bottom:12px">${ico('search')}<input id="b2bQ" type="search" placeholder="Type best, pig, kojic… for totals and cartons" value="${esc(u.q)}"></div>${sum}<div class="mt">${body}</div>`;
 };
-function tbl(h, rows, numCols = []) { return rows.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr>${h.map((x, i) => `<th class="${numCols.includes(i) ? 'n' : ''}">${x}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>` : '<div class="panel empty"><p>Nothing to show.</p></div>'; }
-MOUNT.b2b = () => { $$('[data-bt]').forEach(b => b.onclick = () => { st.ui.b2b.tab = b.dataset.bt; render(); }); const q = $('#b2bQ'); let t; q.oninput = () => { clearTimeout(t); t = setTimeout(() => { st.ui.b2b.q = q.value; render(); }, 220); }; };
+function tbl(h, rows, numCols = []) { return rows.length ? `<div class="tbl-wrap stackw"><table class="tbl stack"><thead><tr>${h.map((x, i) => `<th class="${numCols.includes(i) ? 'n' : ''}">${x}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>` : '<div class="panel empty"><p>Nothing to show.</p></div>'; }
+MOUNT.b2b = () => {
+  $$('[data-bt]').forEach(b => b.onclick = () => { st.ui.b2b.tab = b.dataset.bt; render(); });
+  const q = $('#b2bQ'); let t; q.oninput = () => { clearTimeout(t); t = setTimeout(() => { st.ui.b2b.q = q.value; render(); }, 260); };
+  const bk = $('.bkpi'); if (bk && st.ui.b2b.q.trim() && st.ui.b2b.q !== MOUNT.b2b.last) { MOUNT.b2b.last = st.ui.b2b.q; countUp(bk.parentElement); SND.play('count'); }
+  if (!st.ui.b2b.q.trim()) MOUNT.b2b.last = '';
+};
 
 /* ===== TEAM ===== */
 V.team = () => {
@@ -3793,6 +3911,7 @@ function userEditor(idx) {
         <div class="hint" id="uAccHint"></div></div>
       <div class="fld full" id="uPagesBox" ${u.access === 'custom' ? '' : 'hidden'}><label>Pages this person can open</label><div class="pgrid">${PERMS.map(([k, l]) => box(k, l)).join('')}</div>
         <label class="tgl" style="margin-top:10px"><input type="checkbox" id="uEdit" ${u.edit ? 'checked' : ''}><span class="sw"></span><span><b>Can add entries</b><em>Off = can only look</em></span></label></div>
+      <div class="fld full"><label class="tgl"><input type="checkbox" id="uBot" ${u.access === 'admin' || u.pages.includes('dermi') ? 'checked' : ''}><span class="sw"></span><span><b>Agent (Dermi / Momo / Tinku)</b><em>On = is insaan ko robot dost, chat, awaaz aur AI milega. Admin ko hamesha.</em></span></label></div>
       <div class="fld full"><label class="tgl"><input type="checkbox" id="uAct" ${u.active ? 'checked' : ''}><span class="sw"></span><span><b>Active</b><em>Off = blocked from the app</em></span></label></div>
       <div class="full" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" type="submit">Save user</button>${idx === 'new' ? '' : '<button class="btn ghost" type="button" id="uDel">Remove</button>'}</div>
     </form>`);
@@ -3804,8 +3923,8 @@ function userEditor(idx) {
     ev.preventDefault();
     const email = str($('#uEm').value).toLowerCase(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return bad('uEm', 'Enter a Google email');
     const pages = $$('#uPagesBox input[type=checkbox][value]').filter(x => x.checked).map(x => x.value);
-    if (acc === 'custom' && !pages.length) { toast('Tick at least one page'); return; }
-    const nu = { email, name: str($('#uNm').value), access: acc, pages: acc === 'custom' ? pages : [], edit: acc === 'custom' ? $('#uEdit').checked : acc !== 'view', active: $('#uAct').checked, note: u.note || '' };
+    if (acc === 'custom' && !pages.filter(p => p !== 'dermi').length) { toast('Tick at least one page'); return; }
+    const nu = { email, name: str($('#uNm').value), access: acc, pages: (acc === 'custom' ? pages : []).concat($('#uBot').checked && acc !== 'admin' ? ['dermi'] : []), edit: acc === 'custom' ? $('#uEdit').checked : acc !== 'view', active: $('#uAct').checked, note: u.note || '' };
     let list = (st.users || []).slice();
     if (idx === 'new') { if (list.some(x => x.email === email)) return bad('uEm', 'Already in the list'); list.push(nu); } else list[+idx] = nu;
     await saveUsers(list);
@@ -3820,7 +3939,7 @@ async function saveUsers(list) {
   try {
     await ensureTab('USERS');
     const sh = st.books.t3.map.USERS;
-    const vals = [T3_COLS.USERS.cols.slice(0, 7), ...list.map(u => [u.email, u.name, ACCESS[u.access], u.access === 'custom' ? u.pages.map(permLabel).join(', ') : '', u.access === 'view' ? 'No' : u.access === 'custom' ? (u.edit ? 'Yes' : 'No') : 'Yes', u.active ? 'Yes' : 'No', u.note || ''])];
+    const vals = [T3_COLS.USERS.cols.slice(0, 7), ...list.map(u => [u.email, u.name, ACCESS[u.access], (u.access === 'custom' ? u.pages : u.pages.filter(p => p === 'dermi')).map(permLabel).join(', '), u.access === 'view' ? 'No' : u.access === 'custom' ? (u.edit ? 'Yes' : 'No') : 'Yes', u.active ? 'Yes' : 'No', u.note || ''])];
     await gfetch(API + FILES.t3.id + '/values/' + encodeURIComponent(qt(sh.name) + '!A1:G' + vals.length) + '?valueInputOption=RAW', { method: 'PUT', body: JSON.stringify({ values: vals }) });
     await gfetch(API + FILES.t3.id + '/values:batchClear', { method: 'POST', body: JSON.stringify({ ranges: [qt(sh.name) + '!A' + (vals.length + 1) + ':G'] }) });
     closeSheet(); toast('Users saved'); SND.play('success'); await reloadT3(); render();
@@ -3835,20 +3954,21 @@ function alertsPanel() {
     <div style="display:flex;gap:8px;flex-wrap:wrap" class="mt"><button class="btn" id="alAdd" type="button">${ico('plus')}Add</button><button class="btn primary" id="alSave" type="button" ${canWrite('settings') ? '' : 'disabled'}>Save alert levels</button></div></div>`;
 }
 const V_settingsAll = V.settings;
-V.settings = () => V_settingsAll() + `<div class="panel mt"><div class="rb-hd" style="margin-bottom:8px">${robot('active', 44)}<div><h3>Dermi — app dost</h3><div class="sub">Notification bol ke batata hai, sawaal ka jawab deta hai. Sirf is phone pe.</div></div></div>
-  <div class="toggles"><label class="tgl"><input type="checkbox" id="tRobo" ${lsg('dt-robo') !== 'off' ? 'checked' : ''}><span class="sw"></span><span><b>Dermi dikhe</b><em>Neeche kone me robot, notification bubble ke saath</em></span></label>
+V.settings = () => V_settingsAll() + (!ROBO.allowed() ? `<div class="panel mt"><h3>Agent</h3><p class="sub">Robot dost (chat, awaaz, AI) aapke liye chalu nahi hai. Admin Settings → Users me "Agent" on kar sakta hai.</p></div>` : `<div class="panel mt"><div class="rb-hd" style="margin-bottom:8px">${robot('wave', 44)}<div><h3>${AG.name()} — app dost</h3><div class="sub">Notification bol ke batata hai, sawaal ka jawab deta hai. Ye settings sirf is phone pe.</div></div></div>
+  <b class="tiny muted">Apna dost chuno</b><div class="chars">${Object.entries(AG.LIST).map(([c, x]) => `<button type="button" class="chcard ${AG.cur() === c ? 'on' : ''}" data-char="${c}">${robot(AG.cur() === c ? 'happy' : 'normal', 64, c)}<b>${x.name}</b><em>${x.tag}</em></button>`).join('')}</div>
+  <div class="toggles mt"><label class="tgl"><input type="checkbox" id="tRobo" ${lsg('dt-robo') !== 'off' ? 'checked' : ''}><span class="sw"></span><span><b>${AG.name()} dikhe</b><em>Neeche kone me, notification bubble ke saath</em></span></label>
   <label class="tgl"><input type="checkbox" id="tVoice" ${VOICE.on() ? 'checked' : ''}><span class="sw"></span><span><b>Bol ke batao</b><em>Notification aur jawab awaaz me</em></span></label>
-  <label class="tgl"><input type="checkbox" id="tRemind" ${lsg('dt-remind') !== 'off' ? 'checked' : ''}><span class="sw"></span><span><b>Minus ki yaad dilao</b><em>Har 2 ghante; der ho to Dermi gussa karegi 😤</em></span></label></div>
+  <label class="tgl"><input type="checkbox" id="tRemind" ${lsg('dt-remind') !== 'off' ? 'checked' : ''}><span class="sw"></span><span><b>Minus ki yaad dilao</b><em>Har 2 ghante; der ho to gussa karega 😤</em></span></label></div>
   <div class="vset"><div><b>Bhasha</b><div class="seg">${[['hi', 'हिंदी'], ['en', 'English']].map(([v, l]) => `<button type="button" class="${VOICE.lang() === v ? 'on' : ''}" data-vl="${v}">${l}</button>`).join('')}</div></div>
-  <div><b>Awaaz</b><div class="vcards">${[['kid', 'Chhota Dermi', 'Cute, patli, masti bhari bachche jaisi awaaz'], ['girl', 'Dermi Didi', '20–25 saal ki ladki — saaf, meethi, khush awaaz']].map(([v, t, d]) => `<button type="button" class="vcard ${VOICE.who() === v ? 'on' : ''}" data-vw="${v}">${robot(v === 'kid' ? 'active' : 'normal', 34)}<span><b>${t}</b><em>${d}</em></span><i class="vplay">${ico('sound')}</i></button>`).join('')}</div></div>
+  <div><b>Awaaz</b><div class="vcards">${[['kid', 'Chhoti cute awaaz', 'Patli, masti bhari, cartoon jaisi'], ['girl', 'Didi awaaz', '20–25 saal ki ladki — saaf, meethi, khush']].map(([v, t, d]) => `<button type="button" class="vcard ${VOICE.who() === v ? 'on' : ''}" data-vw="${v}">${robot(v === 'kid' ? 'happy' : 'normal', 34)}<span><b>${t}</b><em>${d}</em></span><i class="vplay">${ico('sound')}</i></button>`).join('')}</div></div>
   <div class="vstat" id="vStat">Awaaz check ho rahi hai…</div></div>
-  <div class="mt"><button class="btn sm" id="tRoboChat" type="button">Dermi se baat karo</button></div></div>`;
+  <div class="mt"><button class="btn sm" id="tRoboChat" type="button">${AG.name()} se baat karo</button></div></div>`);
 document.addEventListener('change', e => {
-  if (e.target.id === 'tRobo') { lss('dt-robo', e.target.checked ? null : 'off'); ROBO.show(); if (e.target.checked) ROBO.say('Main wapas aa gaya! 👋', { mood: 'active', sp: { hi: `मैं वापस आ ${VOICE.g('गया', 'गई')}!`, en: "I'm back!" } }); }
+  if (e.target.id === 'tRobo') { lss('dt-robo', e.target.checked ? null : 'off'); ROBO.show(); if (e.target.checked) ROBO.say(`Main wapas aa ${VOICE.g('gaya', 'gayi')}! 👋`, { mood: 'wave', sp: { hi: `मैं वापस आ ${VOICE.g('गया', 'गई')}!`, en: "I'm back!" } }); }
   if (e.target.id === 'tRemind') { lss('dt-remind', e.target.checked ? null : 'off'); if (e.target.checked) setTimeout(() => ROBO.remind(true), 300); }
-  if (e.target.id === 'tVoice') { lss('dt-voice', e.target.checked ? null : 'off'); if (e.target.checked) ROBO.say('Ab main bol ke bataungi.', { mood: 'active', sp: { hi: `अब मैं बोल के ${VOICE.g('बताऊँगा', 'बताऊँगी')}।`, en: "I'll speak out loud now." } }); else VOICE.stop(); }
+  if (e.target.id === 'tVoice') { lss('dt-voice', e.target.checked ? null : 'off'); if (e.target.checked) ROBO.say(`Ab main bol ke ${VOICE.g('bataunga', 'bataungi')}.`, { mood: 'happy', sp: { hi: `अब मैं बोल के ${VOICE.g('बताऊँगा', 'बताऊँगी')}।`, en: "I'll speak out loud now." } }); else VOICE.stop(); }
 });
-const V_SAMPLE = { kid: { hi: 'हाय! मैं छोटा डर्मी हूँ। आज का माइनस मैं याद दिलाऊँगा, और लो स्टॉक भी बताऊँगा!', en: "Hi! I'm little Dermi. I'll remind you about today's minus and tell you about low stock!" }, girl: { hi: 'नमस्ते! मैं डर्मी दीदी हूँ। आज बारह SKU पैक होने बाकी हैं, चलो जल्दी से कर लेते हैं!', en: "Hello! I'm Dermi Didi. Twelve SKUs are waiting to be packed today, let's get them done!" } };
+const V_SAMPLE = { get kid() { return { hi: `हाय! मैं ⟦${AG.hiName()}⟧ हूँ। आज का माइनस मैं याद दिलाऊँगा, और लो स्टॉक भी बताऊँगा!`, en: `Hi! I'm ${AG.name()}. I'll remind you about today's minus and tell you about low stock!` }; }, get girl() { return { hi: `नमस्ते! मैं ⟦${AG.hiName()}⟧ हूँ। आज बारह SKU पैक होने बाकी हैं, चलो जल्दी से कर लेते हैं!`, en: `Hello! I'm ${AG.name()}. Twelve SKUs are waiting to be packed today, let's get them done!` }; } };
 async function vStat() {
   const el = $('#vStat'); if (!el) return;
   const c = await VOICE.detect(true); const s = VOICE.status(); if (!$('#vStat')) return;
@@ -3859,6 +3979,7 @@ async function vStat() {
 }
 document.addEventListener('click', e => {
   if (e.target.closest('#tRoboChat')) { ROBO.chat(); return; }
+  const ch = e.target.closest('[data-char]'); if (ch) { lss('dt-char', ch.dataset.char === 'dermi' ? null : ch.dataset.char); ROBO.recharacter(); render(); SND.play('roboHi'); setTimeout(() => ROBO.say(`Hi! Ab main <b>${AG.name()}</b> ${VOICE.g('hoon', 'hoon')} 😊`, { mood: 'wave', silent: true, ms: 5000, sp: { hi: `हाय! अब मैं ⟦${AG.hiName()}⟧ हूँ।`, en: `Hi! I'm ${AG.name()} now.` } }), 250); return; }
   const l = e.target.closest('[data-vl]'); if (l) { lss('dt-vlang', l.dataset.vl === 'hi' ? null : 'en'); $$('[data-vl]').forEach(b => b.classList.toggle('on', b === l)); VOICE.say(V_SAMPLE[VOICE.who()], { force: true }).then(vStat); vStat(); return; }
   const w = e.target.closest('[data-vw]'); if (w) { lss('dt-vwho', w.dataset.vw === 'kid' ? 'kid' : null); $$('[data-vw]').forEach(b => b.classList.toggle('on', b === w)); w.classList.add('playing'); VOICE.say(V_SAMPLE[w.dataset.vw], { force: true, onend: () => w.classList.remove('playing') }).then(v => { if (!v) w.classList.remove('playing'); vStat(); }); return; }
 });
@@ -4316,7 +4437,7 @@ const NT = (() => {
   }
   function show(title, body, tag, go) {
     if (perm() !== 'granted') return;
-    const opt = { body, tag: tag || 'dt', icon: (window.DT_ART || {}).icon192, badge: (window.DT_ART || {}).icon192, data: { url: location.origin + location.pathname + (go ? '#/' + go : '') }, renotify: false };
+    const opt = { body, tag: tag || 'dt', icon: (ROBO.allowed() && agIcon(/minus|alert|low/.test(tag || '') ? 'alert' : 'happy')) || (window.DT_ART || {}).icon192, badge: (window.DT_ART || {}).icon192, data: { url: location.origin + location.pathname + (go ? '#/' + go : '') }, renotify: false };
     try { if (reg && reg.showNotification) { reg.showNotification(title, opt); return; } } catch { }
     try { navigator.serviceWorker && navigator.serviceWorker.ready.then(r => r.showNotification(title, opt)).catch(() => { try { new Notification(title, opt); } catch { } }); } catch { try { new Notification(title, opt); } catch { } }
   }
@@ -4367,11 +4488,12 @@ const NT = (() => {
   function panel() {
     if (!st.M) return;
     const evs = mine(); const un = evs.filter(e => !read.has(e.id)), old = evs.filter(e => read.has(e.id)).slice(0, 40);
-    const item = e => `<div class="ntf-i ${e.lvl} ${read.has(e.id) ? '' : 'unread'}" data-ev="${esc(e.id)}" role="button"><div class="dot"></div><div style="min-width:0;flex:1"><b>${esc(e.title)}</b><span>${esc(e.body)}</span><em>${when(e)}</em></div></div>`;
+    const bot = ROBO.allowed(); const fm = e => ({ bad: 'angry', warn: 'alert', info: 'happy' })[e.lvl] || 'normal';
+    const item = e => `<div class="ntf-i ${e.lvl} ${read.has(e.id) ? '' : 'unread'}" data-ev="${esc(e.id)}" role="button">${bot ? robot(read.has(e.id) ? 'normal' : fm(e), 30) : '<div class="dot"></div>'}<div style="min-width:0;flex:1"><b>${esc(e.title)}</b><span>${esc(e.body)}</span><em>${when(e)}</em></div></div>`;
     const body = `${perm() === 'default' ? `<div class="mailbar" style="margin-bottom:12px">${ico('info')}<span>Get these on the phone too.</span><button class="btn sm primary" id="ntPerm">Turn on</button></div>` : ''}
       ${un.length ? `<div class="ntf">${un.map(item).join('')}</div>` : `<div class="calm">${ico('check')}<span>Nothing new.</span></div>`}
       ${old.length ? `<h4 class="mt2" style="margin:16px 0 8px">Earlier</h4><div class="ntf">${old.map(item).join('')}</div>` : ''}`;
-    openSheet(`<div class="rb-hd">${robot(un.length ? 'alert' : 'active', 42)}<div><h3>Dermi ki khabar</h3><div class="sub">${un.length ? un.length + ' nayi' : 'Sab padh liya'}${un.length ? ' · <button class="btn sm ghost" id="ntAll" style="height:26px;padding:0 8px">Mark all read</button>' : ''}</div></div></div>`, body);
+    openSheet(`<div class="rb-hd">${bot ? robot(un.length ? 'alert' : 'happy', 42) : ''}<div><h3>${bot ? AG.name() + ' ki khabar' : 'Notifications'}</h3><div class="sub">${un.length ? un.length + ' nayi' : 'Sab padh liya'}${un.length ? ' · <button class="btn sm ghost" id="ntAll" style="height:26px;padding:0 8px">Mark all read</button>' : ''}</div></div></div>`, body);
     st.sheetFn = null;
   }
   document.addEventListener('click', e => {
@@ -4387,7 +4509,7 @@ window.__dt_avatar = (p, s) => avatar(p, s); window.__dt = { parseReply, GM, NT,
 
 /* ================= MASCOT SPOTS & TEAM ================= */
 /* every mascot spot shows Dermi */
-function mascot(mood = 'happy', size = 64) { return robot({ happy: 'active', wave: 'active', calm: 'normal', sad: 'sad', wow: 'alert' }[mood] || 'normal', size); }
+function mascot(mood = 'happy', size = 64) { return robot({ happy: 'happy', wave: 'wave', calm: 'normal', sad: 'sad', wow: 'wow' }[mood] || 'normal', size); }
 /* photos: a picture uploaded from the app (kept small inside the sheet), an
    image link, or a Google Drive share link (file shared "anyone with the link") */
 function photoSrc(v) {
@@ -4490,20 +4612,116 @@ function memberEditor(id) {
 
 
 /* ================= DERMI — the app's robot friend ================= */
-const RB_DOTS = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(i => `<circle class="rb-dot" style="--d:${[0, 1, 2, 1, 2, 3, 2, 3, 4][i]}" cx="${22 + (i % 3) * 10}" cy="${21 + Math.floor(i / 3) * 10}" r="2.7"/>`).join('');
-function robot(state = 'normal', size = 56) {
-  return `<span class="rb masc rb-${state}" style="width:${size}px;height:${size}px" aria-hidden="true"><svg viewBox="0 0 64 64" width="${size}" height="${size}">
-    <ellipse class="rb-shadow" cx="32" cy="59" rx="15" ry="2.8"/>
-    <g class="rb-body"><path class="rb-ant" d="M32 12.5 V7"/><circle class="rb-antb" cx="32" cy="5.6" r="2.6"/>
-      <path class="rb-head" d="M32 12.5 C46.5 12.5 56 19 56 31.5 C56 44.5 46.5 51.5 32 51.5 C17.5 51.5 8 44.5 8 31.5 C8 19 17.5 12.5 32 12.5 Z"/>
-      <ellipse class="rb-gloss" cx="21" cy="20.5" rx="6.5" ry="2.4" transform="rotate(-18 21 20.5)"/>
-      <g class="rb-eyes"><rect class="rb-eye" x="20.5" y="26" width="6.4" height="10.5" rx="3.2"/><rect class="rb-eye" x="37.1" y="26" width="6.4" height="10.5" rx="3.2"/></g>
-      <path class="rb-smile" d="M27 41.5 Q32 45.5 37 41.5"/><ellipse class="rb-o" cx="32" cy="43.2" rx="2.4" ry="2.9"/>
-      <path class="rb-brow" d="M19.5 21.5 L28 24.6"/><path class="rb-brow" d="M44.5 21.5 L36 24.6"/>
-      <g class="rb-steam"><circle cx="10" cy="14" r="2.6"/><circle cx="54" cy="14" r="2.6"/><circle cx="7" cy="7" r="1.8"/><circle cx="57" cy="7" r="1.8"/></g>
-      <text class="rb-z" x="47" y="11">z</text><text class="rb-z rb-z2" x="53" y="5">z</text></g>
-    <g class="rb-dots">${RB_DOTS}</g></svg></span>`;
+/* ================= AGENTS — three original characters, one brain =================
+   Dermi (teal robot), Momo (soft lavender buddy), Tinku (screen-face bot).
+   Every face has the same parts, so every mood works for every character. */
+const AG = (() => {
+  const LIST = {
+    dermi: { name: 'Dermi', hi: 'डर्मी', tag: 'Teal robot · seedha-saada, tez', g: 'f' },
+    momo: { name: 'Momo', hi: 'मोमो', tag: 'Gol-matol lavender dost · cute aur pyaara', g: 'f' },
+    tinku: { name: 'Tinku', hi: 'टिंकू', tag: 'Screen wala bot · smart aur digital', g: 'm' }
+  };
+  const cur = () => { const c = lsg('dt-char'); return LIST[c] ? c : 'dermi'; };
+  const name = c => LIST[c || cur()].name;
+  const hiName = c => LIST[c || cur()].hi;
+  return { LIST, cur, name, hiName };
+})();
+/* face parts shared by all characters; (x1,x2,y) = eye centres, my = mouth y, s = scale */
+function agFace(o) {
+  const { x1, x2, y, my, s = 1, eye = '#33E3A9', ink = '#2B2240', ew = 6.4, eh = 10.5, round = false } = o;
+  const E = (x, i) => round ? `<ellipse class="rb-eye" cx="${x}" cy="${y}" rx="${ew / 2}" ry="${eh / 2}" fill="${eye}"/>` + (o.glint ? `<circle class="rb-glint" cx="${x + ew * .18}" cy="${y - eh * .2}" r="${ew * .17}" fill="#fff"/>` : '')
+    : `<rect class="rb-eye" x="${x - ew / 2}" y="${y - eh / 2}" width="${ew}" height="${eh}" rx="${ew / 2}" fill="${eye}"/>`;
+  const hap = x => `M${x - 3.4 * s} ${y + 1.4 * s} Q${x} ${y - 3.6 * s} ${x + 3.4 * s} ${y + 1.4 * s}`;
+  const shut = x => `M${x - 3.4 * s} ${y + .4 * s} Q${x} ${y + 2.8 * s} ${x + 3.4 * s} ${y + .4 * s}`;
+  const heart = x => `M${x} ${y + 3.3 * s} C${x - 5 * s} ${y - .2 * s} ${x - 3.6 * s} ${y - 4.6 * s} ${x} ${y - 2 * s} C${x + 3.6 * s} ${y - 4.6 * s} ${x + 5 * s} ${y - .2 * s} ${x} ${y + 3.3 * s} Z`;
+  const by = y - eh / 2 - 3.2 * s;
+  const mx = (x1 + x2) / 2;
+  const dots = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(i => `<circle class="rb-dot" style="--d:${[0, 1, 2, 1, 2, 3, 2, 3, 4][i]}" cx="${mx + ((i % 3) - 1) * 5.4 * s}" cy="${(y + my) / 2 - 1 + (Math.floor(i / 3) - 1) * 5.4 * s}" r="${1.75 * s}" fill="${eye}" opacity="0"/>`).join('');
+  return `<g class="rb-face">
+      <g class="rb-eyes">${E(x1, 0)}${E(x2, 1)}</g>
+      <path class="rb-hap" d="${hap(x1)} ${hap(x2)}" stroke="${o.hapc || eye}" opacity="0"/>
+      <path class="rb-shut" d="${shut(x1)} ${shut(x2)}" stroke="${o.hapc || eye}" opacity="0"/>
+      <path class="rb-wink" d="${shut(x2)}" stroke="${o.hapc || eye}" opacity="0"/>
+      <g class="rb-love" opacity="0"><path d="${heart(x1)}"/><path d="${heart(x2)}"/></g>
+      <path class="rb-brow" d="M${x1 - 4 * s} ${by - 1 * s} L${x1 + 3 * s} ${by + 1.6 * s}" stroke="${o.browc || ink}" opacity="0"/><path class="rb-brow" d="M${x2 + 4 * s} ${by - 1 * s} L${x2 - 3 * s} ${by + 1.6 * s}" stroke="${o.browc || ink}" opacity="0"/>
+      <ellipse class="rb-blush" cx="${x1 - 2.6 * s}" cy="${my - .6 * s}" rx="${2.6 * s}" ry="${1.5 * s}" opacity="0"/><ellipse class="rb-blush" cx="${x2 + 2.6 * s}" cy="${my - .6 * s}" rx="${2.6 * s}" ry="${1.5 * s}" opacity="0"/>
+      <path class="rb-smile" d="M${mx - 4.6 * s} ${my} Q${mx} ${my + 3.8 * s} ${mx + 4.6 * s} ${my}" stroke="${o.mouth || '#fff'}" opacity="${o.smile ? 1 : 0}"/>
+      <ellipse class="rb-o" cx="${mx}" cy="${my + 1.2 * s}" rx="${2.2 * s}" ry="${2.7 * s}" fill="${o.mouth || ink}" opacity="0"/>
+      <path class="rb-tear" d="M${x2 + 2.4 * s} ${y + 4 * s} q${1.4 * s} ${2.6 * s} 0 ${3.6 * s} q${-1.4 * s} ${-1 * s} 0 ${-3.6 * s}Z" opacity="0"/>
+      <g class="rb-dots">${dots}</g>
+    </g>`;
 }
+const agExtras = (cx, top) => `<g class="rb-steam" opacity="0"><circle cx="${cx - 22}" cy="${top + 6}" r="2.6"/><circle cx="${cx + 22}" cy="${top + 6}" r="2.6"/><circle cx="${cx - 25}" cy="${top - 1}" r="1.8"/><circle cx="${cx + 25}" cy="${top - 1}" r="1.8"/></g>
+    <text class="rb-z" x="${cx + 15}" y="${top + 2}" opacity="0">z</text><text class="rb-z rb-z2" x="${cx + 21}" y="${top - 4}" opacity="0">z</text>
+    <text class="rb-q" x="${cx + 17}" y="${top + 6}" opacity="0">?</text>
+    <g class="rb-spark" opacity="0"><path d="M${cx - 24} ${top + 4} l1.6 3.4 3.4 1.6 -3.4 1.6 -1.6 3.4 -1.6 -3.4 -3.4 -1.6 3.4 -1.6z"/><path d="M${cx + 23} ${top} l1.2 2.6 2.6 1.2 -2.6 1.2 -1.2 2.6 -1.2 -2.6 -2.6 -1.2 2.6 -1.2z"/><path d="M${cx + 26} ${top + 20} l1 2 2 1 -2 1 -1 2 -1 -2 -2 -1 2 -1z"/></g>
+    <g class="rb-hearts" opacity="0"><path d="M${cx + 20} ${top + 8} c-2.4-1.8-3.6-4.4-1.4-5.6 1-.5 1.8 0 1.4 1 -.4-1 .4-1.5 1.4-1 2.2 1.2 1 3.8-1.4 5.6z"/><path d="M${cx - 21} ${top + 2} c-1.8-1.4-2.7-3.3-1-4.2 .7-.4 1.3 0 1 .8 -.3-.8.3-1.2 1-.8 1.7.9.8 2.8-1 4.2z"/></g>`;
+function robot(state = 'normal', size = 56, ch) {
+  ch = ch || AG.cur();
+  let art = '';
+  if (ch === 'momo') {
+    art = `<ellipse class="rb-shadow" cx="32" cy="60" rx="15" ry="2.6" fill="#000" opacity=".13"/>
+    <g class="rb-body">
+      <path class="rb-ant" d="M24.5 10.5 L22 4.8" stroke="#A58DE6" stroke-width="2.4" stroke-linecap="round"/><circle class="rb-antb" cx="21.4" cy="3.8" r="3.1" fill="#B9A3F0"/>
+      <path class="rb-head" d="M19 57.5 C14.5 57.5 12.5 53.5 12.5 47 L12.5 29 C12.5 16 21 8.5 32 8.5 C43 8.5 51.5 16 51.5 29 L51.5 47 C51.5 53.5 49.5 57.5 45 57.5 C41 57.5 40.4 53 36.4 53 L27.6 53 C23.6 53 23 57.5 19 57.5 Z" fill="#B9A3F0"/>
+      <ellipse class="rb-gloss" cx="21.5" cy="15.5" rx="5.5" ry="2.6" fill="#fff" opacity=".35" transform="rotate(-30 21.5 15.5)"/>
+      <path class="rb-win" d="M32 17.5 C42 17.5 46.5 22 46.5 27.5 C46.5 34 40.5 37.5 32 37.5 C23.5 37.5 17.5 34 17.5 27.5 C17.5 22 22 17.5 32 17.5 Z" fill="#FFF4E6"/>
+      ${agFace({ x1: 26.3, x2: 37.7, y: 26.6, my: 32.6, s: .92, eye: '#2B2240', ink: '#2B2240', ew: 5.2, eh: 7, round: true, glint: true, mouth: '#2B2240', hapc: '#2B2240' })}
+      <g class="rb-arm rb-arm-l"><ellipse cx="17" cy="42.5" rx="5" ry="6.2" fill="#C9B8F7" transform="rotate(14 17 42.5)"/></g><g class="rb-arm rb-arm-r"><ellipse cx="47" cy="42.5" rx="5" ry="6.2" fill="#C9B8F7" transform="rotate(-14 47 42.5)"/></g>
+    </g>${agExtras(32, 8)}`;
+  } else if (ch === 'tinku') {
+    art = `<ellipse class="rb-shadow" cx="32" cy="60" rx="14" ry="2.6" fill="#000" opacity=".13"/>
+    <g class="rb-body">
+      <circle class="rb-arm rb-arm-l" cx="18.5" cy="50" r="3.6" fill="#1FA391"/><circle class="rb-arm rb-arm-r" cx="45.5" cy="50" r="3.6" fill="#1FA391"/>
+      <rect class="rb-torso" x="21.5" y="44.5" width="21" height="13" rx="6" fill="#F4F6F4" stroke="#D5DDD9" stroke-width="1"/>
+      <path class="rb-ant" d="M32 10.5 V5" stroke="#9AA9A3" stroke-width="2.2" stroke-linecap="round"/><circle class="rb-antb" cx="32" cy="4" r="2.7" fill="#1FA391"/>
+      <rect class="rb-ear" x="6.5" y="20.5" width="6.5" height="13" rx="3.2" fill="#1FA391"/><rect class="rb-ear" x="51" y="20.5" width="6.5" height="13" rx="3.2" fill="#1FA391"/>
+      <rect class="rb-head" x="10.5" y="10.5" width="43" height="35" rx="13" fill="#F7F9F7" stroke="#D5DDD9" stroke-width="1.1"/>
+      <ellipse class="rb-gloss" cx="20" cy="15.5" rx="5" ry="1.8" fill="#fff" opacity=".9"/>
+      <rect class="rb-screen" x="15.5" y="16" width="33" height="24" rx="8.5" fill="#16222E"/>
+      ${agFace({ x1: 26, x2: 38, y: 26.6, my: 32.8, s: .86, eye: '#5EF2D6', ink: '#5EF2D6', ew: 4.2, eh: 7.2, mouth: '#5EF2D6', smile: true, hapc: '#5EF2D6', browc: '#5EF2D6' })}
+    </g>${agExtras(32, 9)}`;
+  } else {
+    art = `<ellipse class="rb-shadow" cx="32" cy="59" rx="15" ry="2.8" fill="#000" opacity=".13"/>
+    <g class="rb-body"><path class="rb-ant" d="M32 12.5 V7" stroke="#2B2F2E" stroke-width="2.4" stroke-linecap="round"/><circle class="rb-antb" cx="32" cy="5.6" r="2.6" fill="#33E3A9"/>
+      <path class="rb-head" d="M32 12.5 C46.5 12.5 56 19 56 31.5 C56 44.5 46.5 51.5 32 51.5 C17.5 51.5 8 44.5 8 31.5 C8 19 17.5 12.5 32 12.5 Z" fill="#fff" stroke="#2B2F2E" stroke-width="2.6"/>
+      <ellipse class="rb-gloss" cx="21" cy="20.5" rx="6.5" ry="2.4" fill="#fff" opacity="0" transform="rotate(-18 21 20.5)"/>
+      ${agFace({ x1: 23.7, x2: 40.3, y: 31.25, my: 41.5, s: 1, eye: '#33E3A9', ink: '#2B2F2E' })}
+    </g>${agExtras(32, 8)}`;
+  }
+  return `<span class="rb masc c-${ch} rb-${state}" style="width:${size}px;height:${size}px" aria-hidden="true"><svg viewBox="0 0 64 64" width="${size}" height="${size}">${art}</svg></span>`;
+}
+/* a picture of the agent for phone notifications (PNG data URL, made once per mood) */
+const agIcon = (() => {
+  const cache = new Map();
+  return mood => {
+    const key = AG.cur() + ':' + (mood || 'happy'); if (cache.has(key)) return cache.get(key);
+    let svg = robot(mood || 'normal', 192).replace(/^<span[^>]*>|<\/span>$/g, '').replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ');
+    if (mood === 'happy') svg = svg.replace(/class="rb-eye"([^>]*)\/>/g, 'class="rb-eye"$1 opacity="0"/>').replace(/class="rb-glint"([^>]*)\/>/g, 'class="rb-glint"$1 opacity="0"/>').replace(/(class="rb-hap"[^>]*)opacity="0"/, '$1opacity="1"').replace(/(class="rb-smile"[^>]*)opacity="0"/, '$1opacity="1"');
+    cache.set(key, null);
+    try {
+      const img = new Image(); img.onload = () => { try { const c = document.createElement('canvas'); c.width = c.height = 192; const x = c.getContext('2d'); x.fillStyle = '#E7F6F2'; x.beginPath(); x.arc(96, 96, 96, 0, 7); x.fill(); x.drawImage(img, 14, 10, 164, 164); cache.set(key, c.toDataURL('image/png')); } catch { } };
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    } catch { }
+    return null;
+  };
+})();
+/* eyes follow the finger / mouse */
+(() => {
+  let mx = 0, my = 0, raf = 0, idle = 0;
+  const look = () => {
+    raf = 0; document.body.classList.add('rb-follow');
+    for (const r of document.querySelectorAll('.rb')) {
+      const b = r.getBoundingClientRect(); if (!b.width || b.bottom < 0 || b.top > innerHeight) continue;
+      const dx = mx - (b.left + b.width / 2), dy = my - (b.top + b.height * .45); const d = Math.hypot(dx, dy) || 1; const m = Math.min(1, d / 160);
+      r.style.setProperty('--lx', (dx / d * m * 3.2).toFixed(2)); r.style.setProperty('--ly', (dy / d * m * 2.4).toFixed(2));
+    }
+    clearTimeout(idle); idle = setTimeout(() => { document.body.classList.remove('rb-follow'); for (const r of document.querySelectorAll('.rb')) { r.style.removeProperty('--lx'); r.style.removeProperty('--ly'); } }, 3500);
+  };
+  const mv = e => { mx = e.clientX; my = e.clientY; if (!raf) raf = requestAnimationFrame(look); };
+  addEventListener('pointermove', mv, { passive: true }); addEventListener('pointerdown', mv, { passive: true });
+})();
+
 /* ---------- Dermi's voice: Hindi or English, two voices ----------
    1st choice: natural Google voice through our Netlify function (key stays in Netlify).
    Fallback: the phone's own voice. Lines spoken once are kept on the phone, so the
@@ -4661,21 +4879,24 @@ const SP = (() => {
 const ROBO = (() => {
   let wrap, face, bubble, hideT, backT, ev = null, gTo = '';
   const on = () => lsg('dt-robo') !== 'off';
+  const allowed = () => { try { return !!ME().bot; } catch { return false; } };
+  const NM = () => AG.name();
   function mount() {
     if (wrap) return;
     wrap = document.createElement('div'); wrap.id = 'robo';
-    wrap.innerHTML = `<div id="roboSay" role="status" aria-live="polite"></div><button id="roboBtn" type="button" aria-label="Dermi — app dost">${robot('normal', 58)}</button>`;
+    wrap.innerHTML = `<div id="roboSay" role="status" aria-live="polite"></div><button id="roboBtn" type="button" aria-label="${NM()} — app dost">${robot('normal', 58)}</button>`;
     document.body.appendChild(wrap); face = wrap.querySelector('#roboBtn .rb'); bubble = wrap.querySelector('#roboSay');
     wrap.querySelector('#roboBtn').onclick = () => {
       taps = taps.filter(t => Date.now() - t < 1800); taps.push(Date.now()); clearTimeout(tapT);
-      if (taps.length >= 4) { taps = []; set('party', 2000); SND.play('roboParty'); say('Hihihi 🤭 gudgudi ho rahi hai!', { mood: 'party', silent: true, ms: 4000, sp: { hi: 'हीहीही! गुदगुदी हो रही है!', en: 'Hee hee! That tickles!' } }); return; }
-      if (taps.length > 1) { set('happy', 600); SND.play('tap'); }
+      if (taps.length >= 4) { taps = []; set('party', 2200); SND.play('roboParty'); say(vary('tickle', ['Hihihi 🤭 gudgudi ho rahi hai!', 'Arre arre, bas karo 😆', 'Hehe, mujhe gudgudi hoti hai!']), { mood: 'party', silent: true, ms: 4000, sp: { hi: 'हीहीही! गुदगुदी हो रही है!', en: 'Hee hee! That tickles!' } }); return; }
+      if (taps.length > 1) { set('happy', 700); SND.play('roboTalk'); }
       tapT = setTimeout(() => { taps = []; hide(); lastRem = 0; chat(); }, 330);
     };
     bubble.onclick = e => { if (e.target.closest('.rs-x')) { hide(); VOICE.stop(); ignored(); return; } lastRem = 0; const e2 = ev, g = gTo; hide(); if (e2) NT.openEv(e2); else if (g) go_(g); else chat(); };
   }
+  function recharacter() { if (!wrap) return; const b = wrap.querySelector('#roboBtn'); b.innerHTML = robot('wave', 58); b.setAttribute('aria-label', NM() + ' — app dost'); face = b.querySelector('.rb'); setTimeout(() => set('normal'), 1600); }
   const go_ = g => { const [v, x] = g.split(':'); go(v, x); };
-  /* names: USERS → TEAM → what you told Dermi → asks */
+  /* names: USERS → TEAM → what you told the agent → asks once */
   const cap = n => { n = String(n || '').trim().split(/\s+/)[0] || ''; return n ? n[0].toUpperCase() + n.slice(1).toLowerCase() : ''; };
   const fromMail = e => cap(String(e || '').split('@')[0].replace(/[._\-\d]+/g, ' '));
   function myName() {
@@ -4686,41 +4907,47 @@ const ROBO = (() => {
   }
   const personName = m => { const n = m.name && !String(m.name).includes('@') ? m.name : ((st.users || []).find(u => u.email === m.email) || {}).name; return cap(n && !n.includes('@') ? n : '') || fromMail(m.email || m.name); };
   let askName = false;
-  function show() { mount(); wrap.hidden = !on() || document.body.classList.contains('gate') || !st.M; if (!wrap.hidden) startRem(); }
-  function set(state, ms) { mount(); clearTimeout(backT); const t = face.classList.contains('rb-talk'); face.className = 'rb masc rb-' + state + (t ? ' rb-talk' : ''); if (ms) backT = setTimeout(() => { face.className = 'rb masc rb-normal' + (face.classList.contains('rb-talk') ? ' rb-talk' : ''); }, ms); }
-  const talk = b => { $$('.rb').forEach(r => r.classList.toggle('rb-talk', b && (r === face || !!r.closest('.rb-hd, #rbLog .rmsg:last-child')))); };
+  function show() { mount(); wrap.hidden = !on() || !allowed() || document.body.classList.contains('gate') || !st.M; if (!wrap.hidden) { startRem(); agIcon('happy'); agIcon('alert'); } }
+  const keep = () => face && face.classList.contains('rb-talk') ? ' rb-talk' : '';
+  function set(state, ms) { mount(); clearTimeout(backT); face.className = `rb masc c-${AG.cur()} rb-${state}${keep()}`; if (ms) backT = setTimeout(() => { face.className = `rb masc c-${AG.cur()} rb-normal${keep()}`; }, ms); }
+  const talk = b => { document.querySelectorAll('.rb').forEach(r => r.classList.toggle('rb-talk', b && (r === face || !!r.closest('.rb-hd, #rbLog .rmsg:last-child')))); };
   function speak(sp) { return VOICE.say(sp, { onstart: () => talk(true), onend: () => talk(false) }); }
   function say(text, o = {}) {
-    show(); if (wrap.hidden) { toast(text.replace(/<[^>]+>/g, '')); return; }
+    show(); if (wrap.hidden) { toast(String(text).replace(/<[^>]+>/g, '')); return; }
     ev = o.ev || null; gTo = o.go || '';
-    bubble.innerHTML = `<button class="rs-x" type="button" aria-label="Close">×</button><b>Dermi</b><span>${text}</span>${ev || gTo ? '<em>Tap to open</em>' : ''}`;
+    bubble.innerHTML = `<button class="rs-x" type="button" aria-label="Close">×</button><b>${NM()}</b><span>${text}</span>${ev || gTo ? '<em>Tap karke kholo</em>' : ''}`;
     bubble.classList.remove('on'); void bubble.offsetWidth; bubble.classList.add('on');
-    set(o.mood || 'active', 2400);
+    set(o.mood || 'active', 2600);
     if (!o.silent) SND.play('notify');
     setTimeout(() => speak(o.sp || text), o.silent ? 0 : 650);
     clearTimeout(hideT); hideT = setTimeout(hide, o.ms || 11000);
   }
   function hide() { if (bubble) bubble.classList.remove('on'); }
+  /* never the same line twice in a row */
+  const used = new Map();
+  function vary(key, opts) { const last = used.get(key); const pool = opts.length > 1 ? opts.filter(o => o !== last) : opts; const p = pool[Math.floor(Math.random() * pool.length)]; used.set(key, p); return p; }
   /* ---------- faces, idle, reminders ---------- */
   let idleT = 0, taps = [], tapT = 0;
-  function poke() { clearTimeout(idleT); if (face && /rb-sleepy/.test(face.className)) { set('active', 1200); SND.play('roboHi'); } idleT = setTimeout(() => { if (face && /rb-normal/.test(face.className) && !document.hidden) { set('sleepy'); SND.play('roboSleep'); } }, 4 * 60e3); }
+  function poke() { clearTimeout(idleT); if (face && /rb-sleepy/.test(face.className)) { set('wow', 900); SND.play('roboWow'); } idleT = setTimeout(() => { if (face && /rb-normal/.test(face.className) && !document.hidden) { set('sleepy'); SND.play('roboSleep'); } }, 4 * 60e3); }
   ['pointerdown', 'keydown'].forEach(e => addEventListener(e, poke, { passive: true }));
-  function cheer(text, sp) { set('party', 2600); SND.play('roboParty'); if (text) say(text, { mood: 'party', sp, silent: true, ms: 6000 }); }
+  function cheer(text, sp) { set('party', 2800); SND.play('roboParty'); if (text) say(text, { mood: 'party', sp, silent: true, ms: 6000 }); }
   const remOn = () => lsg('dt-remind') !== 'off';
   const REM = {
     alert: [
-      ['Yaad dila rahi hoon — <b>{d}</b> ka minus Uniware me abhi baaki hai.', '{d} का माइनस यूनिवेयर में अभी बाकी है। जल्दी कर लो।', 'Reminder: the minus for {d} is still pending in Uniware.'],
+      ['Yaad dila {rh} — <b>{d}</b> ka minus Uniware me abhi baaki hai.', '{d} का माइनस यूनिवेयर में अभी बाकी है। जल्दी कर लो।', 'Reminder: the minus for {d} is still pending in Uniware.'],
       ['Minus baaki hai: <b>{n}</b> din. Day Excel nikaalo aur Uniware me kar do.', '{n} दिन का माइनस बाकी है। डे एक्सेल निकालो और यूनिवेयर में कर दो।', '{n} days of minus are pending. Download the day sheet and do it in Uniware.']
     ],
     angry: [
       ['😤 Ye theek nahi hai{nm}! <b>{n}</b> din se minus nahi hua. Abhi karo!', 'ये ठीक नहीं है{nm}! {n} दिन से माइनस नहीं हुआ। अभी करो!', 'This is not okay{nm}! The minus has been pending for {n} days. Do it now!'],
       ['😠 Kitni baar bolun{nm}? <b>{d}</b> ka minus abhi bhi baaki hai. Stock galat dikh raha hai!', 'कितनी बार बोलूँ{nm}? {d} का माइनस अभी भी बाकी है। स्टॉक गलत दिख रहा है!', 'How many times do I have to say it{nm}? The minus for {d} is still pending. The stock looks wrong!'],
-      ['😡 Main naraz hoon{nm}! Pehle Uniware me minus karo, phir baat karenge.', 'मैं नाराज़ {hu}{nm}! पहले यूनिवेयर में माइनस करो, फिर बात करेंगे।', "I'm upset{nm}! Do the minus in Uniware first, then we'll talk."]
+      ['😡 Main naraz hoon{nm}! Pehle Uniware me minus karo, phir baat karenge.', 'मैं नाराज़ हूँ{nm}! पहले यूनिवेयर में माइनस करो, फिर बात करेंगे।', "I'm upset{nm}! Do the minus in Uniware first, then we'll talk."]
     ],
     today: [
-      ['Aaj ka minus baaki hai: <b>{p} pcs</b>. Raat 12 se pehle kar dena.', 'आज का माइनस बाकी है, {p} पीस। रात बारह बजे से पहले कर देना।', "Today's minus is pending, {p} pieces. Please finish it before midnight."]
+      ['Aaj ka minus baaki hai: <b>{p} pcs</b>. Raat 12 se pehle kar dena.', 'आज का माइनस बाकी है, {p} पीस। रात बारह बजे से पहले कर देना।', "Today's minus is pending, {p} pieces. Please finish it before midnight."],
+      ['Shaam ho gayi! Aaj ke <b>{p} pcs</b> ka minus abhi Uniware me nahi hua.', 'शाम हो गई! आज के {p} पीस का माइनस अभी यूनिवेयर में नहीं हुआ।', "It's evening! Today's {p} pieces are not minused in Uniware yet."]
     ]
   };
+  let lastRem = 0;
   function remind(force) {
     const M = st.M; if (!M || !can('minus') || !wrap || wrap.hidden || (!remOn() && !force)) return false;
     const open = M.dayOpen.filter(x => x.date < M.today).sort((a, b) => a.date.localeCompare(b.date));
@@ -4736,176 +4963,385 @@ const ROBO = (() => {
     const kind = open.length ? (open.length >= 2 || old >= 2 || R.n >= 3 ? 'angry' : 'alert') : (h >= 23 || R.n >= 3 ? 'angry' : 'today');
     const L = REM[kind]; const line = L[(R.n - 1) % L.length];
     const nm = myName(); const d0 = open[0] ? open[0].date : M.today;
-    const fill = (t, lang) => t.replace('{d}', lang === 'tx' ? fS(d0) : SP.date(d0, lang)).replace('{n}', open.length || 1).replace('{p}', D ? D.minus : 0).replace('{nm}', nm ? (lang === 'tx' ? ' ' + esc(nm) : ' ' + SP.pn(nm)) : '').replace('{hu}', 'हूँ');
-    const mood = kind === 'angry' ? 'angry' : 'alert';
-    say(fill(line[0], 'tx'), { go: 'minus', mood, ms: 15000, sp: { hi: fill(line[1], 'hi'), en: fill(line[2], 'en') }, silent: true });
+    const fill = (t, lang) => t.replace('{d}', lang === 'tx' ? fS(d0) : SP.date(d0, lang)).replace('{n}', open.length || 1).replace('{p}', D ? D.minus : 0).replace('{nm}', nm ? (lang === 'tx' ? ' ' + esc(nm) : ' ' + SP.pn(nm)) : '').replace('{rh}', VOICE.g('raha hoon', 'rahi hoon'));
+    say(fill(line[0], 'tx'), { go: 'minus', mood: kind === 'angry' ? 'angry' : 'alert', ms: 15000, sp: { hi: fill(line[1], 'hi'), en: fill(line[2], 'en') }, silent: true });
     SND.play(kind === 'angry' ? 'roboAngry' : 'notify'); SND.buzz(kind === 'angry' ? [60, 50, 60, 50, 60] : [30, 60, 30]);
     lastRem = Date.now();
     return true;
   }
-  let lastRem = 0;
   function ignored() {
     if (Date.now() - lastRem > 20000) return;
-    lastRem = 0; set('pout', 2600); SND.play('roboPout');
+    lastRem = 0; set('pout', 2800); SND.play('roboPout');
     const nm = myName();
     setTimeout(() => say(`Hmph! 😤 Mujhe ignore mat karo${nm ? ' ' + esc(nm) : ''}… minus abhi bhi baaki hai.`, { mood: 'pout', silent: true, ms: 6000, sp: { hi: `हम्फ़! मुझे इग्नोर मत करो${nm ? ' ' + SP.pn(nm) : ''}। माइनस अभी भी बाकी है।`, en: `Hmph! Don't ignore me${nm ? ' ' + SP.pn(nm) : ''}. The minus is still pending.` } }), 450);
   }
   let remStarted = false;
   function startRem() { if (remStarted) return; remStarted = true; setTimeout(() => { remind(); setInterval(() => remind(), 60e3); }, 120e3); poke(); }
   function busy(b, changed) { if (!wrap) return; if (b) { set('loading'); SND.play('roboLoad'); } else { if (changed) set('active', 1300); else set('normal'); } }
-  window.__roboHook = name => { if (!face) return; if (name === 'success') { set('active', 1600); } else if (name === 'error') { set('sad', 1800); } };
+  window.__roboHook = name => { if (!face) return; if (name === 'success') { set('happy', 1800); } else if (name === 'error') { set('sad', 2000); } };
 
-  /* ---------- chat: answers from the app's own data ---------- */
-  const log = [];
+  /* ================= BRAIN ================= */
   const pcs = n => `${fN(n)} pcs`;
-  const btn = (label, attrs) => `<button class="btn sm" ${attrs}>${label}</button>`;
+  const btn = (label, attrs) => `<button class="btn sm" type="button" ${attrs}>${label}</button>`;
   const noRight = page => ({ text: `Is cheez ki permission aapke paas nahi hai (${permLabel(page)}). Admin se bolo.`, mood: 'sad', hi: 'ये देखने की परमिशन आपके पास नहीं है, एडमिन से बोलो।', en: "You don't have permission to see this. Please ask the admin." });
   const HREQ = { draft: ['मेल अभी नहीं गया', 'the mail has not gone yet'], sent: ['मेल चला गया, जवाब का इंतज़ार है', 'the mail is sent, waiting for a reply'], replied: ['B2B ने जवाब दे दिया है', 'B2B has replied'], received: ['माल आ गया है', 'the stock has arrived'] };
+  const ctx = { sku: null, list: null, doc: null, lastQ: '' };
+  /* Hinglish spellings → one word each */
+  const SYN = [
+    [/\b(kitna|kitni|kitne|ktna|ktne|kitn|kitnaa|kitane|how many|how much|count|total|kul)\b/g, ' kitna '],
+    [/\b(dimension|dimensions|dimantion|dimention|dimenshan|dimaniotn|dimanion|dimesion|dimention|naap|lbh|size of case|measurement|lambai|chaudai|unchai)\b/g, ' dim '],
+    [/\b(case size|casesize|box size|pcs per case|per case|ek case|ek box|ek peti|1 case|1 box)\b/g, ' casesize '],
+    [/\b(box|boxes|boxs|dabba|dabbe|carton|cartons|peti|case|cases)\b/g, ' box '],
+    [/\b(variant|variants|varient|varients|verient|variation|variations|vgariation|variyant|type|types|kism)\b/g, ' variant '],
+    [/\b(barcode|bar code|ean)\b/g, ' ean '],
+    [/\b(batch|batches|expiry|expire|exp|fefo|lot)\b/g, ' batch '],
+    [/\b(marketing|mkt|mkrt|promo|promotional)\b/g, ' mkt '],
+    [/\b(b 2 b|btob|b2b|warehouse|godown|bulk)\b/g, ' b2b '],
+    [/\b(dispatch|dispach|dispatched|dispatches|courier|bheja|nikla|shipped)\b/g, ' dispatch '],
+    [/\b(minus|uniware|unicommerce|minas|mainus)\b/g, ' minus '],
+    [/\b(pending|baki|baaki|bacha|remaining|pack nahi)\b/g, ' pending '],
+    [/\b(live|chalu|available|in stock)\b/g, ' live '],
+    [/\b(sku|skus|product|products|item|items|maal)\b/g, ' sku '],
+    [/\b(iska|iske|iski|isme|isko|uska|uske|uski|usme|usko|is wale|ye wala|this|that|same)\b/g, ' it '],
+    [/\b(kal|yesterday)\b/g, ' kal '], [/\b(aaj|today|abhi)\b/g, ' aaj ']
+  ];
+  const norm = q => { let s = ' ' + String(q).toLowerCase().replace(/[“”"'`?!,.।:;()]/g, ' ').replace(/\s+/g, ' ') + ' '; for (const [re, w] of SYN) s = s.replace(re, w); return s.replace(/\s+/g, ' ').trim(); };
+  const STOP = new Set('kitna hai h hain he ka ki ke ko me mein main se sa sab saare sare saara batao bata btao bolo do dikhao dikha qty quantity stock kya the of for what is are much aur and or ek one please plz pls detail details info sari sara poori puri jankari list sku variant dim case casesize box ean batch it live mkt b2b ab wala wali wale hi to bhi kaun kon konsa kaunsa konse kaunse pada padi pade padaa rakha rakhi ho sakte sakta sakti banenge banega bante ban bana bnenge hoga honge'.split(' '));
+  const pName = k => { const M = st.M; const s = M.stockMap.get(k), b = M.b2b.map.get(k); const x = IDX.find(i => i.k === k); return (s && s.name) || (b && b.name) || (x && x.name) || M.names.get(k) || (x ? x.sku : k); };
+  const skuOf = k => { const x = IDX.find(i => i.k === k); return x ? x.sku : (st.M.stockMap.get(k) || {}).sku || k; };
+  const row = k => { const M = st.M, t3 = st.t3; const s = M.stockMap.get(k), b = M.b2b.map.get(k); return { k, sku: skuOf(k), name: pName(k), s, good: s ? s.good : 0, live: s ? s.live : 0, pend: s ? s.pending || 0 : 0, bad: s ? s.bad || 0 : 0, wh: b ? b.wh : 0, cs: t3.cases.get(k) || [], dm: t3.dims.get(k) || [], ean: (t3.ean.get(k) || {}).ean || '', cat: s ? s.cat : '' }; };
+  const dimTx = d => `${d.l}×${d.b}×${d.h}${d.w ? ` · ${d.w} kg` : ''}`;
+  const dimHi = d => `लंबाई ${d.l}, चौड़ाई ${d.b}, ऊँचाई ${d.h}${d.w ? `, वज़न ${d.w}` : ''}`;
+  const dimEn = d => `length ${d.l}, breadth ${d.b}, height ${d.h}${d.w ? `, weight ${d.w}` : ''}`;
+  const canStock = () => can('stock') || can('lookup') || can('b2b');
+  function listHtml(R, mode, start = 0) {
+    const box = r => r.cs.length ? Math.floor(Math.max(0, r.wh) / r.cs[0]) : null;
+    const cell = r => mode === 'box' ? (r.cs.length ? `${fN(box(r))} box<i>case ${fN(r.cs[0])} · B2B ${fN(r.wh)}</i>` : `—<i>case size nahi · B2B ${fN(r.wh)}</i>`) : mode === 'b2b' ? `${fN(r.wh)}<i>${r.cs.length ? fN(box(r)) + ' box' : 'B2B pcs'}</i>` : mode === 'dim' ? (r.dm.length ? r.dm.map(dimTx).join(' / ') : '—') : mode === 'case' ? (r.cs.length ? r.cs.map(c => `${fN(c)}/case`).join(' / ') : '—') : mode === 'ean' ? (r.ean || '—') : mode === 'batch' ? (r.s && r.s.rows.length ? r.s.rows.filter(b => b.inv === 'GOOD').map(b => esc(b.batch || '—') + (b.exp ? ' · ' + fS(b.exp) : '')).slice(0, 2).join('<br>') : '—') : `${fN(r.live)}${r.wh ? ` <i>B2B ${fN(r.wh)}</i>` : ''}`;
+    const PAGE = 60; const part = R.slice(start, start + PAGE);
+    return part.map(r => `<button type="button" data-ag-sku="${esc(r.k)}"><span>${esc(r.sku)}<small>${esc(r.name)}</small></span><b>${cell(r)}</b></button>`).join('') + (R.length > start + PAGE ? `<button type="button" class="rmore" data-ag-more="${start + PAGE}">Aur dikhao (${R.length - start - PAGE} baaki)</button>` : '');
+  }
+  function search(rest) {
+    if (!rest) return [];
+    if (/^\d{8,14}$/.test(rest)) { const e = EANX.get(normEan(rest)); if (e && e.length) return e.slice(); }
+    const hits = searchSku(rest, 2000); const ex = hits.find(h => nk(h.sku) === nk(rest)); return (ex ? [ex] : hits).map(h => h.k);
+  }
+  function productAnswer(ks, mode, label) {
+    const R = ks.map(row); const many = R.length > 1; const r0 = R[0];
+    const tot = R.reduce((a, r) => a + Math.max(0, r.live), 0), totWh = R.reduce((a, r) => a + r.wh, 0);
+    ctx.list = { ks, mode, label }; if (!many) ctx.sku = r0.k;
+    const top = R.slice(0, 3); const more = R.length > 3;
+    const L = `<div class="rlist" data-ag-list>${listHtml(R, mode)}</div>`;
+    if (!many && !mode) return skuAnswer(r0.k);
+    if (mode === 'dim') return { text: many ? `"${esc(label)}" ke <b>${R.length}</b> variant — case L×B×H · W: <i class="tiny">(${R.filter(r => r.dm.length).length} ke dimension sheet me hain)</i>${L}` : `<b>${esc(r0.sku)}</b> · ${esc(r0.name)}<br>Case L×B×H · W: <b>${r0.dm.length ? r0.dm.map(dimTx).join(' / ') : 'sheet me nahi'}</b>`,
+      hi: top.map(r => r.dm.length ? `${SP.name(r.sku)} के केस का साइज़: ${dimHi(r.dm[0])}।` : `${SP.name(r.sku)} का डाइमेंशन शीट में नहीं है।`).join(' ') + (more ? ' बाकी स्क्रीन पर है।' : ''),
+      en: top.map(r => r.dm.length ? `${SP.name(r.sku)} case: ${dimEn(r.dm[0])}.` : `${SP.name(r.sku)} has no dimensions in the sheet.`).join(' ') + (more ? ' The rest are on screen.' : ''), mood: 'happy' };
+    if (mode === 'case') return { text: many ? `"${esc(label)}" ke <b>${R.length}</b> variant — case size:${L}` : `<b>${esc(r0.sku)}</b> · ${esc(r0.name)}<br>1 case = <b>${r0.cs.length ? r0.cs.map(fN).join(' / ') : '—'}</b> pcs`,
+      hi: top.map(r => r.cs.length ? `${SP.name(r.sku)} के एक केस में ${r.cs[0]} पीस।` : `${SP.name(r.sku)} का केस साइज़ शीट में नहीं है।`).join(' ') + (more ? ' बाकी स्क्रीन पर है।' : ''),
+      en: top.map(r => r.cs.length ? `${SP.name(r.sku)}: ${r.cs[0]} pieces per case.` : `${SP.name(r.sku)} has no case size in the sheet.`).join(' ') + (more ? ' The rest are on screen.' : ''), mood: 'happy' };
+    if (mode === 'ean') return { text: many ? `"${esc(label)}" ke <b>${R.length}</b> variant — EAN:${L}` : `<b>${esc(r0.sku)}</b> EAN: <b>${esc(r0.ean || '—')}</b>${r0.ean ? ' ' + btn('Copy', `data-copy="${esc(r0.ean)}"`) : ''}`,
+      hi: many ? `${R.length} वेरिएंट के EAN स्क्रीन पर हैं।` : r0.ean ? `${SP.name(r0.sku)} का EAN स्क्रीन पर है।` : `${SP.name(r0.sku)} का EAN शीट में नहीं है।`,
+      en: many ? `The EANs for ${R.length} variants are on screen.` : r0.ean ? `The EAN for ${SP.name(r0.sku)} is on screen.` : `${SP.name(r0.sku)} has no EAN in the sheet.` };
+    if (mode === 'batch' && !many) return skuAnswer(r0.k, 'batch');
+    if (mode === 'box' || mode === 'b2b') {
+      const bx = r => r.cs.length ? Math.floor(Math.max(0, r.wh) / r.cs[0]) : null, lo = r => r.cs.length ? Math.max(0, r.wh) % r.cs[0] : 0;
+      const W = R.reduce((a, r) => a + Math.max(0, r.wh), 0), BX = R.reduce((a, r) => a + (bx(r) || 0), 0), noCs = R.filter(r => !r.cs.length).length;
+      const one = r => r.cs.length ? `${SP.name(r.sku)} B2B में ${Math.max(0, r.wh)} पीस पड़ा है। एक केस में ${r.cs[0]}, तो ${bx(r)} बॉक्स बनेंगे${lo(r) ? `, और ${lo(r)} पीस खुले बचेंगे` : ''}।` : `${SP.name(r.sku)} B2B में ${Math.max(0, r.wh)} पीस पड़ा है। केस साइज़ शीट में नहीं है, इसलिए बॉक्स नहीं गिन सकते।`;
+      const oneEn = r => r.cs.length ? `${SP.name(r.sku)}: ${Math.max(0, r.wh)} pieces in B2B. ${r.cs[0]} per case, so ${bx(r)} full boxes${lo(r) ? ` and ${lo(r)} loose` : ''}.` : `${SP.name(r.sku)}: ${Math.max(0, r.wh)} pieces in B2B. No case size in the sheet, so boxes can't be counted.`;
+      if (!many) return { text: `<b>${esc(r0.sku)}</b> · ${esc(r0.name)}<div class="rkv"><span>B2B warehouse<b>${fN(r0.wh)}</b></span><span>Case size<b>${r0.cs.length ? fN(r0.cs[0]) : '—'}</b></span><span>Full box<b>${r0.cs.length ? fN(bx(r0)) : '—'}</b></span><span>Loose<b>${r0.cs.length ? fN(lo(r0)) : '—'}</b></span><span>Offline live<b>${fN(r0.live)}</b></span><span>Offline box<b>${r0.cs.length ? fN(Math.floor(Math.max(0, r0.live) / r0.cs[0])) : '—'}</b></span></div>`, html: btn('Poori detail', `data-ag-sku="${esc(r0.k)}"`) + (can('request') ? btn('B2B se mangao', 'data-go="request"') : ''), hi: one(r0), en: oneEn(r0), mood: r0.wh > 0 ? 'happy' : 'sad' };
+      return { text: `"<b>${esc(label)}</b>" ke <b>${R.length}</b> variant · B2B warehouse <b>${fN(W)}</b> pcs = <b>${fN(BX)}</b> full box${noCs ? ` <i class="tiny">(${noCs} ka case size nahi)</i>` : ''}${L}`,
+        hi: `${SP.pn(label)} के ${R.length} वेरिएंट हैं। B2B में कुल ${W} पीस पड़े हैं, यानी ${BX} पूरे बॉक्स।${noCs ? ` ${noCs} का केस साइज़ नहीं है।` : ''} ${top.map(one).join(' ')}${more ? ' बाकी स्क्रीन पर है।' : ''}`,
+        en: `${SP.pn(label)} has ${R.length} variants, ${W} pieces in B2B, that is ${BX} full boxes. ${top.map(oneEn).join(' ')}${more ? ' The rest are on screen.' : ''}`, mood: 'happy' };
+    }
+    return { text: `"<b>${esc(label)}</b>" ke <b>${R.length} variant</b> · offline live <b>${fN(tot)}</b>${totWh ? ` · B2B ${fN(totWh)}` : ''}${L}`,
+      hi: `${SP.pn(label)} के ${R.length} वेरिएंट हैं। ऑफ़लाइन में कुल ${tot} पीस हैं${totWh ? `, और B2B में ${totWh}` : ''}। ${SP.list(top.map(r => `${SP.name(r.sku)} में ${Math.max(0, r.live)}`), 'hi')}।${more ? ' बाकी स्क्रीन पर है।' : ''}`,
+      en: `${SP.pn(label)} has ${R.length} variants, ${tot} pieces in offline${totWh ? ` and ${totWh} in B2B` : ''}. ${SP.list(top.map(r => `${SP.name(r.sku)} has ${Math.max(0, r.live)}`), 'en')}.${more ? ' The rest are on screen.' : ''}`, mood: 'happy' };
+  }
+  function skuAnswer(k, focus) {
+    const r = row(k); ctx.sku = k; const M = st.M;
+    const dem = M.demand.find(d => d.k === k); const inDocs = M.pending.filter(d => d.lines.some(l => l.k === k));
+    const good = r.s ? r.s.rows.filter(b => b.inv === 'GOOD' && (b.base + b.inw - b.dmg - b.out) > 0) : [];
+    const bt = good.slice().sort((a, b) => (a.exp || '9999').localeCompare(b.exp || '9999'));
+    const text = `<b>${esc(r.sku)}</b> · ${esc(r.name)}<div class="rkv"><span>Offline live<b class="${r.live < 0 ? 'neg' : ''}">${fN(r.live)}</b></span><span>BAD<b>${fN(r.bad)}</b></span><span>Pending<b>${fN(dem ? dem.demand : 0)}</b></span><span>B2B<b>${fN(r.wh)}</b></span><span>Case<b>${r.cs.length ? r.cs.map(fN).join('/') : '—'}</b></span><span>L×B×H<b>${r.dm.length ? r.dm.map(dimTx).join(' / ') : '—'}</b></span></div>${focus === 'batch' || bt.length ? `<div class="tiny muted" style="margin-top:6px">Batch (pehle nikalne wala): ${bt.slice(0, 3).map(b => `${esc(b.batch || '—')}${b.exp ? ' · exp ' + fS(b.exp) : ''}`).join(' | ') || '—'}</div>` : ''}${inDocs.length ? `<div class="tiny muted">Pending docs: ${inDocs.slice(0, 5).map(d => esc(d.doc)).join(', ')}${inDocs.length > 5 ? ' +' + (inDocs.length - 5) : ''}</div>` : ''}`;
+    const hiB = focus === 'batch' && bt[0] ? ` सबसे पहले बैच ${'⟦' + (bt[0].batch || '') + '⟧'} निकालना है${bt[0].exp ? `, एक्सपायरी ${SP.date(bt[0].exp, 'hi')}` : ''}।` : '';
+    return { text, html: btn('Poori detail', `data-ag-sku="${esc(k)}"`), mood: r.live <= 0 ? 'sad' : 'happy',
+      hi: `${SP.name(r.sku)}: ऑफ़लाइन में ${Math.max(0, r.live)} हैं${dem ? `, ${dem.demand} पेंडिंग` : ''}${r.wh ? `, और B2B में ${r.wh}` : ''}।${r.cs.length ? ` एक केस में ${r.cs[0]} पीस।` : ''}${hiB}`,
+      en: `${SP.name(r.sku)}: ${Math.max(0, r.live)} in offline${dem ? `, ${dem.demand} pending` : ''}${r.wh ? `, and ${r.wh} in B2B` : ''}.${r.cs.length ? ` ${r.cs[0]} pieces per case.` : ''}` };
+  }
+  function docAnswer(d) {
+    ctx.doc = d.key; const M = st.M;
+    const hist = [`Approve: <b>${fD(d.date)}</b>`];
+    if (d.fillDates && d.fillDates.length) hist.push(`SKU bhara: <b>${d.fillDates.map(fS).join(', ')}</b>${d.revised ? ` <span class="chip amber">revised ${d.revDiffs.length}×</span>` : ''}`);
+    hist.push(d.packed ? `Pack: <b>${d.packDate ? fD(d.packDate) + (d.mvTime ? ' ' + esc(d.mvTime) : '') : 'Done'}</b>${d.b2bPick ? ' · B2B pick' : d.counted ? ' · offline se minus' : ''}` : `Pack: <b>baaki</b>${d.age != null ? ` (${d.age} din se)` : ''}`);
+    hist.push(d.dispatched ? `Dispatch: <b>${fD(d.dd)}</b> · ${esc(d.courier || 'courier nahi likha')}${d.days != null ? ` · ${d.days} din laga` : ''}` : `Dispatch: <b>baaki</b>${d.courier ? ' · ' + esc(d.courier) : ''}`);
+    if (d.dispatched) hist.push(`Image upload: <b>${d.uploaded ? 'haan' : 'nahi'}</b>`);
+    for (const r of d.revDiffs.slice(-3)) hist.push(`<span class="tiny">${fS(r.date)}${r.time ? ' ' + esc(r.time) : ''}: ${r.changes.map(c => `${esc(c.sku)} ${c.delta > 0 ? '+' : '−'}${Math.abs(c.delta)}`).join(', ') || 'same'}${r.afterPack ? ' (pack ke baad)' : ''}</span>`);
+    const L = d.lines.length ? `<div class="rlist">${d.lines.map(l => `<button type="button" data-ag-sku="${esc(l.k)}"><span>${esc(l.sku)}<small>${esc(M.names.get(l.k) || '')}</small></span><b>${fN(l.qty)}</b></button>`).join('')}</div>` : '<div class="tiny muted">DAILY DATA me SKU nahi bhare.</div>';
+    const hiSt = d.status === 'dispatched' ? `${SP.date(d.dd, 'hi')} को डिस्पैच हो गया है${d.days != null ? `, ${d.days} दिन लगे` : ''}।` : d.status === 'packed' ? 'पैक हो गया है, डिस्पैच बाकी है।' : `अभी पैक होना बाकी है${d.age ? `, ${d.age} दिन से` : ''}।`;
+    const enSt = d.status === 'dispatched' ? `It was dispatched on ${SP.date(d.dd, 'en')}${d.days != null ? `, in ${d.days} days` : ''}.` : d.status === 'packed' ? 'It is packed, dispatch is pending.' : `It is still waiting to be packed${d.age ? `, for ${d.age} days` : ''}.`;
+    return { text: `<b>${esc(d.doc)}</b> · ${esc(d.name)} · ${d.lines.length ? pcs(d.pcs) + ', ' + d.skuCount + ' SKU' : 'SKU data nahi'}<ul class="rhist">${hist.map(h => `<li>${h}</li>`).join('')}</ul>${L}`, html: btn('Poori history', `data-ag-doc="${esc(d.key)}"`), mood: d.status === 'pending' && d.age > M.sla ? 'alert' : 'happy',
+      hi: `${SP.doc(d.doc, 'hi')} ${SP.pn(d.name)} का है। ${hiSt}${d.lines.length ? ` कुल ${d.pcs} पीस, ${d.skuCount} SKU।` : ''}${d.revised ? ` ये पी आई ${d.revDiffs.length} बार बदला है।` : ''}`,
+      en: `${SP.doc(d.doc, 'en')} is for ${SP.pn(d.name)}. ${enSt}${d.lines.length ? ` ${d.pcs} pieces in ${d.skuCount} SKUs.` : ''}${d.revised ? ` It was revised ${d.revDiffs.length} times.` : ''}` };
+  }
+  function docsAnswer(ds, num) {
+    if (ds.length === 1) return docAnswer(ds[0]);
+    return { text: `"${esc(num)}" se <b>${ds.length}</b> doc mile:<div class="rlist">${ds.slice(0, 40).map(d => `<button type="button" data-ag-doc="${esc(d.key)}"><span>${esc(d.doc)}<small>${esc(d.name)} · ${fS(d.date)}</small></span><b>${d.status === 'dispatched' ? 'Dispatched' : d.status === 'packed' ? 'Packed' : 'Pending'}</b></button>`).join('')}</div>`,
+      hi: `${num} से ${ds.length} डॉक मिले, स्क्रीन पर चुन लो।`, en: `${ds.length} docs match ${num}, pick one on screen.` };
+  }
+  function counts(n) {
+    const M = st.M, t3 = st.t3; const fg = M.stock.filter(s => s.cat === 'fg'), mk = M.stock.filter(s => s.cat === 'mkt');
+    if (/\bdim\b/.test(n)) {
+      const have = [...t3.dims.keys()]; const miss = fg.filter(s => s.live > 0 && !t3.dims.has(s.k));
+      ctx.list = { ks: miss.map(s => s.k), mode: 'dim', label: 'bina dimension' };
+      return { text: `<b>${fN(have.length)}</b> SKU ke dimension CASE DIMANTION me hain. Offline me jo finished goods live hain, unme <b>${miss.length}</b> ke dimension nahi hain.${miss.length ? `<div class="rlist">${listHtml(miss.map(s => row(s.k)), 'dim')}</div>` : ''}`,
+        hi: `${have.length} SKU के डाइमेंशन शीट में हैं। ऑफ़लाइन के ${miss.length} लाइव SKU के डाइमेंशन नहीं हैं।`, en: `${have.length} SKUs have dimensions. ${miss.length} live offline SKUs have none.` };
+    }
+    if (/\bcase\b/.test(n)) { const miss = fg.filter(s => s.live > 0 && !t3.cases.has(s.k)); return { text: `<b>${fN(t3.cases.size)}</b> SKU ka case size sheet me hai. Live finished goods me <b>${miss.length}</b> ka case size nahi hai.${miss.length ? `<div class="rlist">${listHtml(miss.map(s => row(s.k)), 'case')}</div>` : ''}`, hi: `${t3.cases.size} SKU का केस साइज़ शीट में है। ${miss.length} लाइव SKU का केस साइज़ नहीं है।`, en: `${t3.cases.size} SKUs have a case size. ${miss.length} live SKUs have none.` }; }
+    if (/\bean\b/.test(n)) return { text: `<b>${fN(t3.ean.size)}</b> SKU ka EAN "SKU AND EAN" tab me hai.`, hi: `${t3.ean.size} SKU का EAN शीट में है।`, en: `${t3.ean.size} SKUs have an EAN.` };
+    if (/\bmkt\b/.test(n)) { const u = mk.reduce((a, s) => a + Math.max(0, s.live), 0); ctx.list = { ks: mk.map(s => s.k), mode: '', label: 'marketing' }; return { text: `Marketing material: <b>${mk.length}</b> SKU, offline me <b>${fN(u)}</b> pcs live.${mk.length ? `<div class="rlist">${listHtml(mk.map(s => row(s.k)), '')}</div>` : ''}`, hi: `मार्केटिंग मटीरियल के ${mk.length} SKU हैं, ऑफ़लाइन में ${u} पीस।`, en: `Marketing material: ${mk.length} SKUs, ${u} pieces in offline.` }; }
+    if (/\bb2b\b/.test(n)) { const L = [...M.b2b.map.values()]; const wh = L.reduce((a, x) => a + x.wh, 0), withS = L.filter(x => x.wh > 0); return { text: `B2B warehouse me <b>${fN(wh)}</b> pcs, <b>${withS.length}</b> SKU me stock hai (${L.length} SKU list me).`, html: btn('B2B stock', 'data-go="b2b"'), hi: `B2B वेयरहाउस में ${wh} पीस हैं, ${withS.length} SKU में स्टॉक है।`, en: `The B2B warehouse holds ${wh} pieces across ${withS.length} SKUs.` }; }
+    const live = M.stock.filter(s => s.live > 0); const lf = live.filter(s => s.cat === 'fg'), lm = live.filter(s => s.cat === 'mkt'); const u = live.reduce((a, s) => a + s.live, 0); const neg = M.stock.filter(s => s.live < 0).length;
+    return { text: `Offline me <b>${live.length}</b> SKU live hain (finished goods ${lf.length}, marketing ${lm.length}), kul <b>${fN(u)}</b> pcs.${neg ? ` <b>${neg}</b> SKU minus (negative) me hain.` : ''}`, html: btn('Offline stock', 'data-go="stock"'),
+      hi: `ऑफ़लाइन में ${live.length} SKU लाइव हैं, कुल ${u} पीस।${neg ? ` ${neg} SKU माइनस में हैं।` : ''}`, en: `${live.length} SKUs are live in offline, ${u} pieces in all.${neg ? ` ${neg} are negative.` : ''}` };
+  }
   function answer(q0) {
     const M = st.M; if (!M) return { text: 'Abhi data load ho raha hai, ek second.', mood: 'loading', hi: 'अभी डेटा लोड हो रहा है, एक सेकंड।', en: 'Data is still loading, one second.' };
-    const q = q0.toLowerCase().trim(); const k = M.k;
-    const has = (...w) => w.some(x => q.includes(x));
-    const nmM = q0.match(/(?:mera naam|my name is|my name)\s+(?:hai\s+)?([A-Za-z\u0900-\u097F]{2,20})(?:\s+hai)?\s*$/i) || (askName && /^[A-Za-z\u0900-\u097F]{2,20}(\s+[A-Za-z\u0900-\u097F]{2,20})?$/.test(q0.trim()) && !INTENT.test(q) && !searchSku(q0, 1).length ? [0, q0.trim()] : null);
-    if (nmM) { askName = false; const n = cap(nmM[1]); lss('dt-myname', n); return { text: `Hello <b>${esc(n)}</b>! 🤝 Ab main aapko naam se ${VOICE.g('bulaunga', 'bulaungi')}.${ME().name ? '' : ' (Admin Team page me bhi naam daal de to har phone pe yaad rahega.)'}`, mood: 'party', hi: `हेलो ${SP.pn(n)}! अब मैं आपको नाम से ${VOICE.g('बुलाऊँगा', 'बुलाऊँगी')}।`, en: `Hello ${SP.pn(n)}! I'll call you by your name from now on.` }; }
-    if (!q || /^(hi|hello|hey|helo|namaste|namaskar|नमस्ते)\b/.test(q)) return greet();
-    if (has('thank', 'shukriya', 'dhanyavad', 'धन्यवाद')) return { text: 'Koi baat nahi! Main yahin hoon 🙂', hi: 'कोई बात नहीं! मैं यहीं हूँ।', en: "You're welcome! I'm right here." };
-    if (has('help', 'madad', 'kya kar', 'kya pooch')) return { text: 'Mujhse ye pooch sakte ho: aaj ka minus, pending kitna hai, low stock, kaun online hai, aaj ka dispatch, revised PI, B2B request, koi doc number (jaise 9002), ya product — "best" (saare variant + qty), "best ka dimension", "best case size", "best ean". Apna naam batana ho to: "mera naam Ramesh hai".', hi: 'आप मुझसे पूछ सकते हो: आज का माइनस, कितना पेंडिंग है, लो स्टॉक, कौन ऑनलाइन है, आज का डिस्पैच, या कोई डॉक नंबर या SKU।', en: "You can ask me about today's minus, pending orders, low stock, who is online, today's dispatch, or any doc number or SKU." };
-    const pq = productQ(q0, q, true); if (pq) return pq;
-    const docM = q.match(/(?:doc[-\s]?pi[-\s]?)?(\d{4,6})/);
-    if (docM && !has('sku')) {
+    const raw = String(q0).trim(); const q = raw.toLowerCase(); const n = norm(raw); const k = M.k;
+    const has = (...x) => x.some(t => (' ' + n + ' ').includes(' ' + t + ' ') || q.includes(t));
+    const same = n === ctx.lastQ; ctx.lastQ = n;
+    /* name */
+    const nmM = raw.match(/(?:mera naam|my name is|my name|naam mera)\s+(?:hai\s+)?([A-Za-zऀ-ॿ]{2,20})(?:\s+hai)?\s*$/i) || (askName && /^[A-Za-zऀ-ॿ]{2,20}(\s+[A-Za-zऀ-ॿ]{2,20})?$/.test(raw) && !/\b(minus|pending|dispatch|low|b2b|help|sku|dim|case|ean|live|mkt)\b/.test(n) && !searchSku(raw, 1).length ? [0, raw] : null);
+    if (nmM) { askName = false; const nm = cap(nmM[1]); lss('dt-myname', nm); return { text: `Hello <b>${esc(nm)}</b>! 🤝 Ab main aapko naam se ${VOICE.g('bulaunga', 'bulaungi')}.${ME().name ? '' : ' (Admin USERS/Team me naam daal de to har phone pe yaad rahega.)'}`, mood: 'love', hi: `हेलो ${SP.pn(nm)}! अब मैं आपको नाम से ${VOICE.g('बुलाऊँगा', 'बुलाऊँगी')}।`, en: `Hello ${SP.pn(nm)}! I'll call you by your name from now on.` }; }
+    if (!n || /^(hi|hii+|hello|hey|helo|namaste|namaskar|नमस्ते|good morning|good evening)$/.test(n)) return greet(true);
+    if (/\b(thank|thanks|thx|shukriya|dhanyavad|धन्यवाद|nice|badhiya|great|wah)\b/.test(q)) return { text: vary('thx', ['Koi baat nahi! 😊', 'Hamesha haazir hoon! 🙌', 'Khushi hui madad karke 💚']), mood: 'love', hi: vary('thxh', ['कोई बात नहीं!', 'हमेशा हाज़िर हूँ!', 'मदद करके ख़ुशी हुई!']), en: "You're welcome!" };
+    if (/\b(help|madad|kya kar sakte|kya pooch|kya puch)\b/.test(q)) return { text: `Mujhse kuch bhi poocho:<ul class="rhist"><li><b>pig</b> → pig ke saare variant + qty</li><li><b>gm</b> → jitne product me "gm" hai, sab</li><li><b>best dimension</b> / <b>best case size</b> / <b>best ean</b> / <b>best batch</b></li><li><b>b2b me pig kitna pada hai</b> · <b>best ke kitne box ho sakte hai</b></li><li><b>9002</b> → us doc ki poori history</li><li><b>kitne sku live</b> · <b>b2b me kitna stock</b> · <b>marketing kitna</b> · <b>kitne sku ke dimension</b></li><li><b>aaj ka minus</b> · <b>pending</b> · <b>low stock</b> · <b>kaun online</b> · <b>kal ka dispatch</b></li><li>Ek SKU ke baad: <b>iska dimension</b>, <b>iska batch</b></li></ul>`, hi: 'आप प्रोडक्ट का नाम, डॉक नंबर, या आज का माइनस, पेंडिंग, लो स्टॉक कुछ भी पूछ सकते हो।', en: 'Ask me about any product, a doc number, today\'s minus, pending or low stock.' };
+    /* numbers: EAN → SKU, 3–7 digits → doc history */
+    const only = raw.replace(/\s+/g, '');
+    if (/^\d{8,14}$/.test(only) && canStock()) { const ks = search(only); if (ks.length) return productAnswer(ks, '', only); }
+    const docNum = (raw.match(/^(?:doc|pi|doc[-\s]?pi)?[-\s#]*(\d{3,7})$/i) || raw.match(/\b(?:doc|pi)[-\s#]*(\d{3,7})\b/i) || [])[1];
+    if (docNum) {
       if (!can('docs')) return noRight('docs');
-      const d = M.docs.find(x => nk(x.doc).endsWith(docM[1]));
-      if (d) {
-        const hiSt = d.status === 'dispatched' ? `${SP.date(d.dd, 'hi')} को डिस्पैच हो गया है।` : d.status === 'packed' ? 'पैक हो गया है, डिस्पैच बाकी है।' : `अभी पैक होना बाकी है${d.age ? `, ${d.age} दिन से` : ''}।`;
-        const enSt = d.status === 'dispatched' ? `It was dispatched on ${SP.date(d.dd, 'en')}.` : d.status === 'packed' ? 'It is packed, dispatch is pending.' : `It is still waiting to be packed${d.age ? `, for ${d.age} days` : ''}.`;
-        return { text: `<b>${esc(d.doc)}</b> · ${esc(d.name)} · ${d.status === 'dispatched' ? `dispatch ho gaya ${fD(d.dd)} (${esc(d.courier || 'courier nahi likha')})` : d.status === 'packed' ? `pack ho gaya${d.packDate ? ' ' + fD(d.packDate) : ''}, dispatch baaki` : `pending hai, ${d.age ?? '—'} din se`} · ${d.lines.length ? pcs(d.pcs) : 'SKU data nahi bhara'}${d.b2bPick ? ' · B2B pick' : ''}${d.revised ? ' · revised PI' : ''}${d.lines.length ? `<div class="rlist">${d.lines.slice(0, 12).map(l => `<button type="button" data-sku="${esc(l.k)}"><span>${esc(l.sku)}</span><b>${fN(l.qty)}</b></button>`).join('')}${d.lines.length > 12 ? `<em>+${d.lines.length - 12} aur</em>` : ''}</div>` : ''}`, html: btn('Doc kholo', `data-doc="${esc(d.key)}"`),
-          hi: `${SP.doc(d.doc, 'hi')} ${SP.pn(d.name)} का है। ${hiSt}${d.lines.length ? ` कुल ${d.pcs} पीस, ${d.skuCount} SKU। ${SP.list(d.lines.slice(0, 3).map(l => `${SP.name(l.sku)} ${l.qty}`), 'hi')}${d.lines.length > 3 ? ', और बाकी स्क्रीन पर।' : '।'}` : ''}`,
-          en: `${SP.doc(d.doc, 'en')} is for ${SP.pn(d.name)}. ${enSt}${d.lines.length ? ` ${d.pcs} pieces in ${d.skuCount} SKUs: ${SP.list(d.lines.slice(0, 3).map(l => `${SP.name(l.sku)} ${l.qty}`), 'en')}${d.lines.length > 3 ? ', and more on screen.' : '.'}` : ''}` };
-      }
+      const ds = M.docs.filter(x => nk(x.doc).endsWith(docNum)).sort((a, b) => b.date.localeCompare(a.date));
+      if (ds.length) return docsAnswer(ds, docNum);
+      if (/^\d+$/.test(only)) { const ks = canStock() ? search(only) : []; if (ks.length) return productAnswer(ks, '', only); return { text: `<b>${esc(docNum)}</b> wala koi doc Approverd me nahi mila.`, mood: 'confused', hi: `${docNum} वाला कोई डॉक नहीं मिला।`, en: `No doc found for ${docNum}.` }; }
     }
-    if (has('minus', 'uniware', 'माइनस')) {
-      if (!can('minus')) return noRight('minus');
-      const D = M.dayMinusMap.get(M.today); const open = M.dayOpen.filter(x => x.date < M.today);
-      st.ui.minus.date = D ? M.today : (open[0] || {}).date || M.today;
-      return { text: `${D ? `Aaj ${pcs(D.minus)} minus${D.back ? `, ${pcs(D.back)} wapas add` : ''}, ${D.lines.length} SKU, ${D.docs.length} doc — ${D.state === 'done' ? 'Uniware me done ✔' : 'Uniware me karna baaki'}.` : 'Aaj abhi kuch pack nahi hua.'}${open.length ? ` ${open.length} purane din abhi done nahi: ${open.slice(0, 3).map(x => fS(x.date)).join(', ')}.` : ''}`, html: btn('Minus page', 'data-go="minus"') + (D ? btn('Day Excel', 'data-mx="day"') : ''), mood: open.length ? 'alert' : 'active',
-        hi: (D ? `आज ${D.minus} पीस का माइनस है${D.back ? `, और ${D.back} पीस वापस जोड़ने हैं` : ''}। ${D.lines.length} SKU, ${D.docs.length} डॉक। ${D.state === 'done' ? 'यूनिवेयर में हो गया है।' : 'यूनिवेयर में करना बाकी है।'}` : 'आज अभी कुछ पैक नहीं हुआ।') + (open.length ? ` ${open.length} पुराने दिन का माइनस भी बाकी है।` : ''),
-        en: (D ? `Today's minus is ${D.minus} pieces${D.back ? `, with ${D.back} to add back` : ''}. ${D.lines.length} SKUs from ${D.docs.length} docs. ${D.state === 'done' ? 'It is done in Uniware.' : 'It is not done in Uniware yet.'}` : 'Nothing has been packed today yet.') + (open.length ? ` ${open.length} older day${open.length > 1 ? 's are' : ' is'} still pending.` : '') };
+    /* totals */
+    const restW = restWords(n);
+    if (canStock() && (/\bkitna\b/.test(n) || /^(mkt|mkt material)$/.test(n))) {
+      if (/\bmkt\b/.test(n)) return counts('mkt');
+      if (!restW.length && /\b(dim|case|ean)\b/.test(n)) return counts(n);
+      if (!restW.length && /\blive\b/.test(n)) return counts('live');
+      if (!restW.length && /\bb2b\b/.test(n) && !/\b(request|reply)\b/.test(n)) return counts('b2b');
+      if (!restW.length && /\bsku\b/.test(n) && !/\b(pending|low|dispatch)\b/.test(n)) return counts('live');
     }
-    if (has('pending', 'baaki', 'baki', 'pack nahi', 'पेंडिंग')) {
-      if (!can('pending') && !can('home')) return noRight('pending');
-      const old = M.pending.reduce((a, d) => Math.max(a, d.age || 0), 0); const sh = M.demand.filter(x => x.short).length;
-      return { text: `${pcs(k.pendingPcs)} pack hona baaki hai — ${fN(k.pending)} doc, ${fN(M.demand.length)} SKU. ${k.overdue ? `${k.overdue} doc ${M.sla} din se zyada purane (sabse purana ${old} din).` : 'Koi late nahi.'}${sh ? ` ${sh} SKU me stock kam pad raha hai.` : ''}`, html: btn('Pending dekho', 'data-go="pending"'), mood: k.overdue ? 'alert' : 'active',
-        hi: `${k.pendingPcs} पीस पैक होना बाकी है, ${k.pending} डॉक में। ${k.overdue ? `${k.overdue} डॉक ${M.sla} दिन से ज़्यादा ${k.overdue > 1 ? 'पुराने हैं' : 'पुराना है'}।` : 'कोई डॉक लेट नहीं है।'}${sh ? ` ${sh} SKU में स्टॉक कम पड़ रहा है।` : ''}`,
-        en: `${k.pendingPcs} pieces are waiting to be packed, across ${k.pending} doc${k.pending === 1 ? '' : 's'}. ${k.overdue ? `${k.overdue} doc${k.overdue > 1 ? 's are' : ' is'} older than ${M.sla} days.` : 'Nothing is late.'}${sh ? ` ${sh} SKUs are short on stock.` : ''}` };
+    /* follow-up about the last SKU / list */
+    const rest = restW.join(' ');
+    const attr = /\bdim\b/.test(n) ? 'dim' : /\bcasesize\b/.test(n) ? 'case' : /\bbox\b/.test(n) ? 'box' : /\bean\b/.test(n) ? 'ean' : /\bbatch\b/.test(n) ? 'batch' : /\bb2b\b/.test(n) && (rest || /\bit\b/.test(n)) ? 'b2b' : '';
+    if (canStock() && (attr || /\bit\b/.test(n)) && (!rest || /\bit\b/.test(n))) {
+      if (ctx.sku && (/\bit\b/.test(n) || !ctx.list || ctx.list.ks.length === 1)) { if (attr === 'batch' || !attr) return skuAnswer(ctx.sku, attr); return productAnswer([ctx.sku], attr, skuOf(ctx.sku)); }
+      if (ctx.list && ctx.list.ks.length) return productAnswer(ctx.list.ks, attr, ctx.list.label);
     }
-    if (has('online', 'kaun', 'active', 'team', 'log hai', 'ऑनलाइन')) {
-      if (!can('team')) return noRight('team');
-      const T = teamData(); const a = T.list.filter(m => m.active); const nm = T.online.map(personName);
-      return { text: `${a.length} log active hain (${T.list.length} me se). Abhi app pe ${nm.length ? nm.map(esc).join(', ') : 'koi aur online nahi'}.`, html: btn('Team page', 'data-go="team"'),
-        hi: `${a.length} लोग एक्टिव हैं। ${nm.length ? `अभी ऐप पर ${SP.list(nm.map(SP.pn), 'hi')} ऑनलाइन ${nm.length > 1 ? 'हैं' : 'है'}।` : 'अभी ऐप पर और कोई ऑनलाइन नहीं है।'}`,
-        en: `${a.length} people are active. ${nm.length ? `${SP.list(nm.map(SP.pn), 'en')} ${nm.length > 1 ? 'are' : 'is'} online right now.` : 'Nobody else is online right now.'}` };
+    if (/\bit\b/.test(n) && ctx.doc && /\b(sku|history|status|dispatch)\b/.test(n)) { const d = M.docMap.get(ctx.doc); if (d) return docAnswer(d); }
+    /* product with an attribute or "variant/qty" word */
+    const pWord = attr || /\b(variant|kitna|qty|stock|sku|live)\b/.test(n) || /\bqty|stock\b/.test(q);
+    if (canStock() && rest && pWord && !/^(minus|pending|dispatch|low|online|team|b2b|request|revise|naya)$/.test(rest)) { const ks = search(rest); if (ks.length) return productAnswer(ks, attr, rest); }
+    /* app questions */
+    if (has('minus')) return minusA();
+    if (has('pending') && !rest.replace(/\b(doc|docs|order|orders)\b/g, '').trim()) return pendingA();
+    if (/\b(online|kaun|active|team|log)\b/.test(n)) return onlineA();
+    if (/\b(badh|rising|trend|zyada order|jyada order)\b/.test(n)) return risingA();
+    if (/\b(low|kam|khatam|out|alert|short)\b/.test(n)) return lowA();
+    if (has('dispatch')) return dispatchA(/\bkal\b/.test(n) ? addDays(M.today, -1) : M.today);
+    if (/\b(revise|revised|badla|change)\b/.test(n)) return reviseA();
+    if (/\b(b2b|request|reply|mangaya|mangwaya)\b/.test(n)) return b2bA();
+    if (/\b(notif|naya|nayi|update|khabar|news)\b/.test(n)) return newsA();
+    if (has('pending')) return pendingA();
+    /* plain product search: "pig", "gm", "best serum" */
+    if (canStock()) { const term = rest || n; const ks = search(term); if (ks.length) return productAnswer(ks, attr, term); }
+    return null;   /* nothing matched → AI (if on) or a friendly "didn't get it" */
+  }
+  function restWords(n) { return n.split(' ').filter(x => x && !STOP.has(x) && !/^(aaj|kal|minus|pending|dispatch|online|team|low|kam|b2b|it|doc|docs|history|status)$/.test(x)); }
+  function minusA() {
+    const M = st.M; if (!can('minus')) return noRight('minus');
+    const D = M.dayMinusMap.get(M.today); const open = M.dayOpen.filter(x => x.date < M.today);
+    st.ui.minus.date = D ? M.today : (open[0] || {}).date || M.today;
+    return { text: `${D ? `Aaj ${pcs(D.minus)} minus${D.back ? `, ${pcs(D.back)} wapas add` : ''}, ${D.lines.length} SKU, ${D.docs.length} doc — ${D.state === 'done' ? 'Uniware me done ✔' : 'Uniware me karna baaki'}.` : 'Aaj abhi kuch pack nahi hua.'}${open.length ? ` ${open.length} purane din abhi done nahi: ${open.slice(0, 3).map(x => fS(x.date)).join(', ')}.` : ''}`, html: btn('Minus page', 'data-go="minus"') + (D ? btn('Day Excel', 'data-mx="day"') : ''), mood: open.length >= 2 ? 'angry' : open.length ? 'alert' : 'happy',
+      hi: (D ? `आज ${D.minus} पीस का माइनस है${D.back ? `, और ${D.back} पीस वापस जोड़ने हैं` : ''}। ${D.state === 'done' ? 'यूनिवेयर में हो गया है।' : 'यूनिवेयर में करना बाकी है।'}` : 'आज अभी कुछ पैक नहीं हुआ।') + (open.length ? ` ${open.length} पुराने दिन का माइनस भी बाकी है।` : ''),
+      en: (D ? `Today's minus is ${D.minus} pieces${D.back ? `, with ${D.back} to add back` : ''}. ${D.state === 'done' ? 'It is done in Uniware.' : 'It is not done in Uniware yet.'}` : 'Nothing has been packed today yet.') + (open.length ? ` ${open.length} older day${open.length > 1 ? 's are' : ' is'} still pending.` : '') };
+  }
+  function pendingA() {
+    const M = st.M, k = M.k; if (!can('pending') && !can('home')) return noRight('pending');
+    const old = M.pending.reduce((a, d) => Math.max(a, d.age || 0), 0); const sh = M.demand.filter(x => x.short).length;
+    const L = M.pending.slice().sort((a, b) => (b.age || 0) - (a.age || 0));
+    return { text: `${pcs(k.pendingPcs)} pack hona baaki hai — ${fN(k.pending)} doc, ${fN(M.demand.length)} SKU. ${k.overdue ? `${k.overdue} doc ${M.sla} din se zyada purane (sabse purana ${old} din).` : 'Koi late nahi.'}${sh ? ` ${sh} SKU me stock kam pad raha hai.` : ''}${L.length ? `<div class="rlist">${L.slice(0, 40).map(d => `<button type="button" data-ag-doc="${esc(d.key)}"><span>${esc(d.doc)}<small>${esc(d.name)}</small></span><b>${d.age ?? '—'} din<i>${fN(d.pcs)} pcs</i></b></button>`).join('')}</div>` : ''}`, html: btn('Pending page', 'data-go="pending"'), mood: k.overdue ? 'alert' : 'happy',
+      hi: `${k.pendingPcs} पीस पैक होना बाकी है, ${k.pending} डॉक में। ${k.overdue ? `${k.overdue} डॉक ${M.sla} दिन से ज़्यादा ${k.overdue > 1 ? 'पुराने हैं' : 'पुराना है'}।` : 'कोई डॉक लेट नहीं है।'}`,
+      en: `${k.pendingPcs} pieces are waiting to be packed, across ${k.pending} doc${k.pending === 1 ? '' : 's'}. ${k.overdue ? `${k.overdue} doc${k.overdue > 1 ? 's are' : ' is'} older than ${M.sla} days.` : 'Nothing is late.'}` };
+  }
+  function onlineA() {
+    if (!can('team')) return noRight('team');
+    const T = teamData(); const a = T.list.filter(m => m.active); const nm = T.online.map(personName);
+    return { text: `${a.length} log active hain (${T.list.length} me se). Abhi app pe ${nm.length ? nm.map(x => '<b>' + esc(x) + '</b>').join(', ') : 'koi aur online nahi'}.`, html: btn('Team page', 'data-go="team"'), mood: 'happy',
+      hi: `${a.length} लोग एक्टिव हैं। ${nm.length ? `अभी ऐप पर ${SP.list(nm.map(SP.pn), 'hi')} ऑनलाइन ${nm.length > 1 ? 'हैं' : 'है'}।` : 'अभी ऐप पर और कोई ऑनलाइन नहीं है।'}`,
+      en: `${a.length} people are active. ${nm.length ? `${SP.list(nm.map(SP.pn), 'en')} ${nm.length > 1 ? 'are' : 'is'} online right now.` : 'Nobody else is online right now.'}` };
+  }
+  function risingA() {
+    const M = st.M; if (!can('stock')) return noRight('stock'); const R = M.rising.slice(0, 3);
+    return { text: M.rising.length ? `In SKU me order badh rahe hain:<div class="rlist">${M.rising.slice(0, 30).map(s => `<button type="button" data-ag-sku="${esc(s.k)}"><span>${esc(s.sku)}<small>${esc(s.name)}</small></span><b>${s.trend.last7}<i>is hafte</i></b></button>`).join('')}</div>` : 'Abhi kisi SKU me order tezi se nahi badh rahe.', html: btn('Stock alerts', 'data-go="stock:lowalert"'), mood: M.rising.length ? 'wow' : 'happy',
+      hi: R.length ? `इनके ऑर्डर बढ़ रहे हैं: ${SP.list(R.map(s => `${SP.name(s.sku)} के इस हफ़्ते ${s.trend.last7}`), 'hi')}।` : 'अभी किसी SKU के ऑर्डर तेज़ी से नहीं बढ़ रहे।',
+      en: R.length ? `Orders are rising for ${SP.list(R.map(s => `${SP.name(s.sku)} with ${s.trend.last7} this week`), 'en')}.` : 'No SKU has fast-rising orders right now.' };
+  }
+  function lowA() {
+    const M = st.M; if (!can('stock')) return noRight('stock');
+    const L = M.lowList.filter(s => s.alert !== 'rising'); const T3 = L.slice(0, 3);
+    return { text: L.length ? `<b>${L.length}</b> SKU low hain:<div class="rlist">${L.slice(0, 60).map(s => `<button type="button" data-ag-sku="${esc(s.k)}"><span>${esc(s.sku)}<small>${esc(s.name)}</small></span><b>${fN(s.good)}${s.pending ? `<i>${fN(s.pending)} pending</i>` : ''}</b></button>`).join('')}</div>` : 'Sab SKU theek hain, koi low nahi 👍', html: btn('Stock alerts', 'data-go="stock:lowalert"') + (can('request') && L.length ? btn('B2B se mangao', 'data-go="request"') : ''), mood: L.length ? 'alert' : 'happy',
+      hi: L.length ? `${L.length} SKU कम हैं। सबसे ज़रूरी: ${SP.list(T3.map(s => `${SP.name(s.sku)} में ${s.good} बचे`), 'hi')}।` : 'सब SKU ठीक हैं, कोई कम नहीं है।',
+      en: L.length ? `${L.length} SKUs are low. Most urgent: ${SP.list(T3.map(s => `${SP.name(s.sku)} with ${s.good} left`), 'en')}.` : 'All SKUs are fine, nothing is low.' };
+  }
+  function dispatchA(day) {
+    const M = st.M, k = M.k; if (!can('dispatch')) return noRight('dispatch');
+    const D = M.dayMap.get(day); const isT = day === M.today; const lbl = isT ? 'Aaj' : fS(day);
+    return { text: D ? `${lbl} <b>${D.docs.length}</b> doc dispatch hue, <b>${pcs(D.pcs)}</b>. Courier: ${[...D.couriers.entries()].map(([c, x]) => `${esc(c)} ${x}`).join(', ')}.<div class="rlist">${D.docs.slice(0, 40).map(d => `<button type="button" data-ag-doc="${esc(d.key)}"><span>${esc(d.doc)}<small>${esc(d.name)}</small></span><b>${esc(d.courier || '—')}</b></button>`).join('')}</div>` : `${lbl} koi dispatch nahi.${isT ? ` ${fN(k.toDispatch)} doc pack hoke courier ka wait kar rahe hain.` : ''}`, html: btn('Dispatch', 'data-go="dispatch"'), mood: D ? 'happy' : 'normal',
+      hi: D ? `${isT ? 'आज' : SP.date(day, 'hi') + ' को'} ${D.docs.length} डॉक डिस्पैच हुए, ${D.pcs} पीस।` : `${isT ? 'आज' : SP.date(day, 'hi') + ' को'} कोई डिस्पैच नहीं हुआ।`,
+      en: D ? `${D.docs.length} docs were dispatched ${isT ? 'today' : 'on ' + SP.date(day, 'en')}, ${D.pcs} pieces.` : `Nothing was dispatched ${isT ? 'today' : 'on ' + SP.date(day, 'en')}.` };
+  }
+  function reviseA() {
+    const M = st.M; if (!can('docs')) return noRight('docs');
+    const all = M.events.filter(e => e.kind === 'revise'); const R = all.slice(0, 3);
+    return { text: R.length ? `Pichhle 30 din me <b>${all.length}</b> revision:<div class="rlist">${all.slice(0, 30).map(e => `<button type="button" data-ag-doc="${esc(nk(e.doc))}"><span>${esc(e.doc)}<small>${esc(e.body)}</small></span><b>${fS(e.date)}</b></button>`).join('')}</div>` : 'Pichhle 30 din me koi PI revise nahi hua.', html: btn('Revised docs', 'data-go="docs:revised"'),
+      hi: R.length ? `पिछले तीस दिन में ${all.length} बार पी आई बदला। सबसे नया: ${SP.ev(R[0]).hi}` : 'पिछले तीस दिन में कोई पी आई नहीं बदला।',
+      en: R.length ? `${all.length} PI revisions in the last 30 days. Latest: ${SP.ev(R[0]).en}` : 'No PI was revised in the last 30 days.' };
+  }
+  function b2bA() {
+    const M = st.M; if (!can('request')) return noRight('request');
+    const r = M.b2bReq[0], g = M.b2bIn[0]; const hs = r && (HREQ[r.state] || [r.state, r.state]);
+    return { text: `${r ? `Aakhri request ${esc(r.id)} (${fS(r.date)}): ${r.lines.length} SKU, ${pcs(r.qty)} — ${({ draft: 'mail nahi gaya', sent: 'mail gaya, reply ka wait', replied: 'B2B ne reply kiya', received: 'maal aa gaya' })[r.state] || r.state}.` : 'Abhi koi B2B request nahi.'}${g ? ` B2B ka aakhri reply ${fS(g.date)} ${esc(g.time)}.` : ''}`, html: btn('B2B request', 'data-go="request"'),
+      hi: r ? `आख़िरी रिक्वेस्ट ${r.lines.length} SKU की है, ${r.qty} पीस। ${hs[0]}।` : 'अभी कोई B2B रिक्वेस्ट नहीं है।', en: r ? `The last request has ${r.lines.length} SKUs, ${r.qty} pieces, and ${hs[1]}.` : 'There is no B2B request yet.' };
+  }
+  function newsA() {
+    const U = NT.unread(); const f = U[0] ? SP.ev(U[0]) : null;
+    return { text: U.length ? `<b>${U.length}</b> nayi baatein: ${U.slice(0, 3).map(e => esc(e.title)).join(' · ')}` : 'Kuch naya nahi, sab padh liya 👍', html: btn('Sab dekho', 'id="rbBell"'), mood: U.length ? 'wow' : 'happy',
+      hi: U.length ? `${U.length} नई ख़बरें हैं। पहली: ${f.hi}` : 'कुछ नया नहीं है, सब पढ़ लिया।', en: U.length ? `${U.length} new updates. First one: ${f.en}` : 'Nothing new, you are all caught up.' };
+  }
+  function dontKnow() {
+    return { text: vary('dk', ['Ye mujhe samajh nahi aaya 🤔 Product ka naam (jaise <b>pig</b>), doc number (jaise <b>9002</b>), ya <b>aaj ka minus</b> likh ke dekho.', 'Hmm, ye wala nahi samjha 😅 <b>help</b> likho, main bata dunga kya-kya pooch sakte ho.', 'Is baat ka jawab mere data me nahi mila. SKU, doc number ya minus/pending pooch ke dekho.']).replace('dunga', VOICE.g('dunga', 'dungi')), mood: 'confused',
+      hi: vary('dkh', ['ये मुझे समझ नहीं आया। प्रोडक्ट का नाम, डॉक नंबर, या आज का माइनस पूछ के देखो।', 'हम्म, ये वाला नहीं समझा। हेल्प लिखो।']), en: "Sorry, I didn't get that. Try a product name, a doc number or today's minus." };
+  }
+  /* ---------- AI (free Gemini, through our Netlify function) for anything else ---------- */
+  let aiOn = null;
+  async function aiReady() { if (aiOn !== null) return aiOn; try { await VOICE.detect(); aiOn = !!(VOICE.status().info || {}).ai; } catch { aiOn = false; } return aiOn; }
+  function aiContext(q) {
+    const M = st.M, t3 = st.t3; const C = { today: M.today, user: myName() || undefined };
+    if (can('home') || can('pending')) C.kpi = { pendingPcs: M.k.pendingPcs, pendingDocs: M.k.pending, overdueDocs: M.k.overdue, packedWaitingDispatch: M.k.toDispatch, slaDays: M.sla, approvedToday: M.docs.filter(d => d.date === M.today).length, packedToday: M.docs.filter(d => d.packDate === M.today).length, packedTodayPcs: M.docs.filter(d => d.packDate === M.today).reduce((a, d) => a + d.pcs, 0), dispatchedToday: M.docs.filter(d => d.dd === M.today).length, oldestPending: M.pending.slice().sort((a, b) => (b.age || 0) - (a.age || 0)).slice(0, 5).map(d => ({ doc: d.doc, party: d.name, days: d.age, pcs: d.pcs })) };
+    if (can('minus')) { const D = M.dayMinusMap.get(M.today); C.minusToday = D ? { pcs: D.minus, addBack: D.back, state: D.state } : null; C.minusOpenDays = M.dayOpen.map(d => ({ date: d.date, pcs: d.minus, state: d.state })).slice(0, 10); }
+    if (can('dispatch')) C.dispatchLast7 = [...Array(7)].map((_, i) => { const d = addDays(M.today, -i); const x = M.dayMap.get(d); return { date: d, docs: x ? x.docs.length : 0, pcs: x ? x.pcs : 0 }; });
+    if (canStock()) {
+      const live = M.stock.filter(s => s.live > 0);
+      C.stock = { liveSkus: live.length, liveUnits: live.reduce((a, s) => a + s.live, 0), negativeSkus: M.stock.filter(s => s.live < 0).length, marketingSkus: M.stock.filter(s => s.cat === 'mkt').length, b2bUnits: [...M.b2b.map.values()].reduce((a, x) => a + x.wh, 0), skusWithDimensions: t3.dims.size, skusWithCaseSize: t3.cases.size };
+      C.low = M.lowList.slice(0, 12).map(s => ({ sku: s.sku, name: s.name, offline: s.good, pending: s.pending, alert: s.alert }));
+      C.rising = M.rising.slice(0, 6).map(s => ({ sku: s.sku, thisWeek: s.trend.last7 }));
+      const words = norm(q).split(' ').filter(x => x.length > 2 && !STOP.has(x)); const seenK = new Set(); const sk = [];
+      for (const wd of words) for (const kk of search(wd).slice(0, 6)) if (!seenK.has(kk) && sk.length < 10) { seenK.add(kk); const r = row(kk); sk.push({ sku: r.sku, name: r.name, offlineLive: r.live, bad: r.bad, b2b: r.wh, caseSize: r.cs[0] || null, dims: r.dm[0] ? dimTx(r.dm[0]) : null, ean: r.ean || null }); }
+      if (ctx.sku && !seenK.has(ctx.sku)) { const r = row(ctx.sku); sk.unshift({ lastTalkedAbout: true, sku: r.sku, name: r.name, offlineLive: r.live, b2b: r.wh, caseSize: r.cs[0] || null, dims: r.dm[0] ? dimTx(r.dm[0]) : null }); }
+      if (sk.length) C.matchingSkus = sk;
     }
-    if (has('badh', 'rising', 'zyada order', 'trend')) {
-      if (!can('stock')) return noRight('stock');
-      const R = M.rising.slice(0, 3);
-      return { text: M.rising.length ? `In SKU me order badh rahe hain: ${M.rising.slice(0, 5).map(s => `${esc(s.sku)} (${s.trend.last7} is hafte)`).join(', ')}.` : 'Abhi kisi SKU me order tezi se nahi badh rahe.', html: btn('Stock alerts', 'data-go="stock:lowalert"'), mood: M.rising.length ? 'alert' : 'active',
-        hi: R.length ? `इनके ऑर्डर बढ़ रहे हैं: ${SP.list(R.map(s => `${SP.name(s.sku)} के इस हफ़्ते ${s.trend.last7}`), 'hi')}।` : 'अभी किसी SKU के ऑर्डर तेज़ी से नहीं बढ़ रहे।',
-        en: R.length ? `Orders are rising for ${SP.list(R.map(s => `${SP.name(s.sku)} with ${s.trend.last7} this week`), 'en')}.` : 'No SKU has fast-rising orders right now.' };
-    }
-    if (has('low', 'kam', 'khatam', 'out of stock', 'alert', 'stock', 'स्टॉक')) {
-      if (!can('stock')) return noRight('stock');
-      const L = M.lowList.filter(s => s.alert !== 'rising'); const T3 = L.slice(0, 3);
-      return { text: L.length ? `${L.length} SKU low hain. Sabse zaroori: ${L.slice(0, 5).map(s => `${esc(s.sku)} (${fN(s.good)} offline${s.pending ? `, ${fN(s.pending)} pending` : ''})`).join(', ')}.` : 'Sab SKU theek hain, koi low nahi 👍', html: btn('Stock alerts', 'data-go="stock:lowalert"') + (can('request') && L.length ? btn('B2B se mangao', 'data-go="request"') : ''), mood: L.length ? 'alert' : 'active',
-        hi: L.length ? `${L.length} SKU कम हैं। सबसे ज़रूरी: ${SP.list(T3.map(s => `${SP.name(s.sku)} में ${s.good} बचे`), 'hi')}।` : 'सब SKU ठीक हैं, कोई कम नहीं है।',
-        en: L.length ? `${L.length} SKUs are low. Most urgent: ${SP.list(T3.map(s => `${SP.name(s.sku)} with ${s.good} left`), 'en')}.` : 'All SKUs are fine, nothing is low.' };
-    }
-    if (has('dispatch', 'courier', 'bheja', 'nikla', 'डिस्पैच')) {
-      if (!can('dispatch')) return noRight('dispatch');
-      const D = M.dayMap.get(M.today);
-      return { text: D ? `Aaj ${D.docs.length} doc dispatch hue, ${pcs(D.pcs)}. Courier: ${[...D.couriers.entries()].map(([c, n]) => `${esc(c)} ${n}`).join(', ')}.` : `Aaj abhi koi dispatch nahi. ${fN(k.toDispatch)} doc pack hoke courier ka wait kar rahe hain.`, html: btn('Dispatch', 'data-go="dispatch"'),
-        hi: D ? `आज ${D.docs.length} डॉक डिस्पैच हुए, ${D.pcs} पीस।` : `आज अभी कोई डिस्पैच नहीं हुआ। ${k.toDispatch} डॉक पैक होकर कूरियर का इंतज़ार कर रहे हैं।`,
-        en: D ? `${D.docs.length} docs were dispatched today, ${D.pcs} pieces.` : `Nothing dispatched yet today. ${k.toDispatch} packed docs are waiting for the courier.` };
-    }
-    if (has('revise', 'revised', 'badla')) {
-      if (!can('docs')) return noRight('docs');
-      const all = M.events.filter(e => e.kind === 'revise'); const R = all.slice(0, 3);
-      return { text: R.length ? R.map(e => `<b>${esc(e.doc)}</b> (${fS(e.date)}): ${esc(e.body)}`).join('<br>') : 'Pichhle 30 din me koi PI revise nahi hua.', html: btn('Revised docs', 'data-go="docs:revised"'),
-        hi: R.length ? `पिछले तीस दिन में ${all.length} बार पी आई बदला। सबसे नया: ${SP.ev(R[0]).hi}` : 'पिछले तीस दिन में कोई पी आई नहीं बदला।',
-        en: R.length ? `${all.length} PI revisions in the last 30 days. Latest: ${SP.ev(R[0]).en}` : 'No PI was revised in the last 30 days.' };
-    }
-    if (has('b2b', 'request', 'reply', 'mangaya')) {
-      if (!can('request')) return noRight('request');
-      const r = M.b2bReq[0], g = M.b2bIn[0]; const hs = r && (HREQ[r.state] || [r.state, r.state]);
-      return { text: `${r ? `Aakhri request ${esc(r.id)} (${fS(r.date)}): ${r.lines.length} SKU, ${pcs(r.qty)} — ${({ draft: 'mail nahi gaya', sent: 'mail gaya, reply ka wait', replied: 'B2B ne reply kiya', received: 'maal aa gaya' })[r.state] || r.state}.` : 'Abhi koi B2B request nahi.'}${g ? ` B2B ka aakhri reply ${fS(g.date)} ${esc(g.time)}.` : ''}`, html: btn('B2B request', 'data-go="request"'),
-        hi: r ? `आख़िरी रिक्वेस्ट ${r.lines.length} SKU की है, ${r.qty} पीस। ${hs[0]}।` : 'अभी कोई B2B रिक्वेस्ट नहीं है।',
-        en: r ? `The last request has ${r.lines.length} SKUs, ${r.qty} pieces, and ${hs[1]}.` : 'There is no B2B request yet.' };
-    }
-    if (has('notif', 'naya', 'update', 'khabar', 'news', 'नया')) {
-      const U = NT.unread(); const f = U[0] ? SP.ev(U[0]) : null;
-      return { text: U.length ? `${U.length} nayi baatein: ${U.slice(0, 3).map(e => esc(e.title)).join(' · ')}` : 'Kuch naya nahi, sab padh liya 👍', html: btn('Sab dekho', 'id="rbBell"'),
-        hi: U.length ? `${U.length} नई ख़बरें हैं। पहली: ${f.hi}` : 'कुछ नया नहीं है, सब पढ़ लिया।',
-        en: U.length ? `${U.length} new updates. First one: ${f.en}` : 'Nothing new, you are all caught up.' };
-    }
-    const pq2 = productQ(q0, q, false); if (pq2) return pq2;
-    return { text: 'Ye mujhe samajh nahi aaya 🤔 Ye pooch ke dekho: aaj ka minus, pending kitna, low stock, kaun online, ya koi doc number / SKU.', mood: 'sad', hi: 'ये मुझे समझ नहीं आया। आज का माइनस, पेंडिंग, लो स्टॉक, या कोई डॉक नंबर पूछ के देखो।', en: "Sorry, I didn't get that. Try asking about today's minus, pending orders, low stock, or a doc number." };
+    if (can('docs')) { const nums = (q.match(/\d{3,7}/g) || []).slice(0, 3); const ds = []; for (const nn of nums) for (const d of M.docs.filter(x => nk(x.doc).endsWith(nn)).slice(0, 2)) ds.push({ doc: d.doc, party: d.name, approved: d.date, status: d.status, packed: d.packDate || null, dispatched: d.dd || null, courier: d.courier || null, pcs: d.pcs, revised: d.revised }); if (ds.length) C.docs = ds; if (ctx.doc) { const d = M.docMap.get(ctx.doc); if (d) C.lastDoc = { doc: d.doc, party: d.name, status: d.status, pcs: d.pcs }; } }
+    if (can('team')) { try { const T = teamData(); C.team = { active: T.list.filter(m => m.active).length, online: T.online.map(personName) }; } catch { } }
+    return C;
+  }
+  async function aiAnswer(q) {
+    if (!(await aiReady())) return null;
+    if (!tokOk() && !(AUTH.helper() && await AUTH.refresh() === true)) return null;
+    try {
+      const r = await fetch('/.netlify/functions/voice', { method: 'POST', headers: { Authorization: 'Bearer ' + tok.a, 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'ask', q, name: NM(), lang: VOICE.lang(), data: aiContext(q) }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.text) return j.error === 'quota' ? { text: 'Aaj ka free AI kota khatam ho gaya 😅 Kal phir poochna, ya product/doc/minus seedha poocho.', mood: 'sad', hi: 'आज का फ़्री ए आई कोटा ख़त्म हो गया।', en: "Today's free AI quota is used up." } : null;
+      return { text: esc(j.text).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>') + '<div class="tiny muted" style="margin-top:4px">✨ AI se jawab — numbers app ke data se</div>', hi: j.hi || j.text, en: j.en || j.text, mood: j.mood || 'think' };
+    } catch { return null; }
   }
 
-  /* ---------- product questions: variants + qty, dimensions, case size, EAN ---------- */
-  const INTENT = /\b(low|kam|khatam|alert|minus|uniware|pending|baaki|baki|dispatch|courier|online|kaun|team|revise|revised|b2b|request|reply|naya|notif|update|help|madad|rising|badh|trend)\b/;
-  const FILL = new Set('ka ki ke ko kitna kitni kitne hai h hain he batao bata btao bolo do dikhao dikha qty quantity stock kya me mein main se sa sab saare sare saara variant variants varient verient variyant dimension dimensions dimantion dimention dimenshan naap size case cases carton box boxes peti ean barcode code wajan weight wt lbh info detail details please plz pls the of for what is are how many much aur and or ek one'.split(' '));
-  const pName = x => { const s = st.M.stockMap.get(x.k), b = st.M.b2b.map.get(x.k); return (s && s.name) || (b && b.name) || x.name || st.M.names.get(x.k) || x.sku; };
-  function productQ(q0, q, strict) {
-    if (!(can('stock') || can('lookup'))) return null;
-    const wDim = /dimen|diman|dimention|naap|lbh|l\s*[x×*]\s*b|lambai|chaudai|unchai/.test(q);
-    const wCase = !wDim && /\bcase|carton|peti|box me|ek box/.test(q);
-    const wEan = /\bean\b|barcode/.test(q);
-    const wQty = /qty|quantity|kitn|stock|variant|varient|verient|variyant|saare|sare|sab/.test(q);
-    if (strict && !(wDim || wCase || wEan || wQty)) return null;
-    const words = q.split(/[\s,?!.।]+/).filter(Boolean); const restW = words.filter(w => !FILL.has(w));
-    if (!restW.length || restW.every(w => INTENT.test(w))) return null;
-    const rest = restW.join(' ');
-    let hits = searchSku(rest, 40);
-    if (!hits.length) return null;
-    const exact = hits.find(h => nk(h.sku) === nk(rest)); if (exact) hits = [exact];
-    const M = st.M, t3 = st.t3;
-    const row = x => { const s = M.stockMap.get(x.k), b = M.b2b.map.get(x.k); return { x, name: pName(x), good: s ? s.good : 0, pend: s ? s.pending || 0 : 0, bad: s ? s.bad || 0 : 0, wh: b ? b.wh : 0, cs: t3.cases.get(x.k) || [], dm: t3.dims.get(x.k) || [], ean: (t3.ean.get(x.k) || {}).ean || '' }; };
-    const R = hits.map(row);
-    const many = R.length > 1; const tot = R.reduce((a, r) => a + r.good, 0); const totWh = R.reduce((a, r) => a + r.wh, 0);
-    const dimTx = d => `${d.l}×${d.b}×${d.h}${d.w ? ` · ${d.w} kg` : ''}`;
-    const dimHi = d => `लंबाई ${d.l}, चौड़ाई ${d.b}, ऊँचाई ${d.h}${d.w ? `, वज़न ${d.w}` : ''}`;
-    const dimEn = d => `length ${d.l}, breadth ${d.b}, height ${d.h}${d.w ? `, weight ${d.w}` : ''}`;
-    const cell = r => wDim ? (r.dm.length ? r.dm.map(dimTx).join(' / ') : '—') : wCase ? (r.cs.length ? r.cs.map(c => `${fN(c)} pcs/case`).join(' / ') : '—') : wEan ? (r.ean || '—') : `${fN(r.good)}${r.wh ? ` <i>B2B ${fN(r.wh)}</i>` : ''}`;
-    const list = `<div class="rlist">${R.slice(0, 15).map(r => `<button type="button" data-sku="${esc(r.x.k)}"><span>${esc(r.x.sku)}<small>${esc(r.name)}</small></span><b>${cell(r)}</b></button>`).join('')}${R.length > 15 ? `<em>+${R.length - 15} aur — thoda aur likho (jaise "${esc(rest)} 30")</em>` : ''}</div>`;
-    const top = R.slice(0, 3);
-    let text, hi, en;
-    if (wDim) {
-      text = many ? `"${esc(rest)}" ke ${R.length} variant — case ka L×B×H · W:` : `<b>${esc(R[0].x.sku)}</b> case L×B×H · W: <b>${R[0].dm.length ? R[0].dm.map(dimTx).join(' / ') : 'sheet me nahi'}</b>`;
-      hi = top.map(r => r.dm.length ? `${SP.name(r.x.sku)} के केस का साइज़: ${dimHi(r.dm[0])}।` : `${SP.name(r.x.sku)} का डाइमेंशन शीट में नहीं है।`).join(' ') + (R.length > 3 ? ' बाकी स्क्रीन पर देख लो।' : '');
-      en = top.map(r => r.dm.length ? `${SP.name(r.x.sku)} case: ${dimEn(r.dm[0])}.` : `${SP.name(r.x.sku)} has no dimensions in the sheet.`).join(' ') + (R.length > 3 ? ' The rest are on screen.' : '');
-    } else if (wCase) {
-      text = many ? `"${esc(rest)}" ke ${R.length} variant — case size:` : `<b>${esc(R[0].x.sku)}</b>: 1 case = <b>${R[0].cs.length ? R[0].cs.map(fN).join(' / ') : '—'}</b> pcs`;
-      hi = top.map(r => r.cs.length ? `${SP.name(r.x.sku)} के एक केस में ${r.cs[0]} पीस।` : `${SP.name(r.x.sku)} का केस साइज़ शीट में नहीं है।`).join(' ') + (R.length > 3 ? ' बाकी स्क्रीन पर देख लो।' : '');
-      en = top.map(r => r.cs.length ? `${SP.name(r.x.sku)}: ${r.cs[0]} pieces per case.` : `${SP.name(r.x.sku)} has no case size in the sheet.`).join(' ') + (R.length > 3 ? ' The rest are on screen.' : '');
-    } else if (wEan) {
-      text = many ? `"${esc(rest)}" ke ${R.length} variant — EAN:` : `<b>${esc(R[0].x.sku)}</b> EAN: <b>${esc(R[0].ean || '—')}</b>`;
-      hi = many ? `${R.length} वेरिएंट के EAN स्क्रीन पर हैं।` : R[0].ean ? `${SP.name(R[0].x.sku)} का EAN स्क्रीन पर है।` : `${SP.name(R[0].x.sku)} का EAN शीट में नहीं है।`;
-      en = many ? `The EANs for ${R.length} variants are on screen.` : R[0].ean ? `The EAN for ${SP.name(R[0].x.sku)} is on screen.` : `${SP.name(R[0].x.sku)} has no EAN in the sheet.`;
-    } else if (many) {
-      text = `"<b>${esc(rest)}</b>" ke <b>${R.length} variant</b> · offline total <b>${fN(tot)}</b>${totWh ? ` · B2B ${fN(totWh)}` : ''}`;
-      hi = `${SP.pn(rest)} के ${R.length} वेरिएंट हैं। ऑफ़लाइन में कुल ${tot} पीस हैं। ${SP.list(top.map(r => `${SP.name(r.x.sku)} में ${r.good}`), 'hi')}।${R.length > 3 ? ' बाकी स्क्रीन पर देख लो।' : ''}`;
-      en = `${SP.pn(rest)} has ${R.length} variants, ${tot} pieces in offline in all. ${SP.list(top.map(r => `${SP.name(r.x.sku)} has ${r.good}`), 'en')}.${R.length > 3 ? ' The rest are on screen.' : ''}`;
-    } else {
-      const r = R[0];
-      text = `<b>${esc(r.x.sku)}</b> · ${esc(r.name)}<br>Offline <b>${fN(r.good)}</b>${r.bad ? ` (+${fN(r.bad)} BAD)` : ''}${r.pend ? ` · ${fN(r.pend)} pending` : ''}${r.wh ? ` · B2B warehouse ${fN(r.wh)}` : ''}<br>Case: ${r.cs.length ? r.cs.map(fN).join(' / ') + ' pcs' : '—'} · L×B×H: ${r.dm.length ? r.dm.map(dimTx).join(' / ') : '—'}${r.ean ? ` · EAN ${esc(r.ean)}` : ''}`;
-      hi = `${SP.name(r.x.sku)}: ऑफ़लाइन में ${r.good} हैं${r.pend ? `, ${r.pend} पेंडिंग` : ''}${r.wh ? `, और B2B वेयरहाउस में ${r.wh}` : ''}।${r.cs.length ? ` एक केस में ${r.cs[0]} पीस।` : ''}`;
-      en = `${SP.name(r.x.sku)}: ${r.good} in offline${r.pend ? `, ${r.pend} pending` : ''}${r.wh ? `, and ${r.wh} in the B2B warehouse` : ''}.${r.cs.length ? ` ${r.cs[0]} pieces per case.` : ''}`;
-      return { text, hi, en, html: btn('SKU kholo', `data-sku="${esc(r.x.k)}"`) + btn('Lookup', 'data-go="lookup"'), mood: r.good <= 0 ? 'sad' : 'active' };
-    }
-    return { text: text + list, hi, en, html: btn('Lookup page', 'data-go="lookup"'), mood: 'active' };
+  /* ================= CHAT: views with Back ================= */
+  const log = []; const stack = [];
+  const isOpen = () => !!document.getElementById('rbLog');
+  const msgHtml = m => `<div class="rmsg ${m.me ? 'me' : 'bot'}">${m.me ? '' : robot(m.mood || 'normal', 30)}<div class="rbub">${m.text}${m.html ? `<div class="racts">${m.html}</div>` : ''}</div></div>`;
+  function paint() { const L = $('#rbLog'); if (!L) return; L.innerHTML = log.slice(-40).map(msgHtml).join(''); L.scrollTop = L.scrollHeight; }
+  function lead(a) {
+    if (!a || a.mood === 'sad' || a.mood === 'confused') return a;
+    const nm = myName(); const p = vary('lead', ['', '', 'Ye raha 👇 ', 'Dekho 👀 ', nm ? `${esc(nm)}, ` : '', 'Mil gaya! ']);
+    if (p && !/^(Hello|Good|Namaste|Koi|Hamesha|Khushi)/.test(a.text)) a.text = p + a.text;
+    return a;
   }
-  function greet() {
+  async function ask(q) {
+    log.push({ me: true, text: esc(q) }); paint();
+    const t = { text: '<span class="rtype"><i></i><i></i><i></i></span>', mood: 'think' }; log.push(t); paint(); set('think');
+    let nT = 0; const tick = setInterval(() => { if (nT++ < 5) SND.play('roboTalk'); }, 95);
+    await new Promise(r => setTimeout(r, 520));
+    let a = null; try { a = answer(q); } catch (e) { a = { text: 'Oops, kuch gadbad hui 😵 phir se poocho.', mood: 'sad', hi: 'कुछ गड़बड़ हुई, फिर से पूछो।', en: 'Something went wrong, please ask again.' }; }
+    if (!a) a = (await aiAnswer(q)) || dontKnow();
+    clearInterval(tick);
+    a = lead(a);
+    log.splice(log.indexOf(t), 1, { text: a.text, html: a.html, mood: a.mood || 'happy' }); paint();
+    set(a.mood || 'happy', 2200);
+    SND.play({ sad: 'roboSad', confused: 'roboThink', angry: 'roboAngry', alert: 'notify', love: 'roboLove', wow: 'roboWow', think: 'roboThink' }[a.mood] || 'roboUp');
+    setTimeout(() => speak(a.hi || a.en ? { hi: a.hi, en: a.en } : a.text), 350);
+  }
+  const vBtns = () => { const b = $('#rbVoice'); if (b) { b.classList.toggle('on', VOICE.on()); b.setAttribute('aria-pressed', VOICE.on()); } const l = $('#rbLang'); if (l) l.textContent = VOICE.lang() === 'hi' ? 'हिं' : 'EN'; };
+  const CHIPS = [['Aaj ka minus', 'aaj ka minus'], ['Pending', 'pending'], ['pig ke variant', 'pig'], ['B2B me best kitna?', 'b2b me best kitna pada hai'], ['best ke kitne box?', 'best ke kitne box ho sakte hai'], ['best dimension', 'best dimension'], ['Kitne SKU live?', 'kitne sku live'], ['B2B stock', 'b2b me kitna stock'], ['Marketing', 'marketing kitna'], ['Low stock', 'low stock'], ['Kal ka dispatch', 'kal ka dispatch'], ['Help', 'help']];
+  function head() {
+    const back = stack.length ? `<button class="icon-btn rb-back" id="rbBack" type="button" aria-label="Back">←</button>` : '';
+    return `<div class="rb-hd">${back}${robot(stack.length ? 'happy' : 'wave', 46)}<div><h3>${NM()}</h3><div class="sub">${stack.length ? esc(stack[stack.length - 1].title) : 'Aapka app dost · app ke data se jawab'}</div></div><button class="icon-btn rb-lang" id="rbLang" title="Bhasha: Hindi / English" type="button">हिं</button><button class="icon-btn" id="rbVoice" title="Bol ke batao" type="button">${ico('sound')}</button></div>`;
+  }
+  function wireHead() {
+    $('#sheetHead').innerHTML = head(); vBtns();
+    $('#rbVoice').onclick = () => { lss('dt-voice', VOICE.on() ? 'off' : null); vBtns(); if (VOICE.on()) speak({ hi: `हाँ, अब मैं बोल के ${VOICE.g('बताऊँगा', 'बताऊँगी')}।`, en: "Okay, I'll speak out loud now." }); else { VOICE.stop(); toast(NM() + ' chup'); } };
+    $('#rbLang').onclick = () => { lss('dt-vlang', VOICE.lang() === 'hi' ? 'en' : null); vBtns(); speak({ hi: `अब मैं हिंदी में ${VOICE.g('बोलूँगा', 'बोलूँगी')}।`, en: "I'll speak in English now." }); };
+    const b = $('#rbBack'); if (b) b.onclick = back;
+  }
+  function detail(kind, key) {
+    let title = '', body = '';
+    if (kind === 'sku') { const r = row(key); ctx.sku = key; title = r.sku; body = `<div class="rb-dhead"><h3 style="word-break:break-all">${esc(r.sku)}</h3><p class="sub">${esc(r.name)}</p></div>${skuDetail(key)}`; const a = skuAnswer(key); setTimeout(() => speak({ hi: a.hi, en: a.en }), 250); }
+    else if (kind === 'doc') { const d = st.M.docMap.get(key) || st.M.docs.find(x => x.key === key); if (!d) return; ctx.doc = d.key; title = d.doc; const parts = docSheet(d.key, true) || ['', '']; body = `<div class="rb-dhead">${parts[0]}</div>${parts[1]}`; const a = docAnswer(d); setTimeout(() => speak({ hi: a.hi, en: a.en }), 250); }
+    if (!body) return;
+    stack.push({ kind, key, title });
+    const D = $('#rbDetail'); D.innerHTML = body; D.hidden = false; D.scrollTop = 0; $('#rbChatView').hidden = true;
+    wireHead(); SND.play('nav');
+    try { history.pushState({ dtSheet: 1, ag: stack.length }, ''); } catch { }
+  }
+  function back() {
+    if (!stack.length) return false;
+    stack.pop(); SND.play('nav');
+    if (stack.length) { const top = stack.pop(); detail(top.kind, top.key); return true; }
+    const D = $('#rbDetail'); if (D) { D.hidden = true; D.innerHTML = ''; } const C = $('#rbChatView'); if (C) C.hidden = false; wireHead(); paint();
+    return true;
+  }
+  function chat() {
+    if (!st.M || !allowed()) return;
+    log.length = 0; stack.length = 0; ctx.sku = ctx.list = ctx.doc = null; ctx.lastQ = '';
+    const first = greet(); log.push(first);   /* every chat starts fresh — nothing is kept */
+    openSheet(head(), `<div class="rb-stage"><div class="rb-chat" id="rbChatView"><div id="rbLog" class="rb-log"></div><div class="rb-chips">${CHIPS.map(([l, q]) => `<button type="button" class="fbtn" data-rbq="${esc(q)}">${l}</button>`).join('')}</div>
+       <form id="rbForm" class="rb-in" autocomplete="off"><input id="rbQ" placeholder="Poocho: pig, 9002, best dimension, aaj ka minus…" enterkeyhint="send" autocomplete="off"><button class="btn primary" type="submit">Bhejo</button></form></div><div class="rb-detail" id="rbDetail" hidden></div></div>`);
+    $('#sheet').classList.add('rb-sheet');
+    st.sheetFn = null; paint(); SND.play('roboHi'); wireHead();
+    setTimeout(() => speak({ hi: first.hi, en: first.en }), 400);
+    $('#rbForm').onsubmit = e => { e.preventDefault(); const v = $('#rbQ').value.trim(); if (!v) return; $('#rbQ').value = ''; ask(v); };
+    $$('[data-rbq]').forEach(b => b.onclick = () => ask(b.dataset.rbq));
+  }
+  /* taps inside the chat stay inside the chat */
+  document.addEventListener('click', e => {
+    if (!isOpen()) return;
+    const s = e.target.closest('[data-ag-sku]'); if (s) { e.preventDefault(); e.stopPropagation(); detail('sku', s.dataset.agSku); return; }
+    const d = e.target.closest('[data-ag-doc]'); if (d) { e.preventDefault(); e.stopPropagation(); detail('doc', d.dataset.agDoc); return; }
+    const m = e.target.closest('[data-ag-more]'); if (m) { e.preventDefault(); e.stopPropagation(); const box = m.parentElement; const L = ctx.list; if (L) { m.remove(); box.insertAdjacentHTML('beforeend', listHtml(L.ks.map(row), L.mode, +m.dataset.agMore)); } return; }
+    if (e.target.closest('#rbDetail [data-sku], #rbLog [data-sku]')) { const x = e.target.closest('[data-sku]'); e.preventDefault(); e.stopPropagation(); detail('sku', x.dataset.sku); return; }
+    if (e.target.closest('#rbDetail [data-doc], #rbLog [data-doc]')) { const x = e.target.closest('[data-doc]'); e.preventDefault(); e.stopPropagation(); detail('doc', x.dataset.doc); return; }
+  }, true);
+  document.addEventListener('click', e => { if (e.target.closest('#rbBell')) { NT.panel(); } });
+  /* the sheet asks us before closing */
+  window.__sheetBack = () => isOpen() && back();
+  window.__sheetLock = () => { if (!isOpen()) return false; set('pout', 900); const s = $('#sheet'); s.classList.remove('rb-nudge'); void s.offsetWidth; s.classList.add('rb-nudge'); return true; };
+  function greet(again) {
     const M = st.M, h = new Date().getHours(); const nm = myName();
-    const r = { text: (h < 12 ? 'Good morning' : h < 17 ? 'Namaste' : 'Good evening') + (nm ? ' ' + esc(nm) : '') + '! Main Dermi hoon, aapka app dost.', hi: `${h < 12 ? 'गुड मॉर्निंग' : h < 17 ? 'नमस्ते' : 'गुड ईवनिंग'}${nm ? ' ' + SP.pn(nm) : ''}! मैं डर्मी हूँ, आपका ऐप दोस्त।`, en: `${h < 12 ? 'Good morning' : h < 17 ? 'Hello' : 'Good evening'}${nm ? ' ' + SP.pn(nm) : ''}! I'm Dermi, your app buddy.`, mood: 'active' };
+    const hiW = h < 12 ? 'Good morning' : h < 17 ? 'Namaste' : 'Good evening';
+    const r = { text: again ? vary('hey', [`Haan ji${nm ? ' ' + esc(nm) : ''}! Boliye 😊`, `Hello${nm ? ' ' + esc(nm) : ''}! Kya dekhna hai?`, `Main yahin ${VOICE.g('hoon', 'hoon')} 👋 Poochiye!`]) : `${hiW}${nm ? ' ' + esc(nm) : ''}! Main ${NM()} hoon, aapka app dost.`, hi: again ? `हाँ जी${nm ? ' ' + SP.pn(nm) : ''}! बोलिए।` : `${h < 12 ? 'गुड मॉर्निंग' : h < 17 ? 'नमस्ते' : 'गुड ईवनिंग'}${nm ? ' ' + SP.pn(nm) : ''}! मैं ${'⟦' + AG.hiName() + '⟧'} हूँ, आपका ऐप दोस्त।`, en: again ? `Yes${nm ? ' ' + SP.pn(nm) : ''}! Ask me anything.` : `${h < 12 ? 'Good morning' : h < 17 ? 'Hello' : 'Good evening'}${nm ? ' ' + SP.pn(nm) : ''}! I'm ${NM()}, your app buddy.`, mood: 'wave' };
+    if (again) return r;
     if (!nm) { askName = true; r.text += ` Aapka naam kya hai? Likh do, main yaad ${VOICE.g('rakhunga', 'rakhungi')} 🙂`; r.hi += ` आपका नाम क्या है? लिख दो, मैं याद ${VOICE.g('रखूँगा', 'रखूँगी')}।`; r.en += " What's your name? Type it and I'll remember."; return r; }
     if (!M) return r;
     const t = [], hi = [], en = []; const od = M.dayOpen.filter(x => x.date < M.today).length;
@@ -4917,31 +5353,7 @@ const ROBO = (() => {
     r.en += en.length ? ' Today: ' + SP.list(en, 'en') + '.' : ' Everything looks good.';
     return r;
   }
-  const CHIPS = [['Aaj ka minus', 'minus'], ['Pending kitna?', 'pending'], ['best ke variant', 'best ke variant'], ['best ka dimension', 'best ka dimension'], ['best case size', 'best case size'], ['Low stock', 'low stock'], ['Kaun online?', 'kaun online'], ['Kya naya?', 'kya naya'], ['Help', 'help']];
-  const msgHtml = m => `<div class="rmsg ${m.me ? 'me' : 'bot'}">${m.me ? '' : robot(m.mood || 'normal', 30)}<div class="rbub">${m.text}${m.html ? `<div class="racts">${m.html}</div>` : ''}</div></div>`;
-  function paint() { const L = $('#rbLog'); if (!L) return; L.innerHTML = log.slice(-40).map(msgHtml).join(''); L.scrollTop = L.scrollHeight; }
-  function ask(q) {
-    log.push({ me: true, text: esc(q) }); paint();
-    const t = { typing: true, text: '<span class="rtype"><i></i><i></i><i></i></span>', mood: 'loading' }; log.push(t); paint();
-    let n = 0; const tick = setInterval(() => { if (n++ < 5) SND.play('roboTalk'); }, 90);
-    setTimeout(() => { clearInterval(tick); const a = answer(q); log.splice(log.indexOf(t), 1, { text: a.text, html: a.html, mood: a.mood || 'active' }); paint(); SND.play(a.mood === 'sad' ? 'roboSad' : 'roboUp'); setTimeout(() => speak(a.hi || a.en ? { hi: a.hi, en: a.en } : a.text), 350); }, 650);
-  }
-  const vBtns = () => { const b = $('#rbVoice'); if (b) { b.classList.toggle('on', VOICE.on()); b.setAttribute('aria-pressed', VOICE.on()); } const l = $('#rbLang'); if (l) l.textContent = VOICE.lang() === 'hi' ? 'हिं' : 'EN'; };
-  function chat() {
-    if (!st.M) return;
-    log.length = 0; const first = greet(); log.push(first);   /* every chat starts fresh — nothing is kept */
-    openSheet(`<div class="rb-hd">${robot('active', 46)}<div><h3>Dermi</h3><div class="sub">Aapka app dost · app ke data se jawab</div></div><button class="icon-btn rb-lang" id="rbLang" title="Bhasha: Hindi / English" type="button">हिं</button><button class="icon-btn" id="rbVoice" title="Bol ke batao" type="button">${ico('sound')}</button></div>`,
-      `<div class="rb-chat"><div id="rbLog" class="rb-log"></div><div class="rb-chips">${CHIPS.map(([l, q]) => `<button type="button" class="fbtn" data-rbq="${esc(q)}">${l}</button>`).join('')}</div>
-       <form id="rbForm" class="rb-in" autocomplete="off"><input id="rbQ" placeholder="Poocho: 5304, best serum, aaj ka minus…" enterkeyhint="send"><button class="btn primary" type="submit">Bhejo</button></form></div>`);
-    st.sheetFn = null; paint(); SND.play('roboHi'); vBtns();
-    if (first) setTimeout(() => speak({ hi: first.hi, en: first.en }), 400);
-    $('#rbVoice').onclick = () => { lss('dt-voice', VOICE.on() ? 'off' : null); vBtns(); if (VOICE.on()) speak({ hi: `हाँ, अब मैं बोल के ${VOICE.g('बताऊँगा', 'बताऊँगी')}।`, en: "Okay, I'll speak out loud now." }); else { VOICE.stop(); toast('Dermi chup rahega'); } };
-    $('#rbLang').onclick = () => { lss('dt-vlang', VOICE.lang() === 'hi' ? 'en' : null); vBtns(); speak({ hi: `अब मैं हिंदी में ${VOICE.g('बोलूँगा', 'बोलूँगी')}।`, en: "I'll speak in English now." }); };
-    $('#rbForm').onsubmit = e => { e.preventDefault(); const v = $('#rbQ').value.trim(); if (!v) return; $('#rbQ').value = ''; ask(v); };
-    $$('[data-rbq]').forEach(b => b.onclick = () => ask(b.dataset.rbq));
-  }
-  document.addEventListener('click', e => { if (e.target.closest('#rbBell')) { NT.panel(); } });
-  return { mount, show, set, say, hide, busy, chat, answer, robot, speak, remind, cheer, myName, forget: () => { log.length = 0; askName = false; } };
+  return { mount, show, set, say, hide, busy, chat, answer, robot, speak, remind, cheer, myName, recharacter, allowed, back, ask, forget: () => { log.length = 0; stack.length = 0; askName = false; ctx.sku = ctx.list = ctx.doc = null; } };
 })();
 
 window.__dt.robo = ROBO; window.__dt.voice = VOICE;
