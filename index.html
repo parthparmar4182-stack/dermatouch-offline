@@ -47,15 +47,30 @@ img{max-width:100%}
 .logo-img{display:block}
 
 /* ---------- splash ---------- */
-#splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;
-  transition:opacity .5s ease,visibility .5s;padding:24px}
+#splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;overflow:hidden;
+  transition:opacity .3s ease .42s,visibility 0s linear .75s;padding:24px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 #splash.gone{opacity:0;visibility:hidden;pointer-events:none}
-.splash-in{display:flex;flex-direction:column;align-items:center;text-align:center;
-  width:min(240px,64vw);animation:lockRise .9s cubic-bezier(.22,1,.36,1) both}
-@keyframes lockRise{from{transform:translateY(12px)}}
+/* exit: the splash opens as a circle from the logo, the content grows a touch and fades */
+@property --hole{syntax:'<length-percentage>';inherits:false;initial-value:0%}
+#splash.gone{-webkit-mask:radial-gradient(circle at 50% 40%,transparent var(--hole),#000 calc(var(--hole) + 1px));
+  mask:radial-gradient(circle at 50% 40%,transparent var(--hole),#000 calc(var(--hole) + 1px));animation:spHole .72s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes spHole{to{--hole:110%}}
+#splash.gone .splash-in{transform:scale(1.06);opacity:0;transition:transform .5s cubic-bezier(.22,1,.36,1),opacity .35s ease}
+.sp-glow{position:absolute;left:50%;top:40%;width:min(560px,130vw);aspect-ratio:1;margin:calc(min(560px,130vw) / -2) 0 0 calc(min(560px,130vw) / -2);border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--teal) 26%,transparent),color-mix(in srgb,var(--teal) 9%,transparent) 55%,transparent);
+  opacity:0;transform:scale(.6);animation:glowIn .9s cubic-bezier(.22,1,.36,1) forwards,glowBreathe 4.8s ease-in-out 1s infinite;pointer-events:none;will-change:transform,opacity}
+@keyframes glowIn{to{opacity:1;transform:scale(1)}}
+@keyframes glowBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+.splash-in{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;width:min(300px,86vw)}
+/* brand sits in the middle first, then lifts to make room for the dosts */
+.sp-brand{width:min(230px,62vw);display:flex;flex-direction:column;align-items:center;transform:translateY(var(--lift,110px));
+  animation:lockRise .9s cubic-bezier(.22,1,.36,1) both,brandLift .65s cubic-bezier(.22,1,.36,1) 1.35s forwards;will-change:transform}
+@keyframes lockRise{from{transform:translateY(calc(var(--lift,110px) + 12px))}to{transform:translateY(var(--lift,110px))}}
+@keyframes brandLift{from{transform:translateY(var(--lift,110px))}to{transform:none}}
 
 /* the mark draws itself with a teal pen, then fills in as solid ink */
-.sp-mark{width:58%;height:auto;display:block;margin-bottom:9%;overflow:visible}
+.sp-mark{width:58%;height:auto;display:block;margin-bottom:9%;overflow:visible;animation:markSet .7s cubic-bezier(.22,1,.36,1) .95s both}
+@keyframes markSet{from{transform:scale(1.045)}to{transform:none}}
 .sp-ink{fill:var(--ink);opacity:0;animation:inkIn .5s ease .95s forwards}
 @keyframes inkIn{to{opacity:1}}
 .sp-pen{fill:none;stroke:var(--teal);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;
@@ -66,14 +81,49 @@ img{max-width:100%}
 @keyframes penOut{to{opacity:0}}
 
 /* wordmark wipes in from the left, tagline settles after it */
-.sp-word{width:100%;height:auto;display:block;
+.sp-word{width:100%;height:auto;aspect-ratio:330/34;display:block;
   clip-path:inset(0 100% 0 0);animation:wipe .62s cubic-bezier(.65,0,.35,1) 1.02s forwards}
 @keyframes wipe{to{clip-path:inset(0 0 0 0)}}
-.sp-tag{width:100%;height:auto;display:block;margin-top:3.5%;opacity:0;transform:scaleX(.94);
+.sp-tag{width:100%;height:auto;aspect-ratio:330/14;display:block;margin-top:3.5%;opacity:0;transform:scaleX(.94);
   transform-origin:left center;animation:tagIn .55s cubic-bezier(.22,1,.36,1) 1.42s forwards}
 @keyframes tagIn{to{opacity:1;transform:none}}
-.splash-msg{font-size:13px;color:var(--ink2);min-height:20px;margin-top:26px;opacity:0;
-  animation:rise .5s 1.75s ease forwards}
+.splash-msg{font-size:13px;color:var(--ink2);min-height:20px;margin-top:14px;opacity:0;transform:translateY(6px);
+  animation:rise .5s 2.25s ease forwards}
+/* the three dosts pop up one by one, Momo waves, then they idle */
+.sp-dosts{display:flex;gap:clamp(14px,5vw,24px);margin-top:48px;position:relative}
+.sp-dost{display:flex;flex-direction:column;align-items:center;gap:4px;opacity:0;transform:translateY(26px) scale(.6);
+  animation:dostPop .62s cubic-bezier(.34,1.56,.64,1) var(--d) forwards;will-change:transform,opacity}
+.sp-dost svg{width:clamp(54px,16vw,68px);height:auto;display:block;overflow:visible;transform-origin:50% 92%;
+  animation:dostBob 2.6s ease-in-out calc(var(--d) + .7s) infinite}
+.sp-dost.wave svg{animation:dostWave 1.1s ease-in-out 2.35s 1 both,dostBob 2.6s ease-in-out 3.5s infinite}
+.sp-dost b{font-size:11.5px;font-weight:500;color:var(--ink2)}
+@keyframes dostPop{to{opacity:1;transform:none}}
+@keyframes dostBob{0%,100%{transform:none}50%{transform:translateY(-3px)}}
+@keyframes dostWave{0%,100%{transform:none}20%{transform:rotate(-8deg)}45%{transform:rotate(7deg)}70%{transform:rotate(-5deg)}}
+.sp-hi{position:absolute;left:50%;top:-28px;margin-left:10px;padding:5px 10px;border-radius:12px 12px 12px 3px;background:var(--surface);
+  border:1px solid var(--line);font-size:11.5px;font-weight:500;color:var(--teal-d);white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.06);
+  opacity:0;transform:translateY(6px) scale(.7);transform-origin:0 100%;animation:hiPop .45s cubic-bezier(.34,1.56,.64,1) 2.3s forwards}
+@keyframes hiPop{to{opacity:1;transform:none}}
+/* Stock → Pack → Dispatch: a parcel runs along the track while the data loads */
+.sp-track{position:relative;width:min(240px,68vw);height:44px;margin-top:30px;opacity:0;animation:rise .5s ease 2.05s forwards}
+.sp-line{position:absolute;left:0;right:0;top:13px;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.sp-line b{position:absolute;inset:0;background:var(--teal);transform-origin:0 50%;transform:scaleX(0);animation:spFill 2s linear 2.3s infinite}
+.sp-dot{position:absolute;top:9px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--surface);border:2px solid var(--line);box-sizing:border-box}
+.sp-dot.d1{left:0}.sp-dot.d2{left:50%}.sp-dot.d3{left:100%}
+.sp-dot.d1{animation:dot1 2s linear 2.3s infinite}.sp-dot.d2{animation:dot2 2s linear 2.3s infinite}.sp-dot.d3{animation:dot3 2s linear 2.3s infinite}
+.sp-lbl{position:absolute;top:28px;font-size:10.5px;font-style:normal;color:var(--ink3);transform:translateX(-50%);white-space:nowrap}
+.sp-lbl.l1{left:0;transform:none;margin-left:-6px}.sp-lbl.l2{left:50%}.sp-lbl.l3{left:100%;transform:translateX(-100%);margin-left:6px}
+.sp-run{position:absolute;left:0;top:-14px;width:100%;height:0;opacity:0;animation:spRun 2s 2.3s infinite}
+.sp-run svg{position:absolute;left:-11px;top:0;width:22px;height:22px;animation:spHop 2s ease-in-out 2.3s infinite}
+.sp-run path{fill:var(--surface);stroke:var(--teal-d);stroke-width:1.6;stroke-linejoin:round}.sp-run path+path{fill:none}
+@keyframes spRun{0%{transform:none;opacity:0;animation-timing-function:ease-out}8%{transform:none;opacity:1;animation-timing-function:cubic-bezier(.65,0,.35,1)}
+  42%{transform:translateX(50%);opacity:1}56%{transform:translateX(50%);animation-timing-function:cubic-bezier(.65,0,.35,1)}88%{transform:translateX(100%);opacity:1}100%{transform:translateX(100%);opacity:0}}
+@keyframes spHop{0%,40%,58%,100%{transform:none}48%{transform:translateY(-5px)}}
+@keyframes spFill{0%,8%{transform:scaleX(0);opacity:1;animation-timing-function:cubic-bezier(.65,0,.35,1)}42%,56%{transform:scaleX(.5);animation-timing-function:cubic-bezier(.65,0,.35,1)}88%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+@keyframes dot1{0%,6%{background:var(--surface);border-color:var(--line)}10%,94%{background:var(--teal);border-color:var(--teal)}100%{background:var(--surface);border-color:var(--line)}}
+@keyframes dot2{0%,40%{background:var(--surface);border-color:var(--line);transform:none}44%{transform:scale(1.35)}50%,94%{background:var(--teal);border-color:var(--teal);transform:none}100%{background:var(--surface);border-color:var(--line)}}
+@keyframes dot3{0%,86%{background:var(--surface);border-color:var(--line);transform:none}90%{background:var(--teal);border-color:var(--teal);transform:scale(1.35)}96%{transform:none}100%{background:var(--surface);border-color:var(--line)}}
+.sp-skip{position:absolute;bottom:max(18px,env(safe-area-inset-bottom));left:0;right:0;text-align:center;font-size:11px;color:var(--ink3);opacity:0;animation:rise .6s ease 2.6s forwards}
 @keyframes rise{to{opacity:1;transform:none}}
 .splash-msg b{color:var(--teal-d);font-weight:500}
 .dots::after{content:"";display:inline-block;width:1.2em;text-align:left;animation:dots 1.2s steps(4) infinite}
@@ -561,7 +611,10 @@ table.tbl{width:100%;border-collapse:collapse;font-size:14px}
 a[href*="netlify.com/?utm"],div[style*="position: fixed"]>a[href*="netlify.com"]{display:none!important}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-delay:0s!important;transition-duration:.001ms!important}
-  .sp-ink{opacity:1}.sp-pen{opacity:0}.sp-word{clip-path:none}.sp-tag{opacity:1;transform:none}}
+  .sp-ink{opacity:1}.sp-pen{opacity:0}.sp-word{clip-path:none}.sp-tag{opacity:1;transform:none}
+  .sp-brand{transform:none;animation:none}.sp-dost,.sp-hi,.sp-track,.splash-msg,.sp-skip,.sp-glow{opacity:1;transform:none;animation:none}
+  .sp-dost svg,.sp-run,.sp-run svg,.sp-line b,.sp-dot{animation:none}.sp-run{opacity:0}
+  #splash.gone{animation:none;-webkit-mask:none;mask:none;transition:opacity .2s ease,visibility 0s .2s}}
 /* notifications, pending strip, minus days, request cart */
 .bell{position:relative}.bell .bdg{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--red);color:#fff;font:700 11px/18px var(--font,inherit);text-align:center;box-shadow:0 0 0 2px var(--bg)}
 .bell.ring svg{animation:ring .9s cubic-bezier(.36,.07,.19,.97)}@keyframes ring{0%,100%{transform:rotate(0)}15%{transform:rotate(16deg)}30%{transform:rotate(-14deg)}45%{transform:rotate(10deg)}60%{transform:rotate(-6deg)}75%{transform:rotate(3deg)}}
@@ -925,6 +978,8 @@ body:not(.gate) #view::after{content:'';display:block;height:64px}
 .adm-sh{display:grid;gap:10px;margin:10px 0}.adm-sh>div{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;min-width:0}.adm-sh code{font-size:11px;word-break:break-all;color:var(--muted)}
 .adm-d{margin-top:10px;border-top:1px dashed var(--line);padding-top:10px}.adm-d>summary{cursor:pointer;font-weight:700;font-size:13.5px}
 .adm .form input{width:100%;box-sizing:border-box}
+
+.b2b-old{opacity:.62}.b2b-cur{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal) inset}
 </style>
 <!-- =====================================================================
      ONE-TIME SETUP  —  paste your Google OAuth Client ID between the
@@ -1001,8 +1056,10 @@ window.DT_CONFIG = {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
 </head>
 <body>
-<div id="splash">
+<div id="splash" title="Tap to skip">
+  <div class="sp-glow"></div>
   <div class="splash-in" role="img" aria-label="Dermatouch — science behind the beauty">
+   <div class="sp-brand">
     <svg class="sp-mark" viewBox="0 0 148 147" aria-hidden="true">
       <path class="sp-ink" fill-rule="evenodd" d="M1.5 0.0L80.9 0.0A73.4 73.4 0 0 1 74.1 146.4L74.1 146.8L4 146.8L1.5 140.0L63.3 78.2L4 78.2L1.5 74.5Z M10.0 9.0L84.0 9.0A64.8 64.8 0 0 1 138.8 69.0L10.0 69.0Z M75.2 78.2L138.8 78.2A64.8 64.8 0 0 1 77.4 137.8L15.6 137.8Z"/>
       <path class="sp-pen p1" pathLength="1" d="M1.5 0.0L80.9 0.0A73.4 73.4 0 0 1 74.1 146.4L74.1 146.8L4 146.8L1.5 140.0L63.3 78.2L4 78.2L1.5 74.5Z"/>
@@ -1011,9 +1068,24 @@ window.DT_CONFIG = {
     </svg>
     <img class="sp-word" data-logo="word" alt="">
     <img class="sp-tag" data-logo="tag" alt="">
+   </div>
+    <div class="sp-dosts" aria-hidden="true">
+      <div class="sp-dost" style="--d:1.76s"><svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="59" rx="15" ry="2.8" fill="#000" opacity=".13"/><g><path d="M32 12.5 V7" stroke="#2B2F2E" stroke-width="2.4" stroke-linecap="round"/><circle cx="32" cy="5.6" r="2.6" fill="#33E3A9"/><path d="M32 12.5 C46.5 12.5 56 19 56 31.5 C56 44.5 46.5 51.5 32 51.5 C17.5 51.5 8 44.5 8 31.5 C8 19 17.5 12.5 32 12.5 Z" fill="#fff" stroke="#2B2F2E" stroke-width="2.6"/><g><g><rect x="20.5" y="26" width="6.4" height="10.5" rx="3.2" fill="#33E3A9"/><rect x="37.0" y="26" width="6.4" height="10.5" rx="3.2" fill="#33E3A9"/></g></g></g></svg><b>Dermi</b></div>
+      <div class="sp-dost wave" style="--d:1.85s"><svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="60" rx="15" ry="2.6" fill="#000" opacity=".13"/><g><path d="M24.5 10.5 L22 4.8" stroke="#A58DE6" stroke-width="2.4" stroke-linecap="round"/><circle cx="21.4" cy="3.8" r="3.1" fill="#B9A3F0"/><path d="M19 57.5 C14.5 57.5 12.5 53.5 12.5 47 L12.5 29 C12.5 16 21 8.5 32 8.5 C43 8.5 51.5 16 51.5 29 L51.5 47 C51.5 53.5 49.5 57.5 45 57.5 C41 57.5 40.4 53 36.4 53 L27.6 53 C23.6 53 23 57.5 19 57.5 Z" fill="#B9A3F0"/><ellipse cx="21.5" cy="15.5" rx="5.5" ry="2.6" fill="#fff" opacity=".35" transform="rotate(-30 21.5 15.5)"/><path d="M32 17.5 C42 17.5 46.5 22 46.5 27.5 C46.5 34 40.5 37.5 32 37.5 C23.5 37.5 17.5 34 17.5 27.5 C17.5 22 22 17.5 32 17.5 Z" fill="#FFF4E6"/><g><g><ellipse cx="26.3" cy="26.6" rx="2.6" ry="3.5" fill="#2B2240"/><circle cx="27.2" cy="25.2" r="0.8" fill="#fff"/><ellipse cx="37.7" cy="26.6" rx="2.6" ry="3.5" fill="#2B2240"/><circle cx="38.6" cy="25.2" r="0.8" fill="#fff"/></g></g><g><ellipse cx="17" cy="42.5" rx="5" ry="6.2" fill="#C9B8F7" transform="rotate(14 17 42.5)"/></g><g><ellipse cx="47" cy="42.5" rx="5" ry="6.2" fill="#C9B8F7" transform="rotate(-14 47 42.5)"/></g></g></svg><b>Momo</b></div>
+      <div class="sp-dost" style="--d:1.94s"><svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="60" rx="14" ry="2.6" fill="#000" opacity=".13"/><g><circle cx="18.5" cy="50" r="3.6" fill="#1FA391"/><circle cx="45.5" cy="50" r="3.6" fill="#1FA391"/><rect x="21.5" y="44.5" width="21" height="13" rx="6" fill="#F4F6F4" stroke="#D5DDD9" stroke-width="1"/><path d="M32 10.5 V5" stroke="#9AA9A3" stroke-width="2.2" stroke-linecap="round"/><circle cx="32" cy="4" r="2.7" fill="#1FA391"/><rect x="6.5" y="20.5" width="6.5" height="13" rx="3.2" fill="#1FA391"/><rect x="51" y="20.5" width="6.5" height="13" rx="3.2" fill="#1FA391"/><rect x="10.5" y="10.5" width="43" height="35" rx="13" fill="#F7F9F7" stroke="#D5DDD9" stroke-width="1.1"/><ellipse cx="20" cy="15.5" rx="5" ry="1.8" fill="#fff" opacity=".9"/><rect x="15.5" y="16" width="33" height="24" rx="8.5" fill="#16222E"/><g><g><rect x="23.9" y="23" width="4.2" height="7.2" rx="2.1" fill="#5EF2D6"/><rect x="35.9" y="23" width="4.2" height="7.2" rx="2.1" fill="#5EF2D6"/></g><path d="M28.0 32.8 Q32 36.0 35.9 32.8" stroke="#5EF2D6" stroke-width="1.8" stroke-linecap="round" fill="none"/></g></g></svg><b>Tinku</b></div>
+      <span class="sp-hi">Namaste! 👋</span>
+    </div>
+    <div class="sp-track" aria-hidden="true">
+      <i class="sp-line"><b></b></i><span class="sp-dot d1"></span><span class="sp-dot d2"></span><span class="sp-dot d3"></span>
+      <em class="sp-lbl l1">Stock</em><em class="sp-lbl l2">Pack</em><em class="sp-lbl l3">Dispatch</em>
+      <div class="sp-run"><svg viewBox="0 0 24 24"><path d="M12 2.5 21 7v10l-9 4.5L3 17V7z"/><path d="M3 7l9 4.5L21 7M12 11.5V21.5"/></svg></div>
+    </div>
     <div class="splash-msg" id="splashMsg"><span class="dots">Starting</span></div>
   </div>
+  <div class="sp-skip" aria-hidden="true">Tap karke skip karo</div>
 </div>
+<script>/* brand starts in the middle of the screen, then lifts up by exactly this much */
+(function () { try { var i = document.querySelector('#splash .splash-in'), b = i.querySelector('.sp-brand'); i.style.setProperty('--lift', Math.round((i.offsetHeight - b.offsetHeight) / 2) + 'px'); } catch (e) { } })();</script>
 
 <div id="app">
   <aside class="rail">
@@ -2011,6 +2083,10 @@ const E = (() => {
       x.lines.push(r); x.qty += r.qty; if (!isYes(r.recv)) x.recv = false;
     }
     M.b2bIn = [...rin.values()].sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+    /* a reply is current when it is the newest one for its request and no newer request went out after it */
+    const reqSorted = [...rq.values()].filter(x => /sent/i.test(x.mail || '')).sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
+    const latestPer = new Map(); for (const g of M.b2bIn) { const k = nk(g.req || '—'); if (!latestPer.has(k)) latestPer.set(k, g.id); }
+    for (const g of M.b2bIn) { const newerReq = reqSorted.find(x => (x.date + x.time) > (g.date + g.time) && nk(x.id) !== nk(g.req || '')); g.current = latestPer.get(nk(g.req || '—')) === g.id && !newerReq; g.old = !g.current; }
     for (const x of rq.values()) { x.replies = M.b2bIn.filter(g => g.req && nk(g.req) === nk(x.id)); x.state = x.replies.length ? (x.replies.every(g => g.recv) ? 'received' : 'replied') : /sent/i.test(x.mail) ? 'sent' : 'draft'; }
     M.b2bReq = [...rq.values()].sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
 
@@ -2032,7 +2108,11 @@ const E = (() => {
     for (const D of M.dayOpen) if (D.date < today) ev.push({ id: 'day:' + D.date + ':' + D.state, kind: 'day', lvl: 'warn', date: D.date, time: '',
       title: D.state === 'changed' ? `Minus changed after it was marked done · ${D.date.split('-').reverse().join('-')}` : `Minus in Uniware · ${D.date.split('-').reverse().join('-')}`,
       body: `${D.minus} pcs to minus${D.back ? `, ${D.back} to add back` : ''} · ${D.lines.length} SKU · ${D.docs.length} docs`, go: 'minus:' + D.date });
-    for (const g of M.b2bIn) if (g.date >= from30) ev.push({ id: 'b2bin:' + g.id, kind: 'b2b', lvl: 'info', date: g.date, time: g.time || '', title: 'B2B team replied', body: g.lines.map(l => `${l.sku} ${l.qty}${l.avail ? ' ' + l.avail.toLowerCase() : ''}`).join(' · '), go: 'b2b:in' });
+    for (const g of M.b2bIn) if (g.current && g.date >= addDays(today, -7)) {
+      const bad = g.lines.filter(l => /BAD/i.test(l.inv || '')).length, na = g.lines.filter(l => /NOT/i.test(l.avail || '')).length;
+      ev.push({ id: 'b2bin:' + g.id, kind: 'b2b', lvl: 'warn', date: g.date, time: g.time || '', title: `✉️ B2B ka reply aa gaya${g.req ? ' · ' + g.req : ''}`,
+        body: `${g.lines.length} SKU · ${g.qty} pcs${bad ? ` · ${bad} BAD inventory` : ''}${na ? ` · ${na} nahi mila` : ''} — ` + g.lines.map(l => `${l.sku} ${l.qty}${l.avail ? ' ' + l.avail.toLowerCase() : ''}`).join(' · '), go: 'b2b:in' });
+    }
     M.events = ev.sort((a, b) => (b.date + (b.time || '')).localeCompare(a.date + (a.time || '')));
 
     /* health */
@@ -2353,13 +2433,19 @@ const SND = (() => {
   const AGS = () => { try { const c = localStorage.getItem('dt-char'); return c === 'momo' || c === 'tinku' ? c : 'dermi'; } catch { return 'dermi'; } };
   const AGF = () => ({ dermi: 1, momo: .72, tinku: 1.35 })[AGS()];
   const P = {
-    // timed to the splash: pen draws 0.15–1.15s, ink fills at ~0.95s, wordmark wipes at ~1.0s
+    // timed to the splash: pen 0.15–1.15s, ink ~0.95s, wordmark ~1.0s, brand lifts 1.35s, dosts 1.76/1.85/1.94s, hi 2.3s, opens ~2.9s
     intro() {
       const t = ctx.currentTime + 0.03;
       noise(t + 0.15, 0.95, { f0: 500, f1: 2600, q: 1.4, peak: 0.03 });
       tone(164.81, t + 0.95, { type: 'triangle', a: 0.03, d: 1.5, peak: 0.05 });
       [659.25, 830.61, 987.77, 1318.51].forEach((f, i) => tone(f, t + 0.95 + i * 0.075, { a: 0.012, d: 1.5 - i * 0.18, peak: 0.065 - i * 0.012 }));
       noise(t + 1.02, 0.5, { f0: 2200, f1: 7500, q: 0.7, peak: 0.018 });
+      noise(t + 1.35, 0.5, { f0: 300, f1: 1400, q: 0.8, peak: 0.016 });                                   // brand lifts
+      tone(880, t + 1.8, { a: .004, d: .09, peak: .035, to: 1320 });                                     // Dermi chirp
+      tone(440, t + 1.89, { a: .006, d: .12, peak: .045, to: 760 });                                      // Momo boop
+      [1175, 1568].forEach((f, i) => tone(f, t + 1.98 + i * .06, { type: 'triangle', a: .002, d: .07, peak: .03 }));   // Tinku beep
+      tone(1046.5, t + 2.32, { a: .004, d: .25, peak: .03 });                                             // "Namaste" bubble
+      noise(t + 2.88, 0.32, { f0: 900, f1: 3800, q: 0.9, peak: 0.016 });                                 // splash opens
     },
     tap() { tone(1500, ctx.currentTime, { a: 0.002, d: 0.03, peak: 0.03, to: 1150 }); },
     nav() { const t = ctx.currentTime; tone(740, t, { a: 0.004, d: 0.06, peak: 0.035 }); tone(988, t + 0.045, { a: 0.004, d: 0.09, peak: 0.032 }); },
@@ -2458,9 +2544,10 @@ const AUTH = (() => {
       const c = new AbortController(); const t = setTimeout(() => c.abort(), 4500);
       const r = await fetch(HELPER + '?a=ping', { signal: c.signal, cache: 'no-store' }); clearTimeout(t);
       const j = r.ok && /json/.test(r.headers.get('content-type') || '') ? await r.json() : null;
-      mode = j && j.ok ? 'helper' : 'gis';
+      mode = j && j.ok ? 'helper' : 'gis'; st.authMode = mode;
       if (j && j.ok === false) st.err.helper = { code: 'helper', soft: true, message: 'The sign-in helper is on the site but GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET are not set in Netlify.' };
     } catch { mode = 'gis'; }
+    st.authMode = mode;
     return mode;
   }
   function plan() { clearTimeout(timer); if (!tok) return; timer = setTimeout(() => refresh(), Math.max(60e3, tok.exp - Date.now() - 5 * 60e3)); }
@@ -3118,16 +3205,21 @@ async function boot() {
   wait();
 }
 
+const INTRO_MS = 3000;   // intro length (Figma storyboard: 01 glow → 06 reveal)
+let introT = 0;
 function replayIntro() {
   const sp = $('#splash'); if (!sp) return;
-  sp.classList.remove('gone'); const inn = sp.querySelector('.splash-in'); const clone = inn.cloneNode(true); inn.replaceWith(clone);
-  const m = clone.querySelector('#splashMsg'); if (m) m.innerHTML = '';
-  applyLogos(); SND.play('intro'); setTimeout(() => sp.classList.add('gone'), 2300);
+  clearTimeout(introT); sp.classList.remove('gone');
+  for (const sel of ['.sp-glow', '.splash-in', '.sp-skip']) { const n = sp.querySelector(sel); if (n) n.replaceWith(n.cloneNode(true)); }
+  const m = sp.querySelector('#splashMsg'); if (m) m.innerHTML = '<span class="dots">Ready</span>';
+  applyLogos(); SND.play('intro'); introT = setTimeout(() => sp.classList.add('gone'), INTRO_MS + 400);
 }
+/* tap anywhere on the intro to skip it */
+document.getElementById('splash')?.addEventListener('click', () => { const sp = $('#splash'); if (!sp || sp.classList.contains('gone')) return; clearTimeout(introT); splashGone = true; sp.classList.add('gone'); });
 function setSplash(h) { const m = $('#splashMsg'); if (m) m.innerHTML = '<span class="dots">' + h + '</span>'; }
 let splashGone = false; const bootAt = Date.now();
-function hideSplash() { if (splashGone) return; splashGone = true; const wait = Math.max(0, 2050 - (Date.now() - bootAt)); setTimeout(() => $('#splash').classList.add('gone'), wait); }
-setTimeout(hideSplash, 2300);   // after the intro the loading skeleton takes over
+function hideSplash() { if (splashGone) return; splashGone = true; const wait = Math.max(0, INTRO_MS - (Date.now() - bootAt)); setTimeout(() => $('#splash').classList.add('gone'), wait); }
+setTimeout(hideSplash, INTRO_MS + 300);   // after the intro the loading skeleton takes over
 /* ---------- compute & render scheduling ---------- */
 function recompute() {
   if (!st.parsed.t2) { render(); renderSync(); return; }
@@ -3313,6 +3405,7 @@ function render(nav, quiet) {
 function notice(cls, icon, title, body, act) { return `<div class="notice ${cls}">${ico(icon)}<div><b>${title}</b><div class="small">${body}</div>${act ? `<div class="act">${act}</div>` : ''}</div></div>`; }
 function banners(id) {
   let h = '';
+  if (st.authMode === 'gis' && location.protocol === 'https:' && isAdmin() && ['home', 'settings'].includes(id) && lsg('dt-loginhint') !== today()) h += notice('amber', 'alert', 'Baar-baar login: ek setting baaki hai', 'Netlify me <b>GOOGLE_CLIENT_SECRET</b> nahi hai, isliye Google har ~1 ghante me dobara login maangta hai. Ek baar secret daal do (Settings → "Ek baar login" me steps) — phir sab phones pe hamesha login rahega.', '<button class="btn sm" data-loginhint="1">Theek hai</button>');
   for (const k of ['t2', 't3', 'calc']) { const e = st.err[k]; if (!e) continue; if (e.soft) { if (id === 'home') h += notice('teal', 'info', 'Live refresh paused', e.message, `<button class="btn sm" id="bRetry">${ico('refresh')}Try again</button>`); continue; }
     h += notice('red', 'alert', k === 'calc' ? 'Calculation problem' : `Could not load ${FILES[k] ? FILES[k].label : k}`, esc(e.message), `<button class="btn sm" id="bRetry">${ico('refresh')}Try again</button>`); }
   if (st.conn === 'expired' && st.M) h = notice('', 'info', 'Your Google session ended', 'Showing the last data loaded. Tap anywhere or the button to continue live.', '<button class="btn sm primary" id="signInBtn">Continue</button>') + h;
@@ -4510,6 +4603,7 @@ function xbook(S, filename) {
   return true;
 }
 document.addEventListener('click', e => { const b = e.target.closest('[data-exp]'); if (b) { e.preventDefault(); doExport(b.dataset.exp); } });
+document.addEventListener('click', e => { if (e.target.closest('[data-loginhint]')) { lss('dt-loginhint', today()); render(); } });
 document.addEventListener('click', async e => {
   const b = e.target.closest('[data-b2bset]'); if (!b) return; e.preventDefault(); e.stopPropagation();
   const [key, v] = b.dataset.b2bset.split('|'); const d = st.M && st.M.docMap.get(key); if (!d) return;
@@ -4554,7 +4648,8 @@ V.settings = () => {
     </form></div>
   <div class="panel mt"><h3>Data sources</h3><p class="sub">Read live with your Google account. Test 4 is only read, never edited. Test 5 gets your entries and the calculated tabs.</p><div class="health">${src('t2')}${src('t3')}</div><button class="btn mt" id="sRef">${ico('refresh')}Refresh now</button></div>
   ${isAdmin() ? adminPanel() : ''}
-  <div class="panel mt"><h3>Google account</h3><p class="sub">Signed in as ${esc(st.user || lsg('dt-email') || '—')}${st.readOnly ? ' · view-only on Test 5' : ''}</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="sOut">Sign out</button>${(CONF.clientId || '').trim() ? '' : '<button class="btn sm ghost" id="sCid">Change Client ID</button>'}</div></div>
+  <div class="panel mt"><h3>Google account</h3><p class="sub">Signed in as ${esc(st.user || lsg('dt-email') || '—')}${st.readOnly ? ' · view-only on Test 5' : ''}</p>
+  <div class="vag" style="margin:-4px 0 10px">${st.authMode === 'helper' ? '✔ <b>Ek baar login</b> chalu — app khud token naya karta rehta hai, dobara login nahi maangega.' : '⚠ <b>Ek baar login band</b> — har ~1 ghante me login. Fix: Netlify → Environment variables me <b>GOOGLE_CLIENT_SECRET</b> daalo, Google Cloud me redirect URI <code>' + esc(location.origin) + '/.netlify/functions/auth</code> add karo, aur OAuth consent screen ko <b>In production</b> karo. Phir ek baar Sign out → Sign in.'}</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="sOut">Sign out</button>${(CONF.clientId || '').trim() ? '' : '<button class="btn sm ghost" id="sCid">Change Client ID</button>'}</div></div>
   <div class="panel mt"><h3>Sound, vibration &amp; scanner</h3><p class="sub">Only on this device.</p>
     <div class="toggles">
       <label class="tgl"><input type="checkbox" id="tSound" ${SND.pref() ? 'checked' : ''} ${SND.supported() ? '' : 'disabled'}><span class="sw"></span><span><b>Sounds</b><em>Logo intro, taps, saves, scan beep</em></span></label>
@@ -4877,7 +4972,7 @@ V.request = () => {
       ${r.replies.length ? `<p class="small mt">B2B replied ${r.replies.map(g => fS(g.date) + ' ' + g.time).join(', ')} · <a href="#/request" data-rqtab="in">see lines</a></p>` : ''}</div>`; }).join('')}</div>` : '<div class="panel empty"><h4>No requests yet</h4><p>Requests you send are saved in the B2B REQUEST tab of Test 5.</p></div>';
   } else {
     body = `<div class="mailbar" style="margin-bottom:12px">${ico('mail')}<span>Replies in the thread are read every few minutes while the app is open and saved in the B2B IN tab. Tap Inward when the stock arrives.</span>${GM.ok() ? '<button class="btn sm" id="rqPoll">Check now</button>' : '<button class="btn sm primary" data-gmconnect="1">Connect Gmail</button>'}</div>
-    ${M.b2bIn.length ? M.b2bIn.slice(0, 40).map(g => `<div class="panel mt"><div class="panel-head"><div><h3>${fS(g.date)} ${esc(g.time)}${g.req ? ' · ' + esc(g.req) : ''}</h3><div class="sub">${g.lines.length} line${g.lines.length > 1 ? 's' : ''} · ${fN(g.qty)} pcs</div></div></div>
+    ${M.b2bIn.length ? M.b2bIn.slice(0, 40).map(g => `<div class="panel mt ${g.current ? 'b2b-cur' : 'b2b-old'}"><div class="panel-head"><div><h3>${fS(g.date)} ${esc(g.time)}${g.req ? ' · ' + esc(g.req) : ''} ${g.current ? '<span class="chip green">Naya reply</span>' : '<span class="chip">Purana</span>'}</h3><div class="sub">${g.lines.length} line${g.lines.length > 1 ? 's' : ''} · ${fN(g.qty)} pcs</div></div></div>
       ${tbl(['SKU', 'Qty', 'Shelf', 'Colour', 'Vendor batch', 'Batch', 'Expiry', 'Availability', ''], g.lines.map(l => `<tr><td class="skuc click" data-sku="${esc(l.k)}">${esc(l.sku)}</td><td class="n"><b>${fN(l.qty)}</b></td><td class="small">${esc(l.shelf)}</td><td>${/BAD/i.test(l.inv) ? '<span class="chip red">BAD</span>' : l.inv ? '<span class="chip green">GOOD</span>' : ''}</td><td class="small">${esc(l.vb)}</td><td class="small">${esc(l.batch)}</td><td class="nowrap small">${fD(l.exp)}</td><td><span class="chip ${/NOT/i.test(l.avail) ? 'red' : l.avail ? 'teal' : ''}">${esc(l.avail || '—')}</span></td><td>${E.isYes(l.recv) ? `<span class="chip green">Inwarded${l.ref ? ' ' + esc(l.ref) : ''}</span>` : (!/NOT/i.test(l.avail) && l.qty > 0 ? `<button class="btn sm" data-b2bin="${l.row}">Inward</button>` : '')}</td></tr>`), [1])}</div>`).join('') : '<div class="panel empty"><h4>Nothing from the B2B team yet</h4><p>When they reply in the request thread with the table (SKU, QTY, shelf code, colour, vendor batch, batch, expiry, availability) it shows here and you get a notification.</p></div>'}`;
   }
   return `<div class="page-head"><div><h2>B2B request</h2><p>Ask the B2B team for low-stock SKUs in boxes. All lines go in one mail, always in the same thread. Their reply comes back here; it is kept apart from inward until you inward it.</p></div></div>
@@ -5047,9 +5142,13 @@ const GM = (() => {
   /* ---- reading the B2B team's replies ---- */
   const dec = d => { try { const s = atob(String(d || '').replace(/-/g, '+').replace(/_/g, '/')); const by = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) by[i] = s.charCodeAt(i); return new TextDecoder().decode(by); } catch { return ''; } };
   function parts(p, out = { html: '', text: '' }) { if (!p) return out; if (p.mimeType === 'text/html' && p.body && p.body.data && !out.html) out.html = dec(p.body.data); else if (p.mimeType === 'text/plain' && p.body && p.body.data && !out.text) out.text = dec(p.body.data); (p.parts || []).forEach(x => parts(x, out)); return out; }
+  function ownPart(html, text) {
+    if (html) { try { const d = new DOMParser().parseFromString(html, 'text/html'); d.querySelectorAll('.gmail_quote, .gmail_attr, blockquote, [type=cite], .yahoo_quoted, #divRplyFwdMsg, #appendonsend ~ *').forEach(n => n.remove()); return d.body ? d.body.textContent || '' : ''; } catch { } }
+    const L = []; for (const ln of String(text || '').split(/\r?\n/)) { if (/^\s*>/.test(ln)) continue; if (/^\s*On .+wrote:\s*$/i.test(ln) || /^-{2,}\s*(Forwarded|Original) message/i.test(ln)) break; L.push(ln); } return L.join('\n');
+  }
   async function poll(force) {
     if (!ok() || polling || !st.M || !st.books.t3 || st.readOnly || !can('request') || !ME().edit) return 0;
-    if (!force && Date.now() - lastPoll < 3 * 60e3) return 0;
+    if (!force && Date.now() - lastPoll < 2 * 60e3) return 0;
     polling = true; lastPoll = Date.now(); let added = 0;
     try {
       const r = await gm(GAPI + 'messages?maxResults=25&q=' + encodeURIComponent(q('b2b') + ' newer_than:45d -from:me'));
@@ -5066,8 +5165,12 @@ const GM = (() => {
         const lines = parseReply(html, text);
         const when = new Date(+m.internalDate || Date.now());
         const dk = `${when.getFullYear()}-${pad(when.getMonth() + 1)}-${pad(when.getDate())}`, tm = pad(when.getHours()) + ':' + pad(when.getMinutes());
-        const reqM = (text || html.replace(/<[^>]+>/g, ' ')).match(/REQ-[A-Z0-9]+(?:-[A-Z0-9]+)*/i);
-        const req = reqM ? reqM[0].toUpperCase() : ((st.M.b2bReq || []).find(x => /sent/i.test(x.mail) && (x.date + x.time) <= dk + tm) || {}).id || '';
+        /* the reply's own words only (quoted older mail dropped), so an old REQ id in the quote never wins */
+        const own = ownPart(html, text); const REQ_RX = /REQ-[A-Z0-9]+(?:-[A-Z0-9]+)*/i;
+        const reqOwn = (own.match(REQ_RX) || [])[0];
+        const newest = (st.M.b2bReq || []).filter(x => /sent/i.test(x.mail) && (x.date + x.time) <= dk + tm).sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time))[0];
+        const reqQuoted = ((text || html.replace(/<[^>]+>/g, ' ')).match(REQ_RX) || [])[0];
+        const req = (reqOwn || (newest && newest.id) || reqQuoted || '').toUpperCase();
         for (const l of lines) rows.push({ DATE: fD(dk), TIME: tm, REQID: req, MSGID: mid, SKU: l.sku, QTY: l.qty, SHELF: l.shelf, COLOUR: l.inv, VENDORBATCH: l.vb, BATCH: l.batch, EXPIRY: fD(l.exp), AVAILABILITY: l.avail, RECEIVED: '', INWARDREF: '', BY: 'mail' });
         seen.push(it.id);
       }
@@ -5081,7 +5184,8 @@ const GM = (() => {
       }
       lss('dt-b2bseen', JSON.stringify(seen.slice(-300)));
     } finally { polling = false; }
-    if (force) toast(added ? `${added} line${added > 1 ? 's' : ''} from the B2B team saved in B2B IN` : 'No new replies from the B2B team');
+    if (force) toast(added ? `${added} line${added > 1 ? 's' : ''} from the B2B team saved in B2B IN` : 'B2B team ka naya reply nahi aaya');
+    if (added && !force) SND.play('notify');
     return added;
   }
   return { ok, connect, disconnect, send, poll, list, wanted: () => lsg('dt-gm') === '1' };
