@@ -56,7 +56,12 @@ exports.handler = async event => {
   const configured = !!(env('GOOGLE_CLIENT_ID') && env('GOOGLE_CLIENT_SECRET'));
   const redirect = origin(event) + PATH;
 
-  if (a === 'ping') return json(200, { ok: configured, v: 1 });
+  if (a === 'ping') return json(200, { ok: configured, v: 2, cid: env('GOOGLE_CLIENT_ID').slice(0, 14) });
+  /* what this device has: a long-term sign-in or not, since when (no call to Google) */
+  if (a === 'status') {
+    const sess = configured ? open(c.dt_rt) : null;
+    return json(200, { ok: configured, session: !!(sess && sess.rt), email: (sess && sess.email) || '', since: (sess && sess.t) || 0, days: sess && sess.t ? Math.floor((Date.now() - sess.t) / 864e5) : null, last: (sess && sess.last) || 0, redirect });
+  }
   if (!configured) return json(500, { error: 'not_configured', message: 'Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in Netlify environment variables.' });
 
   if (a === 'login') {
@@ -84,13 +89,23 @@ exports.handler = async event => {
   if (a === 'token') {
     if ((event.httpMethod || 'GET') !== 'POST') return json(405, { error: 'post_only' });
     const sess = open(c.dt_rt);
-    if (!sess || !sess.rt) return json(401, { error: 'signed_out' });
-    const r = await google({ grant_type: 'refresh_token', refresh_token: sess.rt });
+    if (!sess || !sess.rt) return json(401, { error: 'signed_out', why: c.dt_rt ? 'badcookie' : 'nocookie' }, c.dt_rt ? [ck('dt_rt', '', 0)] : undefined);
+    let r = await google({ grant_type: 'refresh_token', refresh_token: sess.rt });
+    if (!r.ok && r.j.error !== 'invalid_grant' && r.status >= 500) r = await google({ grant_type: 'refresh_token', refresh_token: sess.rt });   // one retry on a Google hiccup
     if (!r.ok) {
-      if (r.j.error === 'invalid_grant') return json(401, { error: 'signed_out', message: 'Google access was removed or expired. Sign in again.' }, [ck('dt_rt', '', 0)]);
+      if (r.j.error === 'invalid_grant') {
+        /* Google ended the long-term sign-in. ~7 days after sign-in = the OAuth app is still in "Testing" */
+        const days = sess.t ? (Date.now() - sess.t) / 864e5 : null;
+        const why = days != null && days >= 6.5 && days < 8.5 ? 'testing7' : 'revoked';
+        return json(401, { error: 'signed_out', why, days: days == null ? null : Math.round(days * 10) / 10, detail: r.j.error_description || '' }, [ck('dt_rt', '', 0)]);
+      }
+      if (r.j.error === 'invalid_client' || r.j.error === 'unauthorized_client') return json(500, { error: 'not_configured', why: 'secret', message: 'GOOGLE_CLIENT_SECRET does not match GOOGLE_CLIENT_ID.' });
       return json(502, { error: 'google', status: r.status });
     }
-    return json(200, { access_token: r.j.access_token, expires_in: r.j.expires_in || 3600, scope: r.j.scope || sess.scope || '', email: sess.email || '' });
+    /* keep the cookie fresh: a new refresh token if Google sent one, and the last-used time */
+    const nx = { ...sess, rt: r.j.refresh_token || sess.rt, last: Date.now() };
+    const set = (r.j.refresh_token || !sess.last || Date.now() - sess.last > 864e5) ? [ck('dt_rt', seal(nx), YEAR)] : undefined;
+    return json(200, { access_token: r.j.access_token, expires_in: r.j.expires_in || 3600, scope: r.j.scope || sess.scope || '', email: sess.email || '', since: sess.t || 0 }, set);
   }
 
   if (a === 'logout') {

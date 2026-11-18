@@ -980,6 +980,14 @@ body:not(.gate) #view::after{content:'';display:block;height:64px}
 .adm .form input{width:100%;box-sizing:border-box}
 
 .b2b-old{opacity:.62}.b2b-cur{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal) inset}
+
+.lc{display:flex;flex-direction:column;gap:6px;margin-top:10px}.lc-r{display:flex;gap:10px;align-items:flex-start;padding:9px 11px;border-radius:10px;background:var(--surface2);font-size:13px}
+.lc-r i{font-style:normal;font-weight:700;width:18px;flex:none;text-align:center}.lc-r.ok i{color:var(--green)}.lc-r.bad i{color:var(--red)}.lc-r.warn i{color:var(--amber)}
+.lc-r>div>b{display:block;font-weight:500}.lc-r>div>span{display:block;color:var(--ink2);margin-top:2px;line-height:1.45}.lc-r>div>span b{font-weight:600;color:var(--ink)}.lc-r code{font-size:11.5px;word-break:break-all}
+.b2b-pend{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber) inset}.b2b-pend td.ck{width:34px}.b2b-pend input[type=checkbox]{width:18px;height:18px;accent-color:var(--teal)}
+.how{margin-top:14px}.how summary{cursor:pointer;font-weight:500;list-style:none;display:flex;gap:8px;align-items:center}.how summary::-webkit-details-marker{display:none}
+.how svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor}.how ol svg{width:14px;height:14px;vertical-align:-2px}
+.how ol{margin:10px 0 0;padding-left:20px;line-height:1.6;font-size:13.5px;color:var(--ink2)}.how ol b{color:var(--ink)}
 </style>
 <!-- =====================================================================
      ONE-TIME SETUP  —  paste your Google OAuth Client ID between the
@@ -1372,7 +1380,7 @@ const E = (() => {
 
   /* ---------- Test 5 (app workbook) ---------- */
   function parseT3(map) {
-    const o = { ean: new Map(), dims: new Map(), cases: new Map(), inward: [], damage: [], audit: [], other: [], lowRules: null, uniLog: [], b2bReq: [], b2bIn: [], pmIssue: [], warn: [] };
+    const o = { ean: new Map(), dims: new Map(), cases: new Map(), inward: [], damage: [], audit: [], other: [], lowRules: null, minusOff: [], uniLog: [], b2bReq: [], b2bIn: [], pmIssue: [], warn: [] };
     const SE = sheet(map, 'SKUANDEAN', 'SKUEAN');
     if (SE) { const c = cols(SE, { sku: ['SKU', 'SKUCODE'], ean: ['EAN'] }); if (c) for (let r = c.start; r < SE.length; r++) { const g = getter(SE[r], c); const s = g('sku'); if (typeof s === 'number' || !str(s)) continue; let e = g('ean'); e = typeof e === 'number' ? e.toFixed(0) : str(e); if (nk(e) === nk(s) || !/^\d{8,14}$/.test(e)) e = ''; const k = nk(s); if (!o.ean.has(k) || (!o.ean.get(k).ean && e)) o.ean.set(k, { sku: str(s), ean: e }); } }
     const CD = sheet(map, 'CASEDIMANTION', 'CASEDIMENSION');
@@ -1393,8 +1401,10 @@ const E = (() => {
     }
     const LR = sheet(map, 'LOWSTOCKRULES', 'LOWSTOCK');
     if (LR) { o.lowRules = []; const c = cols(LR, { sku: ['SKU', 'SKUCODE'], min: ['ALERTAT', 'ALERTWHENATORBELOW', 'LOWAT', 'MIN', 'THRESHOLD'], note: ['NOTE'] }); if (c) for (let r = c.start; r < LR.length; r++) { const g = getter(LR[r], c); const s = str(g('sku')); if (!s) continue; const v = g('min'); o.lowRules.push({ row: r + 1, sku: s, k: nk(s), min: str(v) === '' ? null : num(v), note: str(g('note')) }); } }
+    const MH = sheet(map, 'MINUSHATAYA');
+    if (MH) { const c = cols(MH, { date: ['PACKINGDATE', 'DATE'], sku: ['SKU', 'SKUCODE'], docs: ['DOCS', 'DOC', 'DOCNO'], qty: ['QTY'], at: ['HATAYAKAB', 'REMOVEDAT'], by: ['BY'], note: ['NOTE'] }); if (c) for (let r = c.start; r < MH.length; r++) { const g = getter(MH[r], c); const d = dkey(g('date')); const sk = str(g('sku')); if (!d || !sk) continue; o.minusOff.push({ row: r + 1, date: d, sku: sk, k: nk(sk), docs: str(g('docs')).split(/[,;\n]+/).map(x => x.trim()).filter(Boolean), qty: num(g('qty')), at: str(g('at')), by: str(g('by')), note: str(g('note')) }); } }
     const UL = sheet(map, 'UNIWARELOG');
-    if (UL) { const c = cols(UL, { date: ['MINUSDATE', 'DATE'], at: ['DONEAT', 'MARKEDAT'], qty: ['MINUSQTY', 'QTY'], back: ['ADDBACK', 'BACK'], skus: ['SKUS', 'LINES'], by: ['BY'], note: ['NOTE'] }); if (c) for (let r = c.start; r < UL.length; r++) { const g = getter(UL[r], c); const d = dkey(g('date')); if (!d) continue; o.uniLog.push({ row: r + 1, date: d, at: str(g('at')), qty: num(g('qty')), back: num(g('back')), skus: num(g('skus')), by: str(g('by')), note: str(g('note')) }); } }
+    if (UL) { const c = cols(UL, { date: ['MINUSDATE', 'DATE'], at: ['DONEAT', 'MARKEDAT'], qty: ['MINUSQTY', 'QTY'], back: ['ADDBACK', 'BACK'], skus: ['SKUS', 'LINES'], by: ['BY'], note: ['NOTE'] }); if (c) for (let r = c.start; r < UL.length; r++) { const g = getter(UL[r], c); const d = dkey(g('date')); if (!d) continue; o.uniLog.push({ row: r + 1, date: d, at: str(g('at')), manual: str(g('qty')) === '' && str(g('back')) === '', qty: num(g('qty')), back: num(g('back')), skus: num(g('skus')), by: str(g('by')), note: str(g('note')) }); } }
     const BR = sheet(map, 'B2BREQUEST', 'B2BREQ');
     if (BR) { const c = cols(BR, { date: ['DATE'], time: ['TIME'], id: ['REQID', 'REQUESTID'], emp: ['EMPLOYEE', 'NAME'], sku: ['SKU', 'SKUCODE'], item: ['ITEM', 'ITEMNAME'], boxes: ['BOXES', 'BOX', 'CARTONS'], cs: ['CASESIZE', 'CASE'], qty: ['QTY'], status: ['STATUS'], mail: ['MAIL', 'MAILED'], by: ['BY'] }); if (c) for (let r = c.start; r < BR.length; r++) { const g = getter(BR[r], c); const s = str(g('sku')); if (!s) continue; o.b2bReq.push({ row: r + 1, date: dkey(g('date')), time: tstr(g('time')), id: str(g('id')), emp: str(g('emp')), sku: s, k: nk(s), item: str(g('item')), boxes: num(g('boxes')), cs: num(g('cs')), qty: num(g('qty')), status: str(g('status')), mail: str(g('mail')), by: str(g('by')) }); } }
     const BI = sheet(map, 'B2BIN');
@@ -1620,6 +1630,13 @@ const E = (() => {
         if (after(r.date, r.time) && M.minusTypes.has(r.type))
           mov.push({ date: r.date, time: r.time || '', k: r.k, sku: r.sku, qty: r.qty, type: r.type, ref: r.doc || r.type, party: r.type });
       } else if (sentOut(r.disp)) M.otherSkipped.push(r);
+    }
+    /* rows taken out of MINUS DATA by hand (Test 5 MINUS HATAYA): that doc's SKU on that date is not minused */
+    M.minusOffMov = [];
+    if ((t3.minusOff || []).length) {
+      const byDoc = new Set(), allDay = new Set();
+      for (const x of t3.minusOff) { if (x.docs.length) for (const d of x.docs) byDoc.add(x.date + '|' + x.k + '|' + nk(d)); else allDay.add(x.date + '|' + x.k); }
+      for (let i = mov.length - 1; i >= 0; i--) { const m = mov[i]; if (byDoc.has(m.date + '|' + m.k + '|' + nk(m.ref)) || allDay.has(m.date + '|' + m.k)) { M.minusOffMov.push(m); mov.splice(i, 1); } }
     }
     M.inflSkipped = M.otherSkipped.filter(r => r.type === 'Influencer');
     M.reshipSkipped = M.otherSkipped.filter(r => r.type === 'Reship');
@@ -1859,7 +1876,8 @@ const E = (() => {
         return { ...L, gMinus: L.minus, gBack: L.back, minus, back, refs: [...L.refs], alloc };
       }).filter(L => L.minus || L.back || L.gMinus || L.gBack).sort((a, b) => a.sku.localeCompare(b.sku));
       const minus = lines.reduce((x, L) => x + L.minus, 0), back = lines.reduce((x, L) => x + L.back, 0);
-      const done = uniDone.get(D.date) || null;
+      /* a row typed in UNIWARE LOG with only the date = that whole day is done */
+      const done0 = uniDone.get(D.date) || null; const done = done0 && done0.manual ? { ...done0, qty: minus, back, at: done0.at || 'sheet' } : done0;
       const state = done ? ((done.qty === minus && done.back === back) ? 'done' : 'changed') : (minus || back) ? 'open' : 'none';
       return { date: D.date, lines, docs: [...D.docs], revDocs: [...D.revDocs], pickDocs: [...D.pickDocs], relDocs: [...D.relDocs], held: D.held, heldQty: D.held.reduce((a, h) => a + h.qty, 0), otherQty: D.otherQty, minus, back, gMinus: D.minus, gBack: D.back, dmg: D.dmg, damage: D.damage, inward: D.inward, done, state };
     }).sort((a, b) => b.date.localeCompare(a.date));
@@ -2228,11 +2246,11 @@ const CONF = window.DT_CONFIG || {};
 const FILES = { t2: { id: CONF.test2 || '1Pz10Hhzkq4PMxvW58x1XHJGuXyXAJeWqs4mvU5Kg3rY', label: 'Test 4 (master)' }, t3: { id: CONF.test3 || '1bCAdd5I4g1c4e4EbkCZxP0xa-h1finm-aehbxkkTSVk', label: 'Test 5 (app sheet)' } };
 const OLD_T3_ID = '1j-KIZe2xRohPxYGu-QDeKPuNUhnmbKt1w4_2PXO3pW8';
 const XMIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-const EMPTY_T3 = { ean: new Map(), dims: new Map(), cases: new Map(), inward: [], damage: [], audit: [], other: [], lowRules: null, uniLog: [], b2bReq: [], b2bIn: [], pmIssue: [], warn: [] };
+const EMPTY_T3 = { ean: new Map(), dims: new Map(), cases: new Map(), inward: [], damage: [], audit: [], other: [], lowRules: null, minusOff: [], uniLog: [], b2bReq: [], b2bIn: [], pmIssue: [], warn: [] };
 const DEF_CFG = { snapshot: '', sla: 2, lifeMonths: 24, damageWindow: 15, minUnits: 50, coverDays: 7, refresh: 60, reviseRule: 'latest', minusTypes: 'Influencer,Consignment,Reship', snapshotTime: '',
-  fgLow: 120, b2bTo: 'offlineorders@dermatouch.com', b2bCc: 'sarojsarvesh936@gmail.com, parthparmar4182@gmail.com', b2bSubject: 'Dermatouch Offline - Stock request to B2B', b2bRootId: '',
+  fgLow: 120, b2bAuto: 'no', b2bTo: 'offlineorders@dermatouch.com', b2bCc: 'sarojsarvesh936@gmail.com, parthparmar4182@gmail.com', b2bSubject: 'Dermatouch Offline - Stock request to B2B', b2bRootId: '',
   pmTo: '', pmCc: '', pmSubject: 'Dermatouch Offline - Packing material taken', pmRootId: '', minusTo: '' };
-const TXT_CFG = new Set(['minusTo', 'snapshot', 'snapshotTime', 'reviseRule', 'minusTypes', 'updatedBy', 'b2bTo', 'b2bCc', 'b2bSubject', 'b2bRootId', 'pmTo', 'pmCc', 'pmSubject', 'pmRootId']);
+const TXT_CFG = new Set(['b2bAuto', 'minusTo', 'snapshot', 'snapshotTime', 'reviseRule', 'minusTypes', 'updatedBy', 'b2bTo', 'b2bCc', 'b2bSubject', 'b2bRootId', 'pmTo', 'pmCc', 'pmSubject', 'pmRootId']);
 /* every setting row in APP SETTINGS, in order */
 const SET_DEF = [
   ['snapshot', 'Minus starts on this date (dd-mm-yyyy) — the audit date'], ['snapshotTime', 'Minus starts at this time (HH:MM, 24 hour)'],
@@ -2240,7 +2258,7 @@ const SET_DEF = [
   ['minUnits', 'Low stock below units (old rule, cover view)'], ['coverDays', 'Low cover below days'], ['refresh', 'Auto refresh seconds'],
   ['reviseRule', 'latest = a revised PI replaces the earlier fill; sum = add every fill'], ['minusTypes', 'OTHER types minused from offline stock'],
   ['fgLow', 'Finished goods: alert when offline stock is below this'],
-  ['b2bTo', 'B2B request mail: To'], ['b2bCc', 'B2B request mail: CC (comma separated)'], ['b2bSubject', 'B2B request mail: subject (one thread)'], ['b2bRootId', 'B2B mail thread id (set by the app)'],
+  ['b2bAuto', 'B2B reply: yes = products go into B2B IN by themselves; no = you tick and Add'], ['b2bTo', 'B2B request mail: To'], ['b2bCc', 'B2B request mail: CC (comma separated)'], ['b2bSubject', 'B2B request mail: subject (one thread)'], ['b2bRootId', 'B2B mail thread id (set by the app)'],
   ['minusTo', 'Uniware minus reminder goes only to this email (blank = admin)'], ['pmTo', 'Packing material mail: To'], ['pmCc', 'Packing material mail: CC'], ['pmSubject', 'Packing material mail: subject (one thread)'], ['pmRootId', 'Packing material thread id (set by the app)']
 ];
 
@@ -2537,16 +2555,24 @@ const tokOk = () => !!(tok && tok.a && tok.exp > Date.now() + 30000);
 const HELPER = '/.netlify/functions/auth';
 const AUTH = (() => {
   let mode = null, timer = 0, busy = null;
+  /* Which sign-in this site has. Once the one-time sign-in helper has answered on this device it is
+     remembered, so a slow network or a sleepy Netlify function never drops the app back to Google's
+     hourly popup (that was one reason for "login again and again"). */
   async function detect() {
     if (mode) return mode;
     if (location.protocol !== 'https:' && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return (mode = 'gis');
-    try {
-      const c = new AbortController(); const t = setTimeout(() => c.abort(), 4500);
-      const r = await fetch(HELPER + '?a=ping', { signal: c.signal, cache: 'no-store' }); clearTimeout(t);
-      const j = r.ok && /json/.test(r.headers.get('content-type') || '') ? await r.json() : null;
-      mode = j && j.ok ? 'helper' : 'gis'; st.authMode = mode;
-      if (j && j.ok === false) st.err.helper = { code: 'helper', soft: true, message: 'The sign-in helper is on the site but GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET are not set in Netlify.' };
-    } catch { mode = 'gis'; }
+    const was = lsg('dt-auth') === 'helper'; let j = null, reached = false;
+    for (let i = 0; i < 2 && !reached; i++) {
+      try {
+        const c = new AbortController(); const t = setTimeout(() => c.abort(), was ? 6000 : 9000);
+        const r = await fetch(HELPER + '?a=ping', { signal: c.signal, cache: 'no-store' }); clearTimeout(t);
+        if (r.ok && /json/.test(r.headers.get('content-type') || '')) { j = await r.json(); reached = true; } else if (r.status === 404) reached = true;
+      } catch { }
+    }
+    if (j && j.ok) { mode = 'helper'; st.helperState = 'ok'; st.helperCid = j.cid || ''; lss('dt-auth', 'helper'); }
+    else if (j && j.ok === false) { mode = 'gis'; st.helperState = 'nosecret'; lss('dt-auth', null); st.err.helper = { code: 'helper', soft: true, message: 'Netlify me GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET nahi mile (env variable daalne ke baad naya deploy chahiye).' }; }
+    else if (!reached && was) { mode = 'helper'; st.helperState = 'slow'; }
+    else { mode = 'gis'; st.helperState = reached ? 'missing' : 'slow'; }
     st.authMode = mode;
     return mode;
   }
@@ -2557,9 +2583,13 @@ const AUTH = (() => {
     busy = (async () => {
       try {
         const r = await fetch(HELPER + '?a=token', { method: 'POST', credentials: 'same-origin', cache: 'no-store' });
-        if (r.status === 401) { tok = null; lss('dt-tok', null); return false; }
+        if (r.status === 401 || r.status === 500) {
+          const e = await r.json().catch(() => ({}));
+          if (r.status === 500 && e.why !== 'secret') return null;
+          tok = null; lss('dt-tok', null); authWhy(e.why || 'revoked', e.days); st.helperSession = false; return false;
+        }
         if (!r.ok) return null;
-        const j = await r.json(); const sc = j.scope || '';
+        const j = await r.json(); const sc = j.scope || ''; st.helperSession = true; if (j.since) st.authSince = j.since;
         tok = { a: j.access_token, exp: Date.now() + (+j.expires_in || 3600) * 1000, email: j.email || lsg('dt-email') || '', gm: sc.includes(GM_SEND) && sc.includes(GM_READ) };
         lss('dt-tok', JSON.stringify(tok)); if (tok.email) lss('dt-email', tok.email);
         st.user = tok.email; plan(); return true;
@@ -2568,6 +2598,21 @@ const AUTH = (() => {
     })();
     return busy;
   }
+  /* why Google ended the sign-in — shown on the login screen and kept for the Login check */
+  function authWhy(why, days) {
+    const T = {
+      nocookie: 'Is phone/browser pe "ek baar login" abhi hua hi nahi (pehle purane tareeke se login tha). Ek baar Sign in karo — phir dobara nahi maangega.',
+      badcookie: 'Purana login ab chal nahi sakta (secret badla gaya). Ek baar Sign in karo.',
+      testing7: `Google ne ${days ? Math.round(days) + ' din' : '7 din'} baad login khatam kiya — Google Cloud me app abhi "Testing" mode me hai. Admin: Google Cloud → OAuth consent screen (Audience) → <b>Publish app</b> ("In production"). Uske baad login hamesha rahega.`,
+      revoked: 'Google ne login band kiya (password badla, access hataya, ya Google ne security ke liye roka). Ek baar Sign in karo.',
+      secret: 'Netlify ka GOOGLE_CLIENT_SECRET is Client ID ka nahi hai. Google Cloud → Credentials → wahi OAuth client → secret copy karke Netlify me daalo, phir deploy.'
+    };
+    st.err.auth = { code: 'why', html: true, message: T[why] || T.revoked };
+    try { const L = JSON.parse(lsg('dt-authlog') || '[]'); L.unshift({ t: Date.now(), why, days: days || null }); lss('dt-authlog', JSON.stringify(L.slice(0, 12))); } catch { }
+  }
+  async function status() {
+    try { const r = await fetch(HELPER + '?a=status', { credentials: 'same-origin', cache: 'no-store' }); if (!r.ok) return null; const j = await r.json(); st.helperSession = !!j.session; if (j.since) st.authSince = j.since; return j; } catch { return null; }
+  }
   function login(gmail) {
     const p = new URLSearchParams({ a: 'login', back: location.pathname || '/' });
     if (gmail) p.set('gm', '1'); const h = lsg('dt-email'); if (h) p.set('hint', h);
@@ -2575,7 +2620,8 @@ const AUTH = (() => {
   }
   async function logout() { clearTimeout(timer); try { await fetch(HELPER + '?a=logout', { method: 'POST', credentials: 'same-origin' }); } catch { } }
   document.addEventListener('visibilitychange', () => { if (mode === 'helper' && document.visibilityState === 'visible' && tok && tok.exp - Date.now() < 6 * 60e3) refresh(); });
-  return { detect, refresh, login, logout, plan, mode: () => mode, helper: () => mode === 'helper' };
+  window.addEventListener('online', () => { if (mode === 'helper' && st.conn !== 'ok' && st.err.auth && st.err.auth.code === 'net') retryAuth(); });
+  return { detect, refresh, login, logout, plan, status, mode: () => mode, helper: () => mode === 'helper' };
 })();
 let tc = null;
 const gisReady = () => !!(window.google && google.accounts && google.accounts.oauth2);
@@ -2632,7 +2678,8 @@ async function gfetch(url, opt = {}, again) {
   return r.status === 204 ? {} : r.json();
 }
 function markExpired() { tok = null; lss('dt-tok', null); if (st.conn === 'ok') { st.conn = AUTH.helper() ? 'signin' : 'expired'; stopLoop(); renderSync(); render(); } }
-function hashStr(s) { let h = 2166136261; for (let i = 0; i < s.length; i += 3) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36) + ':' + s.length; }
+/* every character counts (it used to look at every 3rd one, so a qty edited 15 → 18 could go unseen) */
+function hashStr(s) { let h = 2166136261, g = 5381; for (let i = 0; i < s.length; i++) { const c = s.charCodeAt(i); h ^= c; h = Math.imul(h, 16777619); g = (Math.imul(g, 33) + c) | 0; } return (h >>> 0).toString(36) + (g >>> 0).toString(36) + ':' + s.length; }
 /* Tabs the app writes and nobody types into. They are never downloaded again —
    on a phone that saves megabytes a day once Daily Minus and DISPATCH grow. */
 const OUTPUT_TABS = new Set(['MINUSSTOCK', 'MINUSDATA', 'DAILYMINUS', 'LIVESTOCK', 'DISPATCH', 'DISPATCHSKU']);
@@ -2726,6 +2773,7 @@ const T3_COLS = {
   USERS: { title: 'USERS', cols: ['Email', 'Name', 'Access', 'Pages', 'Can edit', 'Active', 'Note', 'Last seen'] },
   TEAM: { title: 'TEAM', cols: ['Code', 'Name', 'Email', 'Team', 'Role', 'Photo', 'Active', 'Phone', 'Note'] },
   UNIWARELOG: { title: 'UNIWARE LOG', cols: ['Minus Date', 'Done At', 'Minus Qty', 'Add Back', 'SKUs', 'By', 'Note'] },
+  MINUSHATAYA: { title: 'MINUS HATAYA', cols: ['Packing Date', 'SKU', 'Docs', 'Qty', 'Hataya kab', 'By', 'Note'] },
   B2BREQUEST: { title: 'B2B REQUEST', cols: ['Date', 'Time', 'Req ID', 'Employee', 'SKU', 'Item', 'Boxes', 'Case size', 'Qty', 'Status', 'Mail', 'By'] },
   B2BIN: { title: 'B2B IN', cols: ['Date', 'Time', 'Req ID', 'Msg ID', 'SKU', 'Qty', 'Shelf', 'Colour', 'Vendor Batch', 'Batch', 'Expiry', 'Availability', 'Received', 'Inward Ref', 'By'] },
   PMISSUE: { title: 'PM ISSUE', cols: ['Date', 'Time', 'Employee', 'SKU', 'Item', 'Qty', 'Mailed', 'ID', 'By'] }
@@ -2896,7 +2944,7 @@ const REF_COLS = { 'SKU AND EAN': ['SKU', 'EAN'], 'Case Size': ['SKU', 'QTY'], '
 const TAB_PLAN = [
   ['GUIDE', 'guide'], ['DAY MINUS', 'calc'], ['STOCK IN PEHLE', 'calc'], ['PENDING', 'calc'], ['PENDING BY DAY', 'calc'], ['DOC LOOKUP', 'input'], ['DOC LOOKUP LINES', 'calc'], ['B2B PICK', 'input'],
   ['MINUS DATA', 'calc'], ['Minus Stock', 'calc'], ['MONTHLY REPORT', 'calc'], ['MONTHLY SKU', 'calc'], ['DISPATCH', 'calc'], ['DISPATCH SKU', 'calc'],
-  ['Inward', 'entry'], ['DAMAGE', 'entry'], ['OTHER', 'entry'], ['Offline Audit', 'entry'], ['B2B REQUEST', 'entry'], ['B2B IN', 'entry'], ['PM ISSUE', 'entry'], ['UNIWARE LOG', 'entry'],
+  ['Inward', 'entry'], ['DAMAGE', 'entry'], ['OTHER', 'entry'], ['Offline Audit', 'entry'], ['B2B REQUEST', 'entry'], ['B2B IN', 'entry'], ['PM ISSUE', 'entry'], ['UNIWARE LOG', 'entry'], ['MINUS HATAYA', 'entry'],
   ['SKU AND EAN', 'ref'], ['Case Size', 'ref'], ['CASE DIMANTION', 'ref'], ['LOW STOCK RULES', 'ref'],
   ['APP SETTINGS', 'admin'], ['USERS', 'admin'], ['TEAM', 'admin']
 ];
@@ -3015,6 +3063,7 @@ function guideAoa() {
     ['DOC LOOKUP LINES', 'DOC LOOKUP wale docs ki har SKU line, kis batch se minus hua', 'App'],
     ['B2B PICK', 'DOC No. + B2B PICK me "Yes" likho → wo doc offline se minus NAHI hoga (B2B se pick). "No" likho to wapas offline. App ke doc page se bhi kar sakte ho', 'AAP'],
     ['Inward / DAMAGE / OTHER / Offline Audit', 'App se ki gayi entries (stock IN, damage, influencer/consignment/reship, physical count)', 'App (aapki entry se)'],
+    ['MINUS HATAYA', 'MINUS DATA se jo row aapne delete ki, wo yahan aati hai aur minus se hat jaati hai. Yahan se row hatao to minus wapas aa jaata hai.', 'App (aap delete karte ho)'],
     ['B2B REQUEST / B2B IN / PM ISSUE / UNIWARE LOG', 'B2B se maal mangwana aur unka reply (auto mail), packing material issue, Uniware minus done ka record', 'App'],
     ['SKU AND EAN / Case Size / CASE DIMANTION / LOW STOCK RULES', 'Master: barcode, ek case me kitne pcs, box ka size, low stock alert level', 'AAP (ya Test 5 se import)'],
     ['APP SETTINGS / USERS / TEAM', 'App ke rules, kisko kya access, team ki list', 'App (Settings page se)'],
@@ -3077,7 +3126,31 @@ const T5W = (() => {
     return { copied, kept, from: meta.properties && meta.properties.title };
   }
   async function fresh(title) { const r = await gfetch(API + FILES.t3.id + '/values/' + encodeURIComponent(qt(title)) + '?valueRenderOption=UNFORMATTED_VALUE&dateTimeRenderOption=SERIAL_NUMBER'); return r.values || []; }
-  let busyW = false, lastM = null, lastFull = 0;
+  let busyW = false, lastM = null, lastFull = 0, lastProbe = Date.now();
+  const PROBE_TABS = ['DAY MINUS', 'Minus Stock', 'PENDING', 'STOCK IN PEHLE'];
+  /* MINUS DATA: a row you delete = take that minus out. The app keeps a short fingerprint of every row it
+     wrote; a fingerprint that is gone from the tab (and nothing new appeared) was deleted by hand. */
+  const mdKey = r => hashStr([String(r[0] ?? '').trim(), String(r[1] ?? '').trim().toUpperCase(), String(r[10] ?? '').trim()].join('|'));
+  const MDL = 'dt-md-last'; let lastMd = 0;
+  const mdLast = () => { try { const o = JSON.parse(lsg(MDL) || 'null'); return o && o.id === FILES.t3.id ? new Set(o.k) : null; } catch { return null; } };
+  const mdSave = aoa => { try { lss(MDL, JSON.stringify({ id: FILES.t3.id, k: aoa.slice(1).map(mdKey) })); } catch { lss(MDL, null); } };
+  async function mdDeleted(sh) {
+    const L = mdLast(); if (!L || !L.size) return null;
+    const v = await gfetch(API + FILES.t3.id + '/values:batchGet?ranges=' + encodeURIComponent(qt(sh.name) + '!A2:K') + '&valueRenderOption=FORMATTED_VALUE');
+    const rows = (((v.valueRanges || [])[0] || {}).values || []).filter(r => r && String(r[0] ?? '').trim());
+    const S = new Set(rows.map(mdKey));
+    let extra = 0; for (const k of S) if (!L.has(k)) extra++;
+    const gone = [...L].filter(k => !S.has(k));
+    if (!gone.length) return null;
+    if (extra) return { other: true };                                         // another phone wrote a newer version — not a deletion
+    if (!rows.length || gone.length > Math.max(25, L.size * 0.3)) return { mass: gone.length };   // tab wiped: write it again, take nothing out
+    const cur = new Map(minusData5().slice(1).map(r => [mdKey(r), r]));
+    const have = new Set((st.t3.minusOff || []).map(x => x.date + '|' + x.k + '|' + x.docs.map(nk).sort().join(',')));
+    const out = [];
+    for (const k of gone) { const r = cur.get(k); if (!r) continue; const d = dkey(r[0]); const docs = String(r[10] || '').split(/,\s*/).filter(Boolean);
+      const id = d + '|' + nk(r[1]) + '|' + docs.map(nk).sort().join(','); if (have.has(id)) continue; have.add(id); out.push({ r, d, docs }); }
+    return { rows: out };
+  }
   async function write(force) {
     if (!ready() || busyW) return;
     busyW = true;
@@ -3091,7 +3164,32 @@ const T5W = (() => {
     if (force) sigs = {};
     const cap = (a, n) => a.length <= n + 1 ? a : [a[0], ...a.slice(1, n + 1)];
     /* the calculation only changes when the data changed: skip the heavy part otherwise (phones stay smooth) */
-    const fresh6 = force || st.M !== lastM || Date.now() - lastFull > 6 * 3600e3;
+    /* someone deleted or typed in a tab the app makes (DAY MINUS, MINUS DATA …)? every 10 minutes the
+       first column is compared with what the app wrote; a changed tab is written again at once */
+    let fixed = [];
+    if (!force && Date.now() - lastProbe > 10 * 60e3) {
+      lastProbe = Date.now();
+      const watch = PROBE_TABS.map(t => [t, map[E.hk(t)]]).filter(([t, sh]) => sh && sigs[FILES.t3.id + ':' + E.hk(t)] && sigs[FILES.t3.id + ':' + E.hk(t)].n != null);
+      if (watch.length) {
+        try {
+          const v = await gfetch(API + FILES.t3.id + '/values:batchGet?' + watch.map(([, sh]) => 'ranges=' + encodeURIComponent(qt(sh.name) + '!A:A')).join('&') + '&majorDimension=COLUMNS');
+          (v.valueRanges || []).forEach((vr, i) => { const col = ((vr.values || [])[0] || []).filter(x => String(x ?? '').trim() !== ''); const key = FILES.t3.id + ':' + E.hk(watch[i][0]); if (col.length !== sigs[key].n) { delete sigs[key]; fixed.push(watch[i][0]); } });
+        } catch (e) { console.warn('probe', e); }
+      }
+    }
+    let mdOff = 0, mdMass = 0;
+    const mdSh = map.MINUSDATA;
+    if (!force && mdSh && Date.now() - lastMd > 90e3) {
+      lastMd = Date.now();
+      try {
+        const x = await mdDeleted(mdSh);
+        if (x && x.rows && x.rows.length) {
+          await appendRows('MINUSHATAYA', x.rows.map(({ r, d, docs }) => ({ PACKINGDATE: fD(d), SKU: r[1], DOCS: docs.join(', '), QTY: r[3], HATAYAKAB: fD(today()) + ' ' + nowT(), BY: 'MINUS DATA se delete (' + (st.user || '') + ')', NOTE: [r[4], r[7]].filter(Boolean).join(' @ ') })));
+          mdOff = x.rows.length; st.sigs.t3 = null; await readOne('t3'); applySettings(); recompute();
+        } else if (x && (x.mass || x.other)) { mdMass = x.mass || 0; delete sigs[FILES.t3.id + ':MINUSDATA']; }
+      } catch (e) { console.warn('minus data check', e); }
+    }
+    const fresh6 = force || fixed.length || mdOff || mdMass || st.M !== lastM || Date.now() - lastFull > 6 * 3600e3;
     const out = !fresh6 ? [] : [['GUIDE', guideAoa()], ['DAY MINUS', dayMinusAoa()], ['MINUS DATA', cap(minusData5(), 30000)], ['Minus Stock', minusAoa()], ['STOCK IN PEHLE', stockInAoa()],
       ['PENDING', (sheetsFor('pending')['Pending SKU lines'] || [])], ['PENDING BY DAY', pendingByDay5()], ['MONTHLY REPORT', [MON_HEAD, ...monthRows().map(monRow)]], ['MONTHLY SKU', monthSkuAoa()],
       ['DISPATCH', cap(dispAoa(), 15000)], ['DISPATCH SKU', cap(dispSkuAoa(), 15000)]];
@@ -3099,8 +3197,10 @@ const T5W = (() => {
     for (const [title, aoa] of out) {
       const sh = map[E.hk(title)]; if (!sh) continue;
       const h = hashStr(JSON.stringify(title === 'Minus Stock' ? aoa.map((r, i) => i === 1 ? r.slice(0, 14) : r) : aoa)); const key = FILES.t3.id + ':' + E.hk(title);
+      if (title === 'MINUS DATA' && !mdLast()) mdSave(aoa);                       // first run: remember what is in the tab
       if (sigs[key] && sigs[key].h === h && Date.now() - sigs[key].t < 6 * 3600e3) continue;
-      newSig[key] = { h, t: Date.now() };
+      if (title === 'MINUS DATA') mdSave(aoa);
+      newSig[key] = { h, t: Date.now(), n: (aoa.length ? aoa : [['—']]).filter(r => String((r || [])[0] ?? '').trim() !== '').length };
       if (title === 'Minus Stock' && aoa.length > 1) aoa[1][14] = 'Updated ' + fD(M.today) + ' ' + nowT();
       data.push({ range: qt(sh.name) + '!A1', values: aoa.length ? aoa : [['—']] }); tails.push(qt(sh.name) + '!A' + (Math.max(1, aoa.length) + 1) + ':AD');
     }
@@ -3129,6 +3229,9 @@ const T5W = (() => {
     if (tails.length) await gfetch(API + FILES.t3.id + '/values:batchClear', { method: 'POST', body: JSON.stringify({ ranges: tails }) }).catch(() => { });
     lss('dt-outsig5', JSON.stringify(Object.assign(sigs, newSig)));
     st.lastWrite5 = Date.now(); renderSync();
+    if (mdOff) { toast(`MINUS DATA se ${mdOff} row hatayi — minus se hata diya`); try { ROBO.say(`MINUS DATA se <b>${mdOff} row</b> delete hui — maine us SKU ka minus hata diya (offline stock aur Uniware minus dono se). Wapas chahiye to Test 5 ke <b>MINUS HATAYA</b> tab se row hatao, ya Minus page pe <b>Wapas laao</b>.`, { mood: 'happy', silent: true, ms: 12000, go: 'minus' }); } catch { } }
+    if (mdMass && isAdmin()) toast(`MINUS DATA ki ${mdMass} row ek saath hati thi — galti samajh ke wapas likh di`);
+    if (fixed.length && isAdmin()) { const t = fixed.join(', '); toast(`Test 5 ke ${t} me hath se badlav tha — app ne wapas theek kiya`); try { ROBO.say(`Test 5 ke <b>${esc(t)}</b> me kisi ne row hataayi/badli thi. Ye tab app Test 4 se banata hai, maine wapas theek kar diya. Minus hatana ho to <b>Test 4 DATA / PACKING</b> ya <b>OTHER</b> se hatao.`, { mood: 'alert', silent: true, ms: 12000 }); } catch { } }
   }
   /* B2B PICK from the doc page: one row in the B2B PICK tab */
   async function setPick(d, yes) {
@@ -3169,6 +3272,12 @@ function adminPanel() {
 const minusMe = () => { const to = String(st.cfg.minusTo || '').toLowerCase().split(/[,;\s]+/).filter(Boolean); const me = String(st.user || lsg('dt-email') || '').toLowerCase(); return to.length ? to.includes(me) : isAdmin(); };
 const evOk = e => can(evPage(e)) && (e.kind !== 'day' || minusMe());
 
+async function retryAuth() {
+  const ok = await AUTH.refresh();
+  if (ok === true) { delete st.err.auth; st.conn = 'ok'; st.user = tok.email; render(); renderSync(); startLoop(); }
+  else if (ok === null) toast('Abhi bhi internet nahi mila — thodi der me phir try karo');
+  else { render(); }
+}
 async function boot() {
   applyTheme(); applyLogos();
   SND.intro();
@@ -3180,14 +3289,16 @@ async function boot() {
   if (qp.has('signed') && lsg('dt-gm') === '1') st.gmAsk = true;
   if (await AUTH.detect() === 'helper') {
     setSplash('Signing in');
-    const ok = tokOk() ? true : await AUTH.refresh();
+    const cached = tokOk(); let ok = cached ? true : await AUTH.refresh();
+    for (let i = 0; ok === null && !tokOk() && i < 3; i++) { setSplash('Internet dheema hai — dobara koshish'); await new Promise(r => setTimeout(r, [1500, 3500, 7000][i])); ok = await AUTH.refresh(); }
     if (tokOk()) AUTH.plan();
     if (ok === true || tokOk()) {
+      if (cached) AUTH.status().then(j => { if (j && j.ok && !j.session) render(); });   // token from before: is this device on the one-time sign-in yet?
       st.conn = 'ok'; st.user = tok.email;
       if (st.gmAsk) { st.gmAsk = false; setTimeout(() => toast(tok.gm ? 'Gmail connected — requests and replies now go through your mail' : 'Gmail was not allowed. Tick both Gmail boxes on the permission screen.'), 2600); if (!tok.gm) lss('dt-gm', null); }
       setSplash('Reading your sheets'); startLoop();
     } else {
-      if (ok === null) st.err.auth = { code: 'auth', message: 'Could not reach the sign-in service. Check the internet and try again.' };
+      if (ok === null) st.err.auth = { code: 'net', message: 'Internet nahi mil raha. Aapka login safe hai — dobara Google login ki zarurat nahi. Internet aate hi apne aap khul jaayega, ya "Dobara try karo" dabao.' };
       st.conn = 'signin'; hideSplash(); render(); renderSync();
     }
     return;
@@ -3226,7 +3337,7 @@ function recompute() {
   st.t3 = st.parsed.t3 || EMPTY_T3;
   st.users = parseUsers();
   const entries = { inward: st.t3.inward, damage: st.t3.damage, audit: st.t3.audit };
-  try { st.M = E.compute(st.parsed.t2, st.t3, entries, st.cfg, today(), st.parsed.t5); buildIndex(); delete st.err.calc; try { NT.update(st.M); } catch (e) { console.warn('notify', e); } }
+  try { st.M = E.compute(st.parsed.t2, st.t3, entries, st.cfg, today(), st.parsed.t5); buildIndex(); delete st.err.calc; try { pendEv(st.M); } catch (e) { console.warn('b2b pend', e); } try { NT.update(st.M); } catch (e) { console.warn('notify', e); } }
   catch (e) { console.error(e); st.err.calc = { code: 'calc', message: 'A calculation failed: ' + (e.message || e) }; }
   hideSplash(); renderSync(); schedule();
 }
@@ -3405,7 +3516,8 @@ function render(nav, quiet) {
 function notice(cls, icon, title, body, act) { return `<div class="notice ${cls}">${ico(icon)}<div><b>${title}</b><div class="small">${body}</div>${act ? `<div class="act">${act}</div>` : ''}</div></div>`; }
 function banners(id) {
   let h = '';
-  if (st.authMode === 'gis' && location.protocol === 'https:' && isAdmin() && ['home', 'settings'].includes(id) && lsg('dt-loginhint') !== today()) h += notice('amber', 'alert', 'Baar-baar login: ek setting baaki hai', 'Netlify me <b>GOOGLE_CLIENT_SECRET</b> nahi hai, isliye Google har ~1 ghante me dobara login maangta hai. Ek baar secret daal do (Settings → "Ek baar login" me steps) — phir sab phones pe hamesha login rahega.', '<button class="btn sm" data-loginhint="1">Theek hai</button>');
+  if (st.authMode === 'gis' && location.protocol === 'https:' && isAdmin() && ['home', 'settings'].includes(id) && lsg('dt-loginhint') !== today()) h += notice('amber', 'alert', 'Baar-baar login: ek setting baaki hai', st.helperState === 'nosecret' ? 'Netlify ko <b>GOOGLE_CLIENT_SECRET</b> nahi mila. Env variable daalne ke baad <b>naya deploy</b> zaroori hai — tabhi function ko secret milta hai. Settings → Login check.' : 'Login helper (Netlify function) se jawab nahi aaya, isliye Google har ~1 ghante me login maangta hai. Settings → <b>Login check</b> dabao — wahi batayega kya theek karna hai.', '<button class="btn sm" data-loginhint="1">Theek hai</button>');
+  if (st.authMode === 'helper' && st.helperSession === false && st.conn === 'ok' && ['home', 'settings'].includes(id)) h += notice('amber', 'alert', 'Ek aakhri baar login karo', 'Is phone pe abhi purana login chal raha hai, jo ~1 ghante me khatam hoga. Abhi ek baar login karo — uske baad ye phone hamesha login rahega.', '<button class="btn sm primary" data-relogin="1">Ek baar login karo</button>');
   for (const k of ['t2', 't3', 'calc']) { const e = st.err[k]; if (!e) continue; if (e.soft) { if (id === 'home') h += notice('teal', 'info', 'Live refresh paused', e.message, `<button class="btn sm" id="bRetry">${ico('refresh')}Try again</button>`); continue; }
     h += notice('red', 'alert', k === 'calc' ? 'Calculation problem' : `Could not load ${FILES[k] ? FILES[k].label : k}`, esc(e.message), `<button class="btn sm" id="bRetry">${ico('refresh')}Try again</button>`); }
   if (st.conn === 'expired' && st.M) h = notice('', 'info', 'Your Google session ended', 'Showing the last data loaded. Tap anywhere or the button to continue live.', '<button class="btn sm primary" id="signInBtn">Continue</button>') + h;
@@ -3440,7 +3552,8 @@ function loginShell(inner) {
 }
 function signHtml(kind) {
   const em = lsg('dt-email') || st.user || '';
-  const err = [st.err.auth, st.err.gis].filter(Boolean).map(e => `<div class="lg-err">${ico('alert')}<span>${esc(e.message)}</span></div>`).join('');
+  const err = [st.err.auth, st.err.gis].filter(Boolean).map(e => `<div class="lg-err">${ico('alert')}<span>${e.html ? e.message : esc(e.message)}</span></div>`).join('')
+    + (st.err.auth && st.err.auth.code === 'net' ? '<button class="btn sm mt" id="lgRetry" type="button">' + ico('refresh') + 'Dobara try karo</button>' : '');
   if (kind === 'noaccess') return loginShell(`<h1>No access yet</h1><p class="lg-p"><b>${esc(st.user)}</b> is not added to this app. Ask your admin to add this email in Settings → Users.</p>
     <button class="gbtn" id="swAcc">${G_LOGO}<span>Use another Google account</span></button><button class="btn ghost sm lg-out" id="lgOut">Sign out</button>`);
   const cont = st.conn === 'expired' && em && !AUTH.helper();
@@ -3464,6 +3577,7 @@ document.addEventListener('click', e => {
   if (e.target.closest('#cidSave')) { const v = ($('#cidIn').value || '').trim(); if (!/\.apps\.googleusercontent\.com$/.test(v)) { toast('That does not look like a Client ID — it ends with .apps.googleusercontent.com'); return; } lss('dt-cid', v); location.reload(); }
   if (e.target.closest('#swAcc')) { lss('dt-email', null); lss('dt-tok', null); tok = null; st.conn = 'signin'; st.M = null; if (AUTH.helper()) AUTH.logout().then(() => AUTH.login(false)); else signIn(false); }
   if (e.target.closest('#lgOut')) signOut();
+  if (e.target.closest('#lgRetry')) retryAuth();
 });
 /* big numbers shrink to fit their box — works for 7, 70,000 or 40,06,304 on any phone */
 const FIT_SEL = '.kpi .v, .card .r .big, .fit-n, .hero-n, .pulse-card b, .tday b, .flow .st .v, .tool b, .pq-k b';
@@ -4604,6 +4718,27 @@ function xbook(S, filename) {
 }
 document.addEventListener('click', e => { const b = e.target.closest('[data-exp]'); if (b) { e.preventDefault(); doExport(b.dataset.exp); } });
 document.addEventListener('click', e => { if (e.target.closest('[data-loginhint]')) { lss('dt-loginhint', today()); render(); } });
+document.addEventListener('click', e => { if (e.target.closest('[data-relogin]')) { e.preventDefault(); AUTH.login(GM.wanted()); } });
+document.addEventListener('click', async e => {
+  const b = e.target.closest('#lgCheck'); if (!b) return; e.preventDefault(); b.disabled = true; b.textContent = 'Check ho raha hai…';
+  const box = $('#lgCheckOut'); if (box) box.innerHTML = await loginCheck(); b.disabled = false; b.textContent = 'Dobara check karo';
+});
+/* Settings → Login check: every reason the app could ask to sign in again, with the fix */
+async function loginCheck() {
+  const row = (good, t, fix) => `<div class="lc-r ${good === true ? 'ok' : good === false ? 'bad' : 'warn'}"><i>${good === true ? '✔' : good === false ? '✖' : '!'}</i><div><b>${t}</b>${fix ? `<span>${fix}</span>` : ''}</div></div>`;
+  let ping = null, stt = null;
+  try { const r = await fetch(HELPER + '?a=ping', { cache: 'no-store' }); ping = r.ok && /json/.test(r.headers.get('content-type') || '') ? await r.json() : { http: r.status }; } catch { ping = { net: true }; }
+  if (ping && ping.ok) stt = await AUTH.status();
+  const L = []; const cid = clientId();
+  L.push(ping && ping.ok ? row(true, 'Login helper chal raha hai', '') : ping && ping.ok === false ? row(false, 'Netlify ko GOOGLE_CLIENT_SECRET nahi mila', 'Netlify → Environment variables me GOOGLE_CLIENT_ID aur GOOGLE_CLIENT_SECRET daalo, phir <b>naya deploy</b> (zip upload). Variable daalne se purane deploy ko nahi milta.') : ping && ping.net ? row(null, 'Helper tak internet nahi pahuncha', 'Internet check karke dobara dabao.') : row(false, 'Login helper site pe nahi hai', 'Zip me <code>netlify/functions/auth.js</code> hona chahiye aur site GitHub se deploy honi chahiye.'));
+  if (ping && ping.ok && ping.cid && cid && !cid.startsWith(ping.cid)) L.push(row(false, 'Client ID alag hai', 'Netlify ka GOOGLE_CLIENT_ID app wale Client ID se match nahi karta. Dono ek hi hone chahiye.'));
+  if (stt) L.push(stt.session ? row(true, 'Is device pe ek baar login ho chuka hai', `${esc(stt.email || '')} · ${stt.since ? 'login ' + fS(new Date(stt.since).toISOString().slice(0, 10)) + ' (' + stt.days + ' din pehle)' : ''}${stt.days >= 5 && stt.days < 8 ? ' — <b>agar 7 din pe login gaya to app "Testing" mode me hai, Publish karo</b>' : ''}`) : row(false, 'Is device pe ek baar login nahi hua', 'Upar <b>Sign out</b> → <b>Sign in</b> karo (ek baar). Purane login se ~1 ghante me phir login maangega.'));
+  if (ping && ping.ok) L.push(row(null, 'Google Cloud me ye 2 cheezein pakki karo', `1) OAuth client → Authorized redirect URIs me: <code>${esc((stt && stt.redirect) || location.origin + HELPER)}</code><br>2) OAuth consent screen (Audience) → Publishing status <b>In production</b>. "Testing" me Google har 7 din me login khatam karta hai.`));
+  if (/iPhone|iPad/.test(navigator.userAgent) && (navigator.standalone || matchMedia('(display-mode: standalone)').matches)) L.push(row(null, 'iPhone Home Screen app', 'iPhone pe Home Screen wale app ka login Safari se alag rehta hai. Login wahi app ke andar karo; agar phir bhi jaaye to Safari me site kholke use karo.'));
+  let lg = []; try { lg = JSON.parse(lsg('dt-authlog') || '[]'); } catch { }
+  if (lg.length) L.push(row(null, 'Is device pe pichhli baar login kyun gaya', lg.slice(0, 5).map(x => `${new Date(x.t).toLocaleString('en-IN', { dateStyle: 'short', timeStyle: 'short' })} — ${({ nocookie: 'ek baar login nahi tha', badcookie: 'secret badla', testing7: 'Testing mode (7 din)' + (x.days ? ' · ' + x.days + ' din' : ''), revoked: 'Google ne band kiya', secret: 'secret galat' })[x.why] || x.why}`).join('<br>')));
+  return `<div class="lc">${L.join('')}</div>`;
+}
 document.addEventListener('click', async e => {
   const b = e.target.closest('[data-b2bset]'); if (!b) return; e.preventDefault(); e.stopPropagation();
   const [key, v] = b.dataset.b2bset.split('|'); const d = st.M && st.M.docMap.get(key); if (!d) return;
@@ -4638,6 +4773,7 @@ V.settings = () => {
     <form class="form two" id="fMail">
       <div class="fld"><label for="mFg">Finished goods alert below</label><input type="number" id="mFg" min="0" value="${esc(c.fgLow ?? 120)}"><div class="hint">Marketing items and others: Alert levels panel below.</div></div>
       <div class="fld"><label>Phone notifications</label><button class="btn sm" type="button" data-ntperm="1">${ico('bell')}${NT.perm() === 'granted' ? 'On — test again' : NT.perm() === 'denied' ? 'Blocked in browser' : NT.perm() === 'unsupported' ? 'Not supported here' : 'Turn on'}</button><div class="hint">Shown while the app is open (also in the background on Android).</div></div>
+      <div class="fld full"><label class="tgl"><input type="checkbox" id="mB2bAuto" ${/^y/i.test(c.b2bAuto || '') ? 'checked' : ''}><span class="sw"></span><span><b>B2B reply ke products apne aap add karo (Auto)</b></span></label><div class="hint">Band (default): reply aate hi notification aayega, aap products dekh ke tick karoge aur <b>Add</b> dabaoge — tabhi B2B IN me jaayenge.</div></div>
       <div class="fld full"><label for="mBto">B2B request · To</label><input id="mBto" value="${esc(c.b2bTo)}" placeholder="offlineorders@dermatouch.com"></div>
       <div class="fld full"><label for="mBcc">B2B request · CC</label><input id="mBcc" value="${esc(c.b2bCc)}" placeholder="comma separated"></div>
       <div class="fld full"><label for="mBsub">B2B thread subject</label><input id="mBsub" value="${esc(c.b2bSubject)}"><div class="hint">Change it only to start a new thread.</div></div>
@@ -4649,7 +4785,8 @@ V.settings = () => {
   <div class="panel mt"><h3>Data sources</h3><p class="sub">Read live with your Google account. Test 4 is only read, never edited. Test 5 gets your entries and the calculated tabs.</p><div class="health">${src('t2')}${src('t3')}</div><button class="btn mt" id="sRef">${ico('refresh')}Refresh now</button></div>
   ${isAdmin() ? adminPanel() : ''}
   <div class="panel mt"><h3>Google account</h3><p class="sub">Signed in as ${esc(st.user || lsg('dt-email') || '—')}${st.readOnly ? ' · view-only on Test 5' : ''}</p>
-  <div class="vag" style="margin:-4px 0 10px">${st.authMode === 'helper' ? '✔ <b>Ek baar login</b> chalu — app khud token naya karta rehta hai, dobara login nahi maangega.' : '⚠ <b>Ek baar login band</b> — har ~1 ghante me login. Fix: Netlify → Environment variables me <b>GOOGLE_CLIENT_SECRET</b> daalo, Google Cloud me redirect URI <code>' + esc(location.origin) + '/.netlify/functions/auth</code> add karo, aur OAuth consent screen ko <b>In production</b> karo. Phir ek baar Sign out → Sign in.'}</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="sOut">Sign out</button>${(CONF.clientId || '').trim() ? '' : '<button class="btn sm ghost" id="sCid">Change Client ID</button>'}</div></div>
+  <div class="mt" style="margin:-2px 0 10px"><button class="btn sm" id="lgCheck" type="button">${ico('check')}Login check karo</button><div id="lgCheckOut"></div></div>
+  <div class="vag" style="margin:-4px 0 10px">${st.authMode === 'helper' ? (st.helperSession === false ? '⚠ <b>Ek baar login</b> site pe chalu hai, par is phone pe abhi purana login hai — <b>Sign out → Sign in</b> ek baar karo.' : '✔ <b>Ek baar login</b> chalu — app khud token naya karta rehta hai, dobara login nahi maangega.') : '⚠ <b>Ek baar login band</b> — har ~1 ghante me login. Fix: Netlify → Environment variables me <b>GOOGLE_CLIENT_SECRET</b> daalo, Google Cloud me redirect URI <code>' + esc(location.origin) + '/.netlify/functions/auth</code> add karo, aur OAuth consent screen ko <b>In production</b> karo. Phir ek baar Sign out → Sign in.'}</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="sOut">Sign out</button>${(CONF.clientId || '').trim() ? '' : '<button class="btn sm ghost" id="sCid">Change Client ID</button>'}</div></div>
   <div class="panel mt"><h3>Sound, vibration &amp; scanner</h3><p class="sub">Only on this device.</p>
     <div class="toggles">
       <label class="tgl"><input type="checkbox" id="tSound" ${SND.pref() ? 'checked' : ''} ${SND.supported() ? '' : 'disabled'}><span class="sw"></span><span><b>Sounds</b><em>Logo intro, taps, saves, scan beep</em></span></label>
@@ -4810,7 +4947,7 @@ MOUNT.settingsBase = () => {
     e.preventDefault(); if (!canWrite()) { toast('Sign in with an account that can edit Test 5'); return; }
     const v = id => str($('#' + id).value);
     for (const [id, req] of [['mBto', 1], ['mBcc', 0], ['mPto', 0], ['mPcc', 0]]) { const raw = v(id); const bad_ = raw.split(/[,;\s]+/).filter(Boolean).filter(x => !GM.list(x).length); if (bad_.length || (req && !raw)) return bad(id, bad_.length ? 'Not a mail address: ' + bad_[0] : 'Enter a mail address'); }
-    const c0 = st.cfg; const cfg = { fgLow: Math.max(0, Math.round(num($('#mFg').value))), b2bTo: v('mBto'), b2bCc: v('mBcc'), b2bSubject: v('mBsub') || DEF_CFG.b2bSubject, pmTo: v('mPto'), pmCc: v('mPcc'), pmSubject: v('mPsub') || DEF_CFG.pmSubject };
+    const c0 = st.cfg; const cfg = { fgLow: Math.max(0, Math.round(num($('#mFg').value))), b2bAuto: $('#mB2bAuto') && $('#mB2bAuto').checked ? 'yes' : 'no', b2bTo: v('mBto'), b2bCc: v('mBcc'), b2bSubject: v('mBsub') || DEF_CFG.b2bSubject, pmTo: v('mPto'), pmCc: v('mPcc'), pmSubject: v('mPsub') || DEF_CFG.pmSubject };
     if (cfg.b2bSubject !== c0.b2bSubject) cfg.b2bRootId = ''; if (cfg.pmSubject !== c0.pmSubject) cfg.pmRootId = '';
     try { await saveSettings(cfg); toast('Mail & alert settings saved'); SND.play('success'); render(); } catch (er) { toast(failTx(er)); }
   };
@@ -4852,7 +4989,7 @@ V.minus = () => {
   const [rf, rt] = [u.from || rangeFor('month')[0], u.to || M.today];
   return `<div class="page-head"><div><h2>Uniware minus</h2><p>Everything packed on a day, on its packing date: SKU, qty, batch, vendor batch. Only B2B PICK = Yes docs are from B2B. <b>Pehle Inward, phir minus:</b> what offline did not have when it was packed waits on hold, and is minused on the day its inward comes in.</p></div></div>
   <div class="mday">${strip.length ? strip.map(d => `<button class="${d.state} ${d.date === u.date ? 'on' : ''}" data-md="${d.date}"><b>${d.date === M.today ? 'Today' : dayLbl(d.date)}</b><span><i></i>${fN(d.minus)} pcs${d.back ? ' · +' + fN(d.back) : ''}</span></button>`).join('') : '<span class="muted small">Nothing packed since the audit yet.</span>'}</div>
-  ${D.state === 'changed' ? notice('red', 'alert', 'More came in after this day was marked done', `Marked done at ${esc(D.done.at)} with ${fN(D.done.qty)} pcs${D.done.back ? ' and ' + fN(D.done.back) + ' back' : ''}. Now ${fN(D.minus)}${D.back ? ' and ' + fN(D.back) + ' back' : ''}. ${diff ? `Minus ${diff > 0 ? 'another ' + fN(diff) : 'back ' + fN(-diff)} pcs` : ''}${diffB ? ` · add back ${fN(diffB)} more` : ''} in Uniware, then mark it done again.`) : ''}
+  ${D.state === 'changed' ? notice('red', 'alert', diff < 0 || diffB > 0 ? 'Done ke baad sheet se data hata — Uniware me wapas add karo' : 'Done ke baad aur data aaya — Uniware me aur minus karo', `Marked done at ${esc(D.done.at)} with ${fN(D.done.qty)} pcs${D.done.back ? ' and ' + fN(D.done.back) + ' back' : ''}. Now ${fN(D.minus)}${D.back ? ' and ' + fN(D.back) + ' back' : ''}. ${diff ? `Minus ${diff > 0 ? 'another ' + fN(diff) : 'back ' + fN(-diff)} pcs` : ''}${diffB ? ` · add back ${fN(diffB)} more` : ''} in Uniware, then mark it done again.`) : ''}
   ${M.holds.length ? `<div class="panel mb hold-p"><div class="panel-head"><div><h3>${ico('alert')} Ruka hua minus — pehle Inward karo</h3><div class="sub">${fN(M.holdQty)} pcs pack ho gaye par offline me nahi the. Inward entry karte hi ye usi din ke minus me aa jaayenge (inward wale batch ke saath).</div></div></div>
     <div class="hold-l">${M.holdSkus.map(h => `<div class="hold-i"><div data-sku="${esc(h.k)}" role="button"><b>${esc(h.sku)}</b><span>${esc(h.name)}</span><em>${h.refs.map(esc).join(', ')} · since ${fS(h.since)}</em></div><b class="hq">${fN(h.qty)}</b>${canWrite() ? `<button class="btn sm primary" data-logfor="inward" data-k="${esc(h.k)}" data-qty="${h.qty}">${ico('plus')}Inward</button>` : ''}</div>`).join('')}</div></div>` : ''}
   ${D.heldQty ? notice('amber', 'alert', `Is din ${fN(D.heldQty)} pcs hold pe gaye`, `Pack hue par offline me nahi the: ${D.held.map(h => `${esc(h.sku)} ${fN(h.qty)} (${esc(h.ref)})`).join(' · ')}. Ye is din ke minus me nahi hain — inward ke din aayenge.`) : ''}
@@ -4862,6 +4999,17 @@ V.minus = () => {
     ${D.lines.length ? `<div class="only-d"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>SKU</th><th class="n">Minus</th><th class="n">Add back</th><th>Batch · vendor batch · shelf · expiry</th><th>Docs</th></tr></thead><tbody>${rowsD}</tbody></table></div></div><div class="only-m"><div class="cards">${cards}</div></div>` : '<div class="empty"><p>Nothing packed on this day.</p></div>'}
   </div>
   ${D.docs.length || D.revDocs.length ? `<div class="panel mt"><h3>Docs</h3><p class="sub">Packed this day. Teal = B2B PICK, amber = revised after packing.</p><div class="filters">${D.docs.map(x => `<button class="fbtn" data-doc="${esc(nk(x))}" ${D.pickDocs.includes(x) ? 'style="border-color:var(--teal)"' : ''}>${esc(x)}${D.pickDocs.includes(x) ? ' · B2B pick' : ''}</button>`).join('')}${D.revDocs.map(x => `<button class="fbtn" data-doc="${esc(nk(x))}" style="border-color:var(--amber)">${esc(x)} · revised</button>`).join('')}</div></div>` : ''}
+  ${(st.t3.minusOff || []).length ? `<div class="panel mt"><div class="panel-head"><div><h3>Minus se hataya hua</h3><div class="sub">MINUS DATA se delete ki gayi rows — inka minus nahi hota (offline stock aur Uniware dono me). Test 5 ke MINUS HATAYA tab me hain.</div></div></div>
+    ${tbl(['Packing date', 'SKU', 'Docs', 'Qty', 'Kab', ''], st.t3.minusOff.slice().reverse().slice(0, 60).map(x => `<tr><td class="nowrap">${fD(x.date)}</td><td class="skuc">${esc(x.sku)}</td><td class="small">${esc(x.docs.join(', ') || 'us din ke sab')}</td><td class="n">${fN(x.qty)}</td><td class="small">${esc(x.at)}</td><td>${canWrite() ? `<button class="btn sm" data-mback="${x.row}" data-mid="${esc(x.sku)}">Wapas laao</button>` : ''}</td></tr>`), [3])}</div>` : ''}
+  <details class="panel mt how"><summary>${ico('info')}Minus kaise banta hai · app ko kaise pata chalta hai</summary><ol>
+    <li><b>Kahan se aata hai:</b> Test 4 ke DATA (doc · SKU · qty) + PACKING (kab pack hua) + OTHER (influencer / consignment / reship). B2B PICK = Yes wale doc offline se nahi katte.</li>
+    <li><b>Sheet me row hatao ya jodo:</b> app har ${Math.max(30, +st.cfg.refresh || 60)} second me (aur app kholte hi) poori sheet dobara padhta hai. Row hati to minus ghat jaata hai, nayi aayi to badh jaata hai. Test 5 ke DAY MINUS / MINUS DATA bhi apne aap naye ho jaate hain. Turant chahiye to upar ${ico('refresh')} Refresh dabao.</li>
+    <li><b>Test 5 MINUS DATA se row delete karo</b> → ~2 minute me app us SKU (us din, un docs) ka minus hata deta hai — offline stock aur Uniware minus dono se. Row <b>MINUS HATAYA</b> tab me chali jaati hai. Wapas chahiye to wahan se row hatao ya upar <b>Wapas laao</b>. (Poora tab ek saath saaf kiya to app use galti maan ke wapas likh deta hai.)</li>
+    <li>DAY MINUS / Minus Stock / PENDING app banata hai — inme hath se badla to app wapas theek kar deta hai.</li>
+    <li><b>Uniware me minus karne ke baad:</b> is page pe <b>Mark done in Uniware</b> dabao. App Test 5 ke <b>UNIWARE LOG</b> tab me ek row likhta hai (Minus Date · qty · kisne). Isi se app ko pata chalta hai ki din "Done" hai. Sheet me khud bhi UNIWARE LOG me Minus Date likh sakte ho.</li>
+    <li><b>Galti se Done kiya?</b> UNIWARE LOG se us din ki row hata do — din wapas "Baaki" ho jaayega.</li>
+    <li><b>Done ke baad data badla:</b> din laal ho jaata hai aur batata hai kitna aur minus karna hai ya kitna wapas add karna hai. Uniware me theek karke phir Mark done dabao.</li>
+  </ol></details>
   <div class="panel mt" data-form><div class="panel-head"><div><h3>Download minus data</h3><div class="sub">Excel: minus data (SKU · qty · batch · vendor batch), pivot SKU × date, stock out per day, by doc, revised PIs.</div></div></div>
     <div class="filters">${[['week', 'This week'], ['month', 'This month'], ['lastmonth', 'Last month']].map(([k, l]) => `<button class="fbtn" data-mx="${k}">${ico('down')}${l}</button>`).join('')}</div>
     <div class="form two mt"><div class="fld"><label for="mxFrom">From</label><input type="date" id="mxFrom" value="${rf}"></div><div class="fld"><label for="mxTo">To</label><input type="date" id="mxTo" value="${rt}"></div></div>
@@ -4869,6 +5017,12 @@ V.minus = () => {
   ${D.damage.length || D.inward.length ? `<div class="grid cols2 even mt">${D.inward.length ? `<div class="panel"><h3>Inward this day (plus)</h3>${tbl(['SKU', 'Batch', 'Shelf', 'Qty'], D.inward.map(e => `<tr><td class="skuc">${esc(e.sku)}</td><td class="small">${esc(e.batch || '—')}${e.newBatch ? ' <span class="chip teal">new batch</span>' : ''}</td><td class="small">${esc(e.shelf)}</td><td class="n pos">+${fN(e.qty)}</td></tr>`), [3])}</div>` : ''}${D.damage.length ? `<div class="panel"><h3>Damage this day</h3>${tbl(['SKU', 'Reason', 'Qty'], D.damage.map(e => `<tr><td class="skuc">${esc(e.sku)}</td><td class="small">${esc(e.reason || '')}</td><td class="n neg">−${fN(e.qty)}</td></tr>`), [2])}</div>` : ''}</div>` : ''}`;
 };
 MOUNT.minus = () => {
+  $$('[data-mback]').forEach(b => b.onclick = async () => {
+    if (!await ask('Ye minus wapas laana hai? (MINUS HATAYA se row hat jaayegi)', 'Haan, wapas laao')) return;
+    b.disabled = true;
+    try { await deleteRow('MINUSHATAYA', +b.dataset.mback, b.dataset.mid); toast('Minus wapas aa gaya'); SND.play('success'); await reloadT3(); render(); }
+    catch (e) { toast(failTx(e)); b.disabled = false; }
+  });
   $$('[data-md]').forEach(b => b.onclick = () => { st.ui.minus.date = b.dataset.md; render(); });
   const on = $('.mday .on'); if (on) on.scrollIntoView({ block: 'nearest', inline: 'center' });
   ['mxFrom', 'mxTo'].forEach(id => { const el = $('#' + id); if (el) el.onchange = () => { st.ui.minus[id === 'mxFrom' ? 'from' : 'to'] = el.value; }; });
@@ -4945,7 +5099,8 @@ document.addEventListener('click', e => {
 });
 V.request = () => {
   const M = st.M, u = st.ui.req; const cart = u.cart;
-  const tabs = [['new', `New request${cart.length ? ' (' + cart.length + ')' : ''}`], ['sent', `Sent (${M.b2bReq.length})`], ['in', `From B2B (${M.b2bIn.length})`]];
+  const pend = PEND.get();
+  const tabs = [['new', `New request${cart.length ? ' (' + cart.length + ')' : ''}`], ['sent', `Sent (${M.b2bReq.length})`], ['in', `From B2B (${M.b2bIn.length}${pend.length ? ' + ' + pend.length + ' naya' : ''})`]];
   let body = '';
   if (u.tab === 'new') {
     const sug = M.lowList.filter(s => (s.cat === 'fg' || s.cat === 'mkt') && caseOf(s.k) && !cart.some(c => c.k === s.k)).slice(0, 14);
@@ -4971,7 +5126,12 @@ V.request = () => {
       ${tbl(['SKU', 'Boxes', 'Case', 'Qty'], r.lines.map(l => `<tr class="click" data-sku="${esc(l.k)}"><td class="skuc">${esc(l.sku)}<span class="nm">${esc(l.item)}</span></td><td class="n">${fN(l.boxes)}</td><td class="n">${fN(l.cs)}</td><td class="n"><b>${fN(l.qty)}</b></td></tr>`), [1, 2, 3])}
       ${r.replies.length ? `<p class="small mt">B2B replied ${r.replies.map(g => fS(g.date) + ' ' + g.time).join(', ')} · <a href="#/request" data-rqtab="in">see lines</a></p>` : ''}</div>`; }).join('')}</div>` : '<div class="panel empty"><h4>No requests yet</h4><p>Requests you send are saved in the B2B REQUEST tab of Test 5.</p></div>';
   } else {
-    body = `<div class="mailbar" style="margin-bottom:12px">${ico('mail')}<span>Replies in the thread are read every few minutes while the app is open and saved in the B2B IN tab. Tap Inward when the stock arrives.</span>${GM.ok() ? '<button class="btn sm" id="rqPoll">Check now</button>' : '<button class="btn sm primary" data-gmconnect="1">Connect Gmail</button>'}</div>
+    const auto = /^y/i.test(st.cfg.b2bAuto || '');
+    const pendHtml = pend.map(g => `<div class="panel mt b2b-pend"><div class="panel-head"><div><h3>${fS(g.date)} ${esc(g.time)}${g.req ? ' · ' + esc(g.req) : ''} <span class="chip amber">Naya — abhi add nahi hua</span></h3><div class="sub">B2B team ka reply. Jo product sahi hai uspe ✔ rakho, phir <b>Add</b> dabao — tabhi B2B IN me jaayega.</div></div></div>
+      ${tbl(['', 'SKU', 'Qty', 'Shelf', 'Colour', 'Vendor batch', 'Batch', 'Expiry', 'Availability'], g.rows.map((r, i) => `<tr><td class="ck"><input type="checkbox" data-pl="${esc(g.gid)}" value="${i}" checked aria-label="Add ${esc(r.SKU)}"></td><td class="skuc">${esc(r.SKU)}</td><td class="n"><b>${fN(r.QTY)}</b></td><td class="small">${esc(r.SHELF)}</td><td>${/BAD/i.test(r.COLOUR) ? '<span class="chip red">BAD</span>' : r.COLOUR ? '<span class="chip green">GOOD</span>' : ''}</td><td class="small">${esc(r.VENDORBATCH)}</td><td class="small">${esc(r.BATCH)}</td><td class="nowrap small">${esc(r.EXPIRY)}</td><td><span class="chip ${/NOT/i.test(r.AVAILABILITY) ? 'red' : r.AVAILABILITY ? 'teal' : ''}">${esc(r.AVAILABILITY || '—')}</span></td></tr>`), [2])}
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn sm primary" data-padd="${esc(g.gid)}" ${canWrite() ? '' : 'disabled'}>${ico('plus')}Add to B2B IN</button><button class="btn sm ghost" data-pign="${esc(g.gid)}">Mat daalo</button></div></div>`).join('');
+    body = `<div class="mailbar" style="margin-bottom:12px">${ico('mail')}<span>${auto ? 'Auto chalu: reply ke products apne aap B2B IN me jaate hain.' : 'Reply aate hi notification aata hai. Products <b>apne aap add nahi hote</b> — aap tick karke Add dabate ho.'} <a href="#/settings">Settings me badlo</a>. Tap Inward when the stock arrives.</span>${GM.ok() ? '<button class="btn sm" id="rqPoll">Check now</button>' : '<button class="btn sm primary" data-gmconnect="1">Connect Gmail</button>'}</div>
+    ${pendHtml}
     ${M.b2bIn.length ? M.b2bIn.slice(0, 40).map(g => `<div class="panel mt ${g.current ? 'b2b-cur' : 'b2b-old'}"><div class="panel-head"><div><h3>${fS(g.date)} ${esc(g.time)}${g.req ? ' · ' + esc(g.req) : ''} ${g.current ? '<span class="chip green">Naya reply</span>' : '<span class="chip">Purana</span>'}</h3><div class="sub">${g.lines.length} line${g.lines.length > 1 ? 's' : ''} · ${fN(g.qty)} pcs</div></div></div>
       ${tbl(['SKU', 'Qty', 'Shelf', 'Colour', 'Vendor batch', 'Batch', 'Expiry', 'Availability', ''], g.lines.map(l => `<tr><td class="skuc click" data-sku="${esc(l.k)}">${esc(l.sku)}</td><td class="n"><b>${fN(l.qty)}</b></td><td class="small">${esc(l.shelf)}</td><td>${/BAD/i.test(l.inv) ? '<span class="chip red">BAD</span>' : l.inv ? '<span class="chip green">GOOD</span>' : ''}</td><td class="small">${esc(l.vb)}</td><td class="small">${esc(l.batch)}</td><td class="nowrap small">${fD(l.exp)}</td><td><span class="chip ${/NOT/i.test(l.avail) ? 'red' : l.avail ? 'teal' : ''}">${esc(l.avail || '—')}</span></td><td>${E.isYes(l.recv) ? `<span class="chip green">Inwarded${l.ref ? ' ' + esc(l.ref) : ''}</span>` : (!/NOT/i.test(l.avail) && l.qty > 0 ? `<button class="btn sm" data-b2bin="${l.row}">Inward</button>` : '')}</td></tr>`), [1])}</div>`).join('') : '<div class="panel empty"><h4>Nothing from the B2B team yet</h4><p>When they reply in the request thread with the table (SKU, QTY, shelf code, colour, vendor batch, batch, expiry, availability) it shows here and you get a notification.</p></div>'}`;
   }
@@ -4984,6 +5144,13 @@ MOUNT.request = () => {
   $$('[data-rqtab]').forEach(b => b.onclick = e => { e.preventDefault(); u.tab = b.dataset.rqtab; render(); });
   $$('[data-rqrm]').forEach(b => b.onclick = () => { const c = u.cart.slice(); c.splice(+b.dataset.rqrm, 1); cartSave(c); render(); });
   const cl = $('#rqClear'); if (cl) cl.onclick = () => { cartSave([]); render(); };
+  $$('[data-padd]').forEach(b => b.onclick = async () => {
+    const gid = b.dataset.padd; const idx = $$(`[data-pl="${CSS.escape(gid)}"]`).filter(x => x.checked).map(x => +x.value);
+    b.disabled = true; b.textContent = 'Add ho raha hai…';
+    try { const n = await GM.addPend(gid, idx); toast(`${n} product B2B IN me add hue`); SND.play('success'); render(); }
+    catch (e) { toast(e && e.code === 'none' ? e.message : failTx(e)); SND.play('error'); b.disabled = false; b.innerHTML = ico('plus') + 'Add to B2B IN'; }
+  });
+  $$('[data-pign]').forEach(b => b.onclick = async () => { if (!await ask('Is reply ke products B2B IN me nahi daalne?', 'Haan, mat daalo')) return; GM.ignorePend(b.dataset.pign); toast('Theek hai — ye reply nahi daala'); render(); });
   const pl = $('#rqPoll'); if (pl) pl.onclick = async () => { pl.disabled = true; try { await GM.poll(true); render(); } catch (e) { toast(mailErr(e)); } pl.disabled = false; };
   $$('[data-b2bin]').forEach(b => b.onclick = () => { const row = +b.dataset.b2bin; const l = (st.t3.b2bIn || []).find(x => x.row === row); if (!l) return; st.ui.prefill = { tab: 'inward', k: l.k, qty: l.qty, batch: l.batch, vb: l.vb, exp: l.exp, b2bRow: row, req: l.id }; st.ui.log.tab = 'inward'; go('log'); });
   $$('[data-rqsend]').forEach(b => b.onclick = async () => { const r = M.b2bReq.find(x => x.id === b.dataset.rqsend); if (!r) return; b.disabled = true; try { await mailRequest(r.id, r.emp, r.lines.map(l => ({ k: l.k, sku: l.sku, name: l.item, boxes: l.boxes, cs: l.cs, qty: l.qty }))); for (const l of r.lines) await setCell('B2BREQUEST', l.row, 'Mail', 'Sent ' + fD(today()) + ' ' + nowT()); toast('Request ' + r.id + ' sent to B2B'); SND.play('success'); await reloadT3(); render(); } catch (e) { toast(mailErr(e)); SND.play('error'); b.disabled = false; } });
@@ -5149,15 +5316,16 @@ const GM = (() => {
   async function poll(force) {
     if (!ok() || polling || !st.M || !st.books.t3 || st.readOnly || !can('request') || !ME().edit) return 0;
     if (!force && Date.now() - lastPoll < 2 * 60e3) return 0;
-    polling = true; lastPoll = Date.now(); let added = 0;
+    polling = true; lastPoll = Date.now(); let added = 0, pendNew = 0;
     try {
       const r = await gm(GAPI + 'messages?maxResults=25&q=' + encodeURIComponent(q('b2b') + ' newer_than:45d -from:me'));
       const have = new Set((st.t3.b2bIn || []).map(x => x.msg).filter(Boolean));
       let seen = []; try { seen = JSON.parse(lsg('dt-b2bseen') || '[]'); } catch { }
       const seenS = new Set(seen);
-      const rows = [];
+      const rows = []; const auto = /^y/i.test(st.cfg.b2bAuto || ''); const pend = PEND.get(); const pendIds = new Set(pend.map(g => g.gid)); const fresh = [];
+      PEND.set(pend.filter(g => !have.has(g.mid)));       // another phone already added it
       for (const it of (r.messages || [])) {
-        if (seenS.has(it.id)) continue;
+        if (seenS.has(it.id) || pendIds.has(it.id)) continue;
         const m = await gm(GAPI + 'messages/' + it.id + '?format=full');
         const mid = hdr(m, 'Message-ID') || it.id;
         if (have.has(mid)) { seen.push(it.id); continue; }
@@ -5171,26 +5339,64 @@ const GM = (() => {
         const newest = (st.M.b2bReq || []).filter(x => /sent/i.test(x.mail) && (x.date + x.time) <= dk + tm).sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time))[0];
         const reqQuoted = ((text || html.replace(/<[^>]+>/g, ' ')).match(REQ_RX) || [])[0];
         const req = (reqOwn || (newest && newest.id) || reqQuoted || '').toUpperCase();
-        for (const l of lines) rows.push({ DATE: fD(dk), TIME: tm, REQID: req, MSGID: mid, SKU: l.sku, QTY: l.qty, SHELF: l.shelf, COLOUR: l.inv, VENDORBATCH: l.vb, BATCH: l.batch, EXPIRY: fD(l.exp), AVAILABILITY: l.avail, RECEIVED: '', INWARDREF: '', BY: 'mail' });
+        const mine = lines.map(l => ({ DATE: fD(dk), TIME: tm, REQID: req, MSGID: mid, SKU: l.sku, QTY: l.qty, SHELF: l.shelf, COLOUR: l.inv, VENDORBATCH: l.vb, BATCH: l.batch, EXPIRY: fD(l.exp), AVAILABILITY: l.avail, RECEIVED: '', INWARDREF: '', BY: 'mail' }));
+        if (!auto && mine.length) { fresh.push({ gid: it.id, mid, date: dk, time: tm, req, rows: mine }); continue; }   // wait for you to tick and Add
+        rows.push(...mine);
         seen.push(it.id);
       }
-      if (rows.length) {
+      if (fresh.length) { PEND.set(PEND.get().concat(fresh)); pendNew = fresh.length; }
+      if (rows.length) added = await saveIn(rows, false);
+      lss('dt-b2bseen', JSON.stringify(seen.slice(-300)));
+    } finally { polling = false; }
+    if (pendNew) { pendEv(st.M); try { NT.update(st.M); } catch { } if (!force) SND.play('notify'); render(); }
+    if (force) toast(added ? `${added} line${added > 1 ? 's' : ''} from the B2B team saved in B2B IN` : pendNew ? 'B2B ka naya reply aaya — products dekh ke tick karo aur Add dabao' : 'B2B team ka naya reply nahi aaya');
+    if (added && !force) SND.play('notify');
+    return added + pendNew;
+  }
+  /* write reply lines into B2B IN (skips what another phone saved a moment ago) */
+  async function saveIn(rows, reload = true) {
+    let added = 0;
+    if (rows.length) {
         await ensureTab('B2BIN');
         const fresh = await gfetch(API + FILES.t3.id + '/values/' + encodeURIComponent(qt(findSheet(st.books.t3.map, 'B2BIN').name)) + '?valueRenderOption=UNFORMATTED_VALUE');
         const p3 = E.parseT3({ B2BIN: { name: 'B2B IN', rows: fresh.values || [] } });
         const there = new Set(p3.b2bIn.map(x => x.msg));
         const todo = rows.filter(x => !there.has(x.MSGID));      // another phone may have saved it a moment ago
         if (todo.length) { await appendRows('B2BIN', todo); added = todo.length; await reloadT3(); }
-      }
-      lss('dt-b2bseen', JSON.stringify(seen.slice(-300)));
-    } finally { polling = false; }
-    if (force) toast(added ? `${added} line${added > 1 ? 's' : ''} from the B2B team saved in B2B IN` : 'B2B team ka naya reply nahi aaya');
-    if (added && !force) SND.play('notify');
+    }
     return added;
   }
-  return { ok, connect, disconnect, send, poll, list, wanted: () => lsg('dt-gm') === '1' };
+  const markSeen = gid => { let seen = []; try { seen = JSON.parse(lsg('dt-b2bseen') || '[]'); } catch { } if (!seen.includes(gid)) seen.push(gid); lss('dt-b2bseen', JSON.stringify(seen.slice(-300))); };
+  /* you ticked the right products: only those go into B2B IN */
+  async function addPend(gid, idx) {
+    const g = PEND.get().find(x => x.gid === gid); if (!g) return 0;
+    const rows = g.rows.filter((_, i) => idx.includes(i)); if (!rows.length) throw { code: 'none', message: 'Kam se kam ek product tick karo' };
+    NT.markRead('b2bp:' + g.mid); NT.markRead('b2bin:' + g.mid);      // you added it yourself: no "reply came" pop-up after
+    PEND.set(PEND.get().filter(x => x.gid !== gid));
+    let n; try { n = await saveIn(rows); } catch (e) { PEND.set(PEND.get().concat([g])); throw e; }
+    markSeen(gid); pendEv(st.M);
+    return n;
+  }
+  function ignorePend(gid) { const g = PEND.get().find(x => x.gid === gid); PEND.set(PEND.get().filter(x => x.gid !== gid)); markSeen(gid); if (g) NT.markRead('b2bp:' + g.mid); pendEv(st.M); }
+  return { ok, connect, disconnect, send, poll, list, addPend, ignorePend, wanted: () => lsg('dt-gm') === '1' };
 })();
 
+/* B2B replies waiting for you to tick and Add (kept on this device until added or ignored) */
+const PEND = {
+  get() { try { const a = JSON.parse(lsg('dt-b2bpend') || '[]'); return Array.isArray(a) ? a : []; } catch { return []; } },
+  set(a) { lss('dt-b2bpend', a.length ? JSON.stringify(a.slice(-30)) : null); }
+};
+function pendEv(M) {
+  if (!M || !M.events) return;
+  const inSheet = new Set(((st.t3 && st.t3.b2bIn) || []).map(x => x.msg).filter(Boolean));
+  const P = PEND.get().filter(g => !inSheet.has(g.mid)); if (P.length !== PEND.get().length) PEND.set(P);
+  M.events = M.events.filter(e => !String(e.id).startsWith('b2bp:'));
+  for (const g of P) if (g.date >= addDays(M.today, -7)) {
+    const q = g.rows.reduce((a, r) => a + (+r.QTY || 0), 0);
+    M.events.push({ id: 'b2bp:' + g.mid, kind: 'b2b', lvl: 'warn', date: g.date, time: g.time || '', title: `✉️ B2B ka reply aaya${g.req ? ' · ' + g.req : ''} — check karke Add karo`, body: `${g.rows.length} product · ${q} pcs — ` + g.rows.map(r => `${r.SKU} ${r.QTY}`).join(' · '), go: 'b2b:in' });
+  }
+  M.events.sort((a, b) => (b.date + (b.time || '')).localeCompare(a.date + (a.time || '')));
+}
 /* A reply table from the B2B team: SKU, QTY, shelf code, colour, vendor batch,
    batch, expiry, availability. Read by header names when there is a header
    row, otherwise by the look of each value. Quoted earlier mail is dropped,
@@ -6025,7 +6231,7 @@ const ROBO = (() => {
   }
 
   /* ---------- every tab of Test 4 / Test 5, including ones added later ---------- */
-  const KNOWN = { t2: ['APPROVERD', 'APPROVED', 'PI', 'DATA', 'DAILYDATA', 'PACKING', 'OFFLINESTOCK', 'B2BSTOCK', 'PM', 'STATIONARY', 'OTHER'], t3: ['OTHER', 'SKUANDEAN', 'CASESIZE', 'CASEDIMANTION', 'CASEDIMENSION', 'INWARD', 'DAMAGE', 'OFFLINEAUDIT', 'APPSETTINGS', 'B2BREQUEST', 'B2BIN', 'PMISSUE', 'UNIWARELOG', 'TEAM', 'USERS', 'MINUSSTOCK', 'MINUSDATA', 'DAILYMINUS', 'LIVESTOCK', 'DISPATCH', 'DISPATCHSKU'] };
+  const KNOWN = { t2: ['APPROVERD', 'APPROVED', 'PI', 'DATA', 'DAILYDATA', 'PACKING', 'OFFLINESTOCK', 'B2BSTOCK', 'PM', 'STATIONARY', 'OTHER'], t3: ['OTHER', 'SKUANDEAN', 'CASESIZE', 'CASEDIMANTION', 'CASEDIMENSION', 'INWARD', 'DAMAGE', 'OFFLINEAUDIT', 'APPSETTINGS', 'B2BREQUEST', 'B2BIN', 'PMISSUE', 'UNIWARELOG', 'MINUSHATAYA', 'TEAM', 'USERS', 'MINUSSTOCK', 'MINUSDATA', 'DAILYMINUS', 'LIVESTOCK', 'DISPATCH', 'DISPATCHSKU'] };
   const isKnown = (b, key) => KNOWN[b].some(k => key === k || key.startsWith(k));
   const sheetRole = () => { const r = ME().role; return r === 'admin' || r === 'full'; };
   function tabs() {
